@@ -1,1 +1,242 @@
 
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Websites for Basingstoke businesses by Adrian Standage, a local web designer. Free draft before you pay, from £295, changes by WhatsApp.">
+<style>*{box-sizing:border-box}body{margin:0}img{max-width:100%}</style>
+<title>Websites for Basingstoke businesses | Standage Digital</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Standage Digital: websites for Basingstoke businesses">
+<meta property="og:description" content="Free draft before you pay. Changes by WhatsApp. Adrian Standage, Basingstoke.">
+<meta property="og:locale" content="en_GB">
+<!-- When the domain is live: add <link rel="canonical" href="https://DOMAIN/"> and og:url, og:image (logo banner) -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Standage Digital",
+"description":"Websites for local businesses in Basingstoke, built and looked after by Adrian Standage. Free draft before you pay.",
+"founder":{"@type":"Person","name":"Adrian Standage"},
+"telephone":"+447751435993","priceRange":"££",
+"address":{"@type":"PostalAddress","addressLocality":"Basingstoke","addressRegion":"Hampshire","addressCountry":"GB"},
+"areaServed":["Basingstoke","Winchester","Alton","Fleet","Farnham","Newbury"],
+"openingHours":"Mo-Sa 09:00-18:00",
+"makesOffer":[
+{"@type":"Offer","name":"Website setup","price":"295","priceCurrency":"GBP"},
+{"@type":"Offer","name":"Keep it live (monthly)","price":"35","priceCurrency":"GBP"},
+{"@type":"Offer","name":"I run it for you (monthly)","price":"129","priceCurrency":"GBP"}]}
+</script>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow phone-first column; bold ink hero band, chat-bubble motif from the logo, flat sections divided by space not boxes */
+:root{
+  --bg:#F5F7F6; --surface:#FFFFFF; --ink:#12212B; --muted:#55636C; --line:#DCE3E0;
+  --accent:#F2B705; --accent-ink:#12212B; --green:#1E8A5A; --band:#12212B; --band-fg:#F5F7F6; --band-muted:#A9B8BF;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E171D; --surface:#16222A; --ink:#E9EEF0; --muted:#9DABB2; --line:#26353E;
+  --accent:#F5C333; --accent-ink:#12212B; --green:#3DBB82; --band:#06100F; --band-fg:#E9EEF0; --band-muted:#8FA2AA; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E171D; --surface:#16222A; --ink:#E9EEF0; --muted:#9DABB2; --line:#26353E;
+  --accent:#F5C333; --accent-ink:#12212B; --green:#3DBB82; --band:#06100F; --band-fg:#E9EEF0; --band-muted:#8FA2AA; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.08;text-wrap:balance;margin:0}
+h2{font-size:1.75rem;font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+a{color:inherit}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.preview{background:var(--accent);color:var(--accent-ink);font-size:.82rem;font-weight:600;text-align:center}
+.preview .wrap{padding-block:7px}
+
+/* hero */
+.hero{background:var(--band);color:var(--band-fg)}
+.hero .wrap{padding-block:22px 40px;display:grid;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.05rem}
+.brand small{display:block;font-family:var(--body);font-weight:500;font-size:.78rem;color:var(--band-muted)}
+.hero h1{font-size:clamp(2.2rem,9vw,3.3rem);font-weight:800;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{color:var(--band-muted);font-size:1.08rem;max-width:34ch}
+.bubbles{display:grid;gap:8px;max-width:360px}
+.bub{padding:10px 14px;border-radius:18px;font-size:.95rem;width:fit-content;max-width:85%}
+.bub.them{background:#ffffff1a;border-bottom-left-radius:5px}
+.bub.me{background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:5px;justify-self:end}
+.bub .t{display:block;font-size:.7rem;opacity:.65;margin-top:2px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:999px;font-weight:600;text-decoration:none;font-size:1rem;border:2px solid transparent}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{border-color:currentColor}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+section .wrap{padding-block:44px;display:grid;gap:20px}
+section+section .wrap{border-top:1px solid var(--line)}
+
+/* steps */
+.steps{display:grid;gap:18px;counter-reset:s;list-style:none;margin:0;padding:0}
+.steps li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.steps li::before{counter-increment:s;content:counter(s);width:40px;height:40px;border-radius:50% 50% 50% 6px;background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:800;display:grid;place-items:center}
+.steps p{color:var(--muted);margin-top:3px}
+
+/* price list */
+.prices{display:grid;gap:0;font-variant-numeric:tabular-nums}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row:first-child{border-top:1px solid var(--line)}
+.row b{font-family:var(--display);font-size:1.1rem}
+.row .amt{font-family:var(--display);font-weight:700;font-size:1.25rem;text-align:right}
+.row .amt s{color:var(--muted);font-weight:500;font-size:.9rem;margin-right:6px}
+.row p{grid-column:1/-1;color:var(--muted);font-size:.95rem}
+.row ul{grid-column:1/-1;margin:2px 0 0;padding-left:1.1em;color:var(--muted);font-size:.95rem}
+.founding{background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:16px;display:grid;gap:4px}
+.small{font-size:.88rem;color:var(--muted)}
+
+/* demos */
+.demos{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line);text-decoration:none;font-weight:500;font-size:.95rem}
+.chip:hover{border-color:var(--ink)}
+
+/* guarantee */
+.promise{display:grid;gap:12px}
+.promise div{display:grid;grid-template-columns:28px 1fr;gap:10px}
+.tick{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+
+.about{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center}
+.photo{width:96px;height:96px;border-radius:50% 50% 50% 12px;background:var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:2rem;color:var(--ink);text-align:center}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{font-weight:600;cursor:pointer}
+.faq details p{color:var(--muted);margin-top:8px}
+
+.contact{background:var(--band);color:var(--band-fg)}
+.contact .wrap{border-top:0!important}
+.contact p{color:var(--band-muted)}
+.num{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--band-fg);user-select:all}
+footer .wrap{padding-block:22px;font-size:.82rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.btn{transition:transform .15s}.btn:hover{transform:translateY(-1px)}}
+</style>
+</head>
+<body>
+
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C10 2 2 9.4 2 18.6c0 5 2.4 9.4 6.2 12.4L6.5 38l8.3-3.9c1.6.4 3.4.6 5.2.6 10 0 18-7.4 18-16.6S30 2 20 2z" fill="#F2B705"/><text x="20" y="26.5" text-anchor="middle" font-family="Bricolage Grotesque, Trebuchet MS, sans-serif" font-weight="800" font-size="21" fill="#12212B">S</text></svg>
+      <span>Standage Digital<small>Websites for Basingstoke businesses</small></span>
+    </div>
+    <h1>A proper website for your business. <em>You message me, it's done.</em></h1>
+    <p class="lead">I'm Adrian Standage, and I live in Basingstoke. I build websites for local businesses and look after them afterwards, so you don't have to touch a thing.</p>
+    <div class="bubbles" aria-label="Example WhatsApp chat">
+      <div class="bub them">Can you put the Christmas hours up? Closed 25th and 26th<span class="t">09:14</span></div>
+      <div class="bub me">Done, it's live now 👍<span class="t">09:31</span></div>
+    </div>
+    <div class="cta-row">
+      <a class="btn primary" href="#contact">Get a free draft</a>
+      <a class="btn ghost" href="#demos">See examples</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>You see your site before you pay a penny</h2>
+    <ol class="steps">
+      <li><div><h3>Send me a message</h3><p>Tell me what you do. If you've got a Facebook or Instagram page, that's usually enough to start.</p></div></li>
+      <li><div><h3>I build you a free draft</h3><p>Your services, prices, hours and a WhatsApp button, on a link you can open on your phone.</p></div></li>
+      <li><div><h3>Like it? It goes live</h3><p>On your own web address, within 14 days of getting your words and photos. Don't like it? You owe nothing.</p></div></li>
+      <li><div><h3>Changes by WhatsApp</h3><p>New price, new offer, closed for a week? Send me a message or a photo and I sort it.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="prices">
+  <div class="wrap">
+    <span class="eyebrow">Prices</span>
+    <h2>Straight prices, no contract</h2>
+    <div class="founding">
+      <b>Founding offer: £199 setup for my first 5 businesses</b>
+      <span class="small">In return for an honest review and some feedback. Your monthly price is also locked for 12 months.</span>
+    </div>
+    <div class="prices">
+      <div class="row"><b>Website setup</b><span class="amt">£295</span>
+        <ul><li>Your services or menu, photos and contact details</li><li>Booking requests and a WhatsApp button</li><li>Your own web address, in your name</li><li>Free draft first, pay only if you like it</li></ul></div>
+      <div class="row"><b>Keep it live</b><span class="amt">£35<span class="small">/mo</span></span>
+        <p>Hosting, web address, security and backups, plus up to 2 small changes a month.</p></div>
+      <div class="row"><b>I run it for you</b><span class="amt">£129<span class="small">/mo</span></span>
+        <ul><li>Changes within the hour by WhatsApp</li><li>Replies to your Google reviews, plus a monthly summary of what customers say</li><li>A monthly pack of social posts, Google updates and offers. You approve it first</li><li>Cafés and food places also get an allergen sheet kept up to date (you sign it off) and WhatsApp ordering</li></ul></div>
+      <div class="row"><b>Photo day</b><span class="amt">£220</span></div>
+      <div class="row"><b>Seasonal or offer page</b><span class="amt">£95</span></div>
+      <div class="row"><b>Send me a business that signs up</b><span class="amt">1 month free</span></div>
+    </div>
+    <p class="small">Cancel the monthly any month. Your web address stays yours.</p>
+  </div>
+</section>
+
+<section id="demos">
+  <div class="wrap">
+    <span class="eyebrow">Examples</span>
+    <h2>Have a look on your phone</h2>
+    <p>These are made-up businesses so you can see how it works. Tap around, try booking, everything works like a real site.</p>
+    <div class="demos">
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#hairdresser">Hairdresser</a>
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#barber">Barber</a>
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#nails-beauty">Nails and beauty</a>
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#cafe">Café</a>
+      <a class="chip" href="https://adrianstandage-ai.github.io/izakaya-sakura/">Restaurant</a>
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#garage">Garage</a>
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#electrician">Electrician</a>
+      <a class="chip" href="https://claude.ai/artifact/SEbEYBS5cA7KmE8sjdgVM1#dog-groomer">Dog groomer</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">My promise</span>
+    <h2>If it's not right, you get your money back</h2>
+    <div class="promise">
+      <div><span class="tick">✓</span><p><b>Live in 14 days</b> from getting your words and photos, or your setup fee comes back.</p></div>
+      <div><span class="tick">✓</span><p><b>30 days to change your mind.</b> Not happy in the first month? Full refund.</p></div>
+      <div><span class="tick">✓</span><p><b>No long contract.</b> Stop the monthly whenever you like.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">About me</span>
+    <div class="about">
+      <div class="photo" aria-hidden="true">AS</div>
+      <p>I spent 20 years in IT sales and now help local businesses get online properly. I'm in Basingstoke, so you're dealing with a person down the road, not a call centre. Most owners don't want to learn website software. They want it done, so I do it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <span class="eyebrow">Questions</span>
+    <h2>Things people ask</h2>
+    <div>
+      <details><summary>Do I need to know anything about websites?</summary><p>No. If you can send a WhatsApp, you can run your site with me.</p></details>
+      <details><summary>What if I already have Facebook?</summary><p>Keep it. A website shows up properly on Google and gives people one place to see your prices and book.</p></details>
+      <details><summary>Whose photos do you use?</summary><p>Yours. Real photos of your work look better and are honest. If you need some, there's the photo day.</p></details>
+      <details><summary>Who owns the website address?</summary><p>You do. It's registered in your name.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Fancy a free draft?</h2>
+    <p>WhatsApp me your business name and what you do. I'll send you a link to your draft, usually the same day.</p>
+    <a class="num" href="tel:+447751435993">07751 435993</a>
+    <div class="cta-row"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">WhatsApp me</a></div>
+  </div>
+</section>
+
+<footer><div class="wrap">Standage Digital · Adrian Standage · Basingstoke, Hampshire · Covering Basingstoke, Winchester, Alton, Fleet, Farnham and Newbury · Mon to Sat, 9am to 6pm · The examples above are made-up businesses.</div></footer>
+</body>
+</html>
