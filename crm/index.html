@@ -83,6 +83,17 @@ textarea.big{height:160px;font-size:13px}
 .fade{animation:up .35s ease both}
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.fade{animation:none}*{transition:none!important}}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 4px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:13px 14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;min-width:0}
+.tile .n{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.tile .t{font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.tile.late .n{color:var(--warn)}
+.ring{flex:none;width:46px;height:46px;transform:rotate(-90deg)}.ring circle{fill:none;stroke-width:6;stroke-linecap:round}
+.ring .bg{stroke:var(--bg2)}.ring .fg{stroke:var(--acc);transition:stroke-dashoffset .8s ease}
+.tile.wide{grid-column:span 2}
+.mini{display:flex;gap:6px;align-items:flex-end;height:46px;flex:1}.mini i{flex:1;background:var(--bg2);border-radius:6px 6px 3px 3px;min-height:6px;position:relative}.mini i b{position:absolute;left:0;right:0;bottom:0;border-radius:6px 6px 3px 3px;background:var(--acc)}
+.mlbl{display:flex;gap:6px;font-size:11px;color:var(--mute);font-weight:600;margin-top:4px}.mlbl span{flex:1;text-align:center}
+.slot{color:var(--mute);font-size:14px;text-align:center;padding:16px;border:1.5px dashed var(--line);border-radius:var(--radius);margin:0 0 10px}
 /* ===== VOICE ===== */
 .mic{position:fixed;right:18px;bottom:96px;z-index:30;width:58px;height:58px;border-radius:50%;border:0;background:var(--hero);color:var(--hero-ink);box-shadow:var(--shadow),0 8px 22px rgba(0,0,0,.22);display:grid;place-items:center}
 .mic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -129,14 +140,28 @@ return `<div class="card fade" style="animation-delay:${Math.min(i,8)*35}ms" dat
 ${c.action||c.next?`<div class="${od||dt?'due late':'sub'}">${od?'Overdue · ':dt?'Today · ':''}${nice(c.next)} ${esc(c.action)}</div>`:''}
 ${c.notes?`<div class="sub">${esc(c.notes).slice(0,90)}</div>`:''}${extra}</div></div>`}
 function chaseCard(c,i){const ph=c.phone||'';return card(c,`<div class="row" onclick="event.stopPropagation()"><button class="s" onclick="done('${c.id}')">Done</button><button class="s" onclick="snooze('${c.id}',1)">+1 day</button><button class="s" onclick="snooze('${c.id}',7)">+1 week</button>${ph?`<a class="btn" href="tel:${esc(ph)}">Call</a>`:''}${ph?`<a class="btn wa" href="https://wa.me/${esc(ph.replace(/\D/g,'').replace(/^0/,'44'))}">WhatsApp</a>`:''}</div>`,i)}
+const gbp0=n=>'£'+Math.round(n).toLocaleString('en-GB');
+function ring(p){const r=19,c=2*Math.PI*r;return `<svg class="ring" viewBox="0 0 46 46"><circle class="bg" cx="23" cy="23" r="${r}"/><circle class="fg" cx="23" cy="23" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-Math.max(0,Math.min(1,p)))}"/></svg>`}
+function dash(due,soon,od){const o=db.filter(open),w=db.filter(c=>c.stage==='Won'),l=db.filter(c=>c.stage==='Lost'),val=a=>a.reduce((x,c)=>x+(+c.value||0),0),rate=w.length+l.length?w.length/(w.length+l.length):0,t=today(),tod=due.filter(c=>c.next===t).length;
+const P=['Lead','Talking','Mock-up sent','Won'],cn=P.map(k=>db.filter(c=>c.stage===k).length),mx=Math.max(1,...cn),tot=Math.max(1,db.length);
+return `<div class="tiles fade"><div class="tile ${od?'late':''}">${ring(od?1:0)}<div><div class="n">${od}</div><div class="t">Overdue</div></div></div>
+<div class="tile">${ring(tod/Math.max(1,due.length||1)*(tod?1:0))}<div><div class="n">${tod}</div><div class="t">Due today</div></div></div>
+<div class="tile">${ring(o.length/tot)}<div><div class="n">${o.length}</div><div class="t">Open deals</div></div></div>
+<div class="tile">${ring(Math.min(1,soon.length/10))}<div><div class="n">${soon.length}</div><div class="t">Coming up</div></div></div>
+<div class="tile">${ring(0)}<div><div class="n">${gbp0(val(o))}</div><div class="t">Pipeline</div></div></div>
+<div class="tile">${ring(rate)}<div><div class="n">${Math.round(rate*100)}%</div><div class="t">Win rate</div></div></div>
+<div class="tile wide"><div style="flex:1"><div class="t" style="margin:0 0 8px">Funnel</div><div class="mini">${cn.map(n=>`<i><b style="height:${Math.round(100*n/mx)}%"></b></i>`).join('')}</div><div class="mlbl">${P.map((k,i)=>`<span>${k.replace('Mock-up sent','Mock-up')} ${cn[i]}</span>`).join('')}</div></div></div></div>`}
 function tab(n){T=n;render()}
 function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));const v=$('#v');
 $('#dt').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});window.scrollTo(0,0);
 if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter(c=>c.next<=t).sort((a,b)=>a.next>b.next?1:-1),soon=act.filter(c=>c.next>t).sort((a,b)=>a.next>b.next?1:-1),none=db.filter(c=>open(c)&&!c.next);
 $('#ttl').textContent='Chase';
 const won=db.filter(c=>c.stage==='Won').length,openN=db.filter(open).length;
-v.innerHTML=`<div class="hero fade"><div class="big">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase. Nice.':due.length===1?'person to chase now':'people to chase now'}</div><div class="chips"><span>${openN} open</span><span>${soon.length} coming up</span>${won?`<span>${won} won</span>`:''}</div></div>`
-+(due.length?'<h2>Chase now</h2>'+due.map(chaseCard).join(''):'')+(soon.length?'<h2>Coming up</h2>'+soon.map((c,i)=>card(c,'',i)).join(''):'')+(none.length?'<h2>No date set</h2>'+none.map((c,i)=>card(c,'',i)).join(''):'')+(!db.length?'<div class="empty"><i>👋</i>Tap + to add your first contact.</div>':'')}
+const od=due.filter(c=>c.next<t).length;
+v.innerHTML=`<div class="hero fade"><div class="big">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase right now':due.length===1?'person to chase now':'people to chase now'}</div><div class="chips"><span>${openN} open</span><span>${soon.length} coming up</span><span>${won} won</span></div></div>`+dash(due,soon,od)
++'<h2>Chase now</h2>'+(due.length?due.map(chaseCard).join(''):'<div class="slot">Nobody to chase. Add someone with the + button.</div>')
++'<h2>Coming up</h2>'+(soon.length?soon.map((c,i)=>card(c,'',i)).join(''):'<div class="slot">Reminders you set show here.</div>')
++(none.length?'<h2>No date set</h2>'+none.map((c,i)=>card(c,'',i)).join(''):'')}
 if(T===3){$('#ttl').textContent='Deals';const PIPE=['Lead','Talking','Mock-up sent','Won'],val=c=>+c.value||0,sum=a=>a.reduce((x,c)=>x+val(c),0),gbp=n=>'£'+n.toLocaleString('en-GB');
 const op=db.filter(open),won=db.filter(c=>c.stage==='Won'),lost=db.filter(c=>c.stage==='Lost'),rate=won.length+lost.length?Math.round(100*won.length/(won.length+lost.length)):null;
 const maxN=Math.max(1,...PIPE.map(k=>db.filter(c=>c.stage===k).length));
