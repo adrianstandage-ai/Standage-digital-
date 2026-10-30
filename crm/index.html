@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chase CRM</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f6f5c">
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d2421;--mute:#667;--acc:#1f6f5c;--warn:#b4421f;--line:#e2e0d8}
+@media(prefers-color-scheme:dark){:root{--bg:#141817;--card:#1e2422;--ink:#ecefed;--mute:#9aa6a1;--acc:#4fb79d;--warn:#f08a62;--line:#2d3633}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,sans-serif;padding-bottom:84px}
+header{padding:16px;display:flex;justify-content:space-between;align-items:center}
+h1{font-size:20px;margin:0}main{padding:0 16px}
+.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{flex:1;padding:14px 4px;background:none;border:0;color:var(--mute);font:inherit;font-size:14px}
+.tabs button.on{color:var(--acc);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px}
+.card b{display:block}.sub{color:var(--mute);font-size:14px}
+.due{color:var(--warn);font-weight:700;font-size:14px}.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--line);margin-right:4px}
+button.p,.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:600}
+button.s{background:var(--line);color:var(--ink);border:0;border-radius:10px;padding:10px 12px;font:inherit}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
+input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+h2{font-size:15px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin:18px 0 8px}
+.empty{color:var(--mute);text-align:center;padding:30px 0}
+textarea.big{height:160px;font-size:13px}
+</style></head><body>
+<header><h1 id="ttl">Chase</h1><button class="p" onclick="edit()">+ Add</button></header>
+<main id="v"></main>
+<nav class="tabs"><button id="t0" onclick="tab(0)">Chase</button><button id="t1" onclick="tab(1)">All</button><button id="t2" onclick="tab(2)">Data</button></nav>
+<script>
+const KEY='chase-crm-v1',STAGES=['Lead','Talking','Mock-up sent','Won','Lost','Do not contact'];
+let db=[],T=0,Q='',F='';
+try{db=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert('Could not save on this browser')}};
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
+const today=()=>iso(new Date()),addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
+const nice=d=>d?new Date(d+'T12:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}):'';
+const open=c=>!['Won','Lost','Do not contact'].includes(c.stage);
+function card(c){const od=c.next&&c.next<today(),dt=c.next===today();
+return `<div class="card" onclick="edit('${c.id}')"><b>${esc(c.name||c.business)}${c.business&&c.name?' · '+esc(c.business):''}</b>
+<span class="pill">${esc(c.stage)}</span>${c.trade?`<span class="pill">${esc(c.trade)}</span>`:''}${c.emailOk?'<span class="pill">emails ok</span>':''}
+${c.action||c.next?`<div class="${od||dt?'due':'sub'}">${od?'Overdue · ':dt?'Today · ':''}${nice(c.next)} ${esc(c.action)}</div>`:''}
+${c.notes?`<div class="sub">${esc(c.notes).slice(0,90)}</div>`:''}</div>`}
+function chaseCard(c){return card(c).replace('</div>','').replace(/$/,`<div class="row" onclick="event.stopPropagation()"><button class="s" onclick="done('${c.id}')">Done</button><button class="s" onclick="snooze('${c.id}',1)">+1 day</button><button class="s" onclick="snooze('${c.id}',7)">+1 week</button>${c.phone?`<a class="btn" href="tel:${esc(c.phone)}">Call</a>`:''}${c.phone?`<a class="btn" href="https://wa.me/${esc(c.phone.replace(/\D/g,'').replace(/^0/,'44'))}">WhatsApp</a>`:''}</div></div>`)}
+function tab(n){T=n;render()}
+function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',i===T));const v=$('#v');
+if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter(c=>c.next<=t).sort((a,b)=>a.next>b.next?1:-1),soon=act.filter(c=>c.next>t).sort((a,b)=>a.next>b.next?1:-1),none=db.filter(c=>open(c)&&!c.next);
+$('#ttl').textContent=due.length?`Chase (${due.length})`:'Chase';
+v.innerHTML=(due.length?'<h2>Chase now</h2>'+due.map(chaseCard).join(''):'<div class="empty">Nothing to chase. Nice.</div>')+(soon.length?'<h2>Coming up</h2>'+soon.map(card).join(''):'')+(none.length?'<h2>No date set</h2>'+none.map(card).join(''):'')}
+if(T===1){$('#ttl').textContent='All contacts';const q=Q.toLowerCase();const l=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q)));
+v.innerHTML=`<input placeholder="Search" value="${esc(Q)}" oninput="Q=this.value;render2()" id="q"><div class="row"><select onchange="F=this.value;render()"><option value="">All stages</option>${STAGES.map(s=>`<option ${F===s?'selected':''}>${s}</option>`).join('')}</select></div><div id="list" style="margin-top:12px">${l.map(card).join('')||'<div class="empty">None yet. Tap + Add.</div>'}</div>`}
+if(T===2){$('#ttl').textContent='Data';v.innerHTML=`<div class="card"><b>Your contacts live on this phone only.</b><div class="sub">Copy a backup now and then.</div></div>
+<div class="row"><button class="p" onclick="copy('csv')">Copy as CSV</button><button class="s" onclick="share()">Share CSV</button><button class="s" onclick="dl()">Download CSV</button></div>
+<div class="row"><button class="s" onclick="copy('json')">Copy backup</button></div>
+<label>Restore: paste a backup (JSON) or CSV, then tap Import (adds, doesn't wipe)</label><textarea class="big" id="imp"></textarea><div class="row"><button class="p" onclick="imp()">Import</button></div>
+<label>Emails-ok contacts, grouped by trade (for seasonal one-to-one messages)</label><div class="card sub" id="grp">${grp()}</div>`}}
+function render2(){const q=Q.toLowerCase();$('#list').innerHTML=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q))).map(card).join('')}
+function grp(){const g={};db.filter(c=>c.emailOk&&c.stage!=='Do not contact').forEach(c=>(g[c.trade||'(no trade)']??=[]).push(c.name||c.business));return Object.entries(g).map(([k,v])=>`<b>${esc(k)}</b> ${esc(v.join(', '))}`).join('<br>')||'None yet. Tick "emails ok" only for customers or people who said yes.'}
+function edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textContent=id?'Edit':'Add contact';
+const f=(k,l,t='text')=>`<label>${l}</label><input type="${t}" id="f_${k}" value="${esc(c[k])}">`;
+$('#v').innerHTML=f('name','Name')+f('business','Business')+f('trade','Trade (cleaner, barber…)')+f('phone','Phone','tel')+f('email','Email','email')+
+`<label>Stage</label><select id="f_stage">${STAGES.map(s=>`<option ${c.stage===s?'selected':''}>${s}</option>`).join('')}</select>`+
+f('how','How we met')+f('action','Next action')+`<label>Remind me on</label><input type="date" id="f_next" value="${esc(c.next)}"><div class="row"><button class="s" onclick="qd(1)">Tomorrow</button><button class="s" onclick="qd(3)">3 days</button><button class="s" onclick="qd(7)">Next week</button></div>`+
+`<label>Notes</label><textarea id="f_notes" rows="4">${esc(c.notes)}</textarea><label><input type="checkbox" id="f_emailOk" style="width:auto" ${c.emailOk?'checked':''}> Emails ok (customer, or said yes to emails)</label>
+<div class="row"><button class="p" onclick="sv('${id||''}')">Save</button><button class="s" onclick="render()">Cancel</button>${id?`<button class="s" onclick="del('${id}')">Delete</button>`:''}</div>`}
+function qd(n){$('#f_next').value=addDays(n)}
+function sv(id){const c=db.find(x=>x.id===id)||{id:'c'+Date.now().toString(36),created:today()};
+['name','business','trade','phone','email','stage','how','action','next','notes'].forEach(k=>c[k]=$('#f_'+k).value.trim());c.emailOk=$('#f_emailOk').checked;c.updated=today();
+if(!c.name&&!c.business){alert('Add a name or business');return}if(!db.includes(c))db.push(c);save();T=0;render()}
+function del(id){if(confirm('Delete this contact?')){db=db.filter(c=>c.id!==id);save();T=1;render()}}
+function done(id){const c=db.find(x=>x.id===id);c.next='';c.action='';c.updated=today();save();render()}
+function snooze(id,n){db.find(x=>x.id===id).next=addDays(n);save();render()}
+const COLS=['name','business','trade','stage','phone','email','how','action','next','emailOk','notes','created'];
+function csv(){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return [COLS.join(','),...db.map(c=>COLS.map(k=>q(c[k])).join(','))].join('\n')}
+async function copy(w){const t=w==='csv'?csv():JSON.stringify(db);try{await navigator.clipboard.writeText(t);alert('Copied')}catch(e){T=2;prompt('Copy this',t)}}
+async function share(){try{await navigator.share({title:'Contacts',text:csv()})}catch(e){}}
+function dl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv()],{type:'text/csv'}));a.download='contacts.csv';a.click()}
+function parseCSV(t){const r=[];let row=[],f='',q=false;for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=ch}else if(ch=='"')q=true;else if(ch==','){row.push(f);f=''}else if(ch=='\n'){row.push(f);r.push(row);row=[];f=''}else if(ch!='\r')f+=ch}row.push(f);r.push(row);return r}
+function imp(){const t=$('#imp').value.trim();if(!t)return;let add=[];try{if(t[0]=='['||t[0]=='{')add=JSON.parse(t);else{const r=parseCSV(t),h=r[0];add=r.slice(1).filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]])))}}catch(e){alert('Could not read that');return}
+add.forEach(a=>{a.id=a.id||'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);a.stage=STAGES.includes(a.stage)?a.stage:'Lead';a.emailOk=a.emailOk===true||a.emailOk==='true';if(!db.some(c=>c.id===a.id))db.push(a)});save();alert('Imported '+add.length);render()}
+render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
