@@ -192,6 +192,7 @@ textarea.big{height:160px;font-size:13px}
 .bar{height:10px;border-radius:99px;background:var(--bg2);overflow:hidden;margin:5px 0 12px}.bar i{display:block;height:100%;border-radius:99px;background:var(--acc)}
 .frow{display:flex;justify-content:space-between;font-size:14px;font-weight:600}.frow span:last-child{color:var(--mute);font-weight:500}
 .stg{font-size:15px;font-weight:800;margin:18px 2px 8px;display:flex;justify-content:space-between}.stg span{color:var(--mute);font-weight:600}
+.nb{font-style:normal;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--warn);color:#fff;font-size:11px;font-weight:800;place-items:center;line-height:1}
 </style></head><body><div class="wrap">
 <header><div><h1 id="ttl">Chase</h1><div class="date" id="dt"></div></div><button class="add" onclick="edit()" aria-label="Add contact">+</button></header>
 <main id="v"></main></div>
@@ -265,7 +266,11 @@ const tiles=`<div class="tiles fade" style="animation-delay:.34s"><div class="ti
 return {hero,body:prog+mom+`<div class="glance" style="margin-top:10px">${gauge}${donut}</div>`+pipe+heat+tiles}}
 function countUp(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('[data-n]').forEach(e=>{const n=+e.dataset.n,p=e.dataset.p||'',s=e.dataset.s||'';if(!n)return;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/800),v=Math.round(n*(1-Math.pow(1-k,3)));e.textContent=p+v.toLocaleString('en-GB')+s;if(k<1)requestAnimationFrame(f)})(t0)})}
 function tab(n){T=n;render()}
-function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));const v=$('#v');
+function dueBadge(){const t=today(),n=db.filter(c=>open(c)&&c.next&&c.next<=t).length,b=$('#t0');
+ let k=b.querySelector('.nb');if(!k){k=document.createElement('i');k.className='nb';b.appendChild(k)}k.textContent=n>9?'9+':n;k.style.display=n?'inline-grid':'none';
+ try{n?navigator.setAppBadge&&navigator.setAppBadge(n):navigator.clearAppBadge&&navigator.clearAppBadge()}catch(e){}
+ document.title=n?'('+n+') Chase CRM':'Chase CRM'}
+function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));dueBadge();const v=$('#v');
 $('#dt').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});window.scrollTo(0,0);
 if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter(c=>c.next<=t).sort((a,b)=>a.next>b.next?1:-1),soon=act.filter(c=>c.next>t).sort((a,b)=>a.next>b.next?1:-1),none=db.filter(c=>open(c)&&!c.next);
 $('#ttl').textContent='Chase';
@@ -373,4 +378,5 @@ function vListen(){if(!SR){say("Voice isn't available in this browser. Type inst
  vRec.onerror=e=>{vStop();say(e.error==='not-allowed'?'I need microphone permission. Tap the padlock by the address bar and allow the microphone.':e.error==='no-speech'?"I didn't hear anything. Tap Mic and try again.":'Mic problem. You can type instead.')};
  vRec.onend=()=>{if(vOn)vStop()};try{vRec.start()}catch(e){vStop()}}
 $('#vin').addEventListener('keydown',e=>{if(e.key==='Enter')vSend()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)render()});
 </script></body></html>
