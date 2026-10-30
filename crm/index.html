@@ -94,6 +94,25 @@ textarea.big{height:160px;font-size:13px}
 .mini{display:flex;gap:6px;align-items:flex-end;height:46px;flex:1}.mini i{flex:1;background:var(--bg2);border-radius:6px 6px 3px 3px;min-height:6px;position:relative}.mini i b{position:absolute;left:0;right:0;bottom:0;border-radius:6px 6px 3px 3px;background:var(--acc)}
 .mlbl{display:flex;gap:6px;font-size:11px;color:var(--mute);font-weight:600;margin-top:4px}.mlbl span{flex:1;text-align:center}
 .slot{color:var(--mute);font-size:14px;text-align:center;padding:16px;border:1.5px dashed var(--line);border-radius:var(--radius);margin:0 0 10px}
+.glance{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 4px}
+.gc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);min-width:0}
+.gc .t{font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.donut{display:block;width:100%;max-width:150px;margin:0 auto;transform:rotate(-90deg)}
+.donut circle{fill:none;stroke-width:13}.donut .seg{animation:seg .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes seg{from{stroke-dasharray:0 251.33}}
+.dwrap{position:relative;max-width:150px;margin:0 auto}.dmid{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.05}.dmid b{font-size:28px;font-weight:800}.dmid span{font-size:11px;color:var(--mute);font-weight:700;text-transform:uppercase}
+.ghost{opacity:.3}
+.leg{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:10px;font-size:12px;color:var(--mute);font-weight:600;justify-content:center}.leg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.goalring{display:block;width:100%;max-width:150px;margin:0 auto;transform:rotate(-90deg)}.goalring circle{fill:none;stroke-width:13;stroke-linecap:round}.goalring .bg{stroke:var(--bg2)}.goalring .fg{stroke:var(--acc);animation:seg2 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes seg2{from{stroke-dashoffset:251.33}}
+.gsub{text-align:center;font-size:12px;color:var(--mute);font-weight:600;margin-top:8px}
+.act{grid-column:span 2}
+.bars{display:flex;gap:8px;align-items:flex-end;height:92px}.bars .c{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--mute)}
+.bars .c u{width:100%;display:block;text-decoration:none;border-radius:8px 8px 3px 3px;background:linear-gradient(var(--acc),color-mix(in srgb,var(--acc) 60%,var(--st-talking)));transform-origin:bottom;animation:grow .7s cubic-bezier(.2,.8,.2,1) both;min-height:4px}
+.bars .c.today u{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--acc)}
+@keyframes grow{from{transform:scaleY(0)}}
+.hello{font-size:15px;opacity:.9;margin-bottom:4px;font-weight:600}
+@media(prefers-reduced-motion:reduce){.donut .seg,.goalring .fg,.bars .c u{animation:none}}
 /* ===== VOICE ===== */
 .mic{position:fixed;right:18px;bottom:96px;z-index:30;width:58px;height:58px;border-radius:50%;border:0;background:var(--hero);color:var(--hero-ink);box-shadow:var(--shadow),0 8px 22px rgba(0,0,0,.22);display:grid;place-items:center}
 .mic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -142,15 +161,26 @@ ${c.notes?`<div class="sub">${esc(c.notes).slice(0,90)}</div>`:''}${extra}</div>
 function chaseCard(c,i){const ph=c.phone||'';return card(c,`<div class="row" onclick="event.stopPropagation()"><button class="s" onclick="done('${c.id}')">Done</button><button class="s" onclick="snooze('${c.id}',1)">+1 day</button><button class="s" onclick="snooze('${c.id}',7)">+1 week</button>${ph?`<a class="btn" href="tel:${esc(ph)}">Call</a>`:''}${ph?`<a class="btn wa" href="https://wa.me/${esc(ph.replace(/\D/g,'').replace(/^0/,'44'))}">WhatsApp</a>`:''}</div>`,i)}
 const gbp0=n=>'£'+Math.round(n).toLocaleString('en-GB');
 function ring(p){const r=19,c=2*Math.PI*r;return `<svg class="ring" viewBox="0 0 46 46"><circle class="bg" cx="23" cy="23" r="${r}"/><circle class="fg" cx="23" cy="23" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-Math.max(0,Math.min(1,p)))}"/></svg>`}
-function dash(due,soon,od){const o=db.filter(open),w=db.filter(c=>c.stage==='Won'),l=db.filter(c=>c.stage==='Lost'),val=a=>a.reduce((x,c)=>x+(+c.value||0),0),rate=w.length+l.length?w.length/(w.length+l.length):0,t=today(),tod=due.filter(c=>c.next===t).length;
-const P=['Lead','Talking','Mock-up sent','Won'],cn=P.map(k=>db.filter(c=>c.stage===k).length),mx=Math.max(1,...cn),tot=Math.max(1,db.length);
-return `<div class="tiles fade"><div class="tile ${od?'late':''}">${ring(od?1:0)}<div><div class="n">${od}</div><div class="t">Overdue</div></div></div>
-<div class="tile">${ring(tod/Math.max(1,due.length||1)*(tod?1:0))}<div><div class="n">${tod}</div><div class="t">Due today</div></div></div>
-<div class="tile">${ring(o.length/tot)}<div><div class="n">${o.length}</div><div class="t">Open deals</div></div></div>
-<div class="tile">${ring(Math.min(1,soon.length/10))}<div><div class="n">${soon.length}</div><div class="t">Coming up</div></div></div>
-<div class="tile">${ring(0)}<div><div class="n">${gbp0(val(o))}</div><div class="t">Pipeline</div></div></div>
-<div class="tile">${ring(rate)}<div><div class="n">${Math.round(rate*100)}%</div><div class="t">Win rate</div></div></div>
-<div class="tile wide"><div style="flex:1"><div class="t" style="margin:0 0 8px">Funnel</div><div class="mini">${cn.map(n=>`<i><b style="height:${Math.round(100*n/mx)}%"></b></i>`).join('')}</div><div class="mlbl">${P.map((k,i)=>`<span>${k.replace('Mock-up sent','Mock-up')} ${cn[i]}</span>`).join('')}</div></div></div></div>`}
+const GOALK='chase-goal';function goal(){try{return +localStorage.getItem(GOALK)||2}catch(e){return 2}}
+function setGoal(){const v=prompt('Wins you want each week?',goal());if(v&&+v>0){try{localStorage.setItem(GOALK,String(Math.round(+v)))}catch(e){}render()}}
+function glance(){const C=251.33,ST=[['Lead','--st-lead'],['Talking','--st-talking'],['Mock-up sent','--st-mockup'],['Won','--st-won'],['Lost','--st-lost']],cn=ST.map(x=>db.filter(c=>c.stage===x[0]).length),tot=cn.reduce((a,b)=>a+b,0),empty=!tot;
+const dc=empty?[3,2,2,1,1]:cn,dt=dc.reduce((a,b)=>a+b,0);let acc=0;
+const segs=ST.map((x,i)=>{const L=C*dc[i]/dt;const o=`<circle class="seg" cx="50" cy="50" r="40" stroke="var(${x[1]})" stroke-dasharray="${Math.max(0,L-(dc.filter(Boolean).length>1?2:0))} ${C}" stroke-dashoffset="${-acc}" style="animation-delay:${i*90}ms"/>`;acc+=L;return dc[i]?o:''}).join('');
+const wk=addDays(-6),wins=db.filter(c=>c.stage==='Won'&&(c.updated||c.created||'')>=wk).length,g=goal(),gp=Math.min(1,wins/g);
+const days=[...Array(7).keys()].map(i=>addDays(i-6)),act=days.map(d=>db.filter(c=>c.created===d||c.updated===d).length),aE=!act.some(Boolean),ad=aE?[2,4,3,6,5,7,4]:act,mx=Math.max(1,...ad);
+const dl=d=>new Date(d+'T12:00').toLocaleDateString('en-GB',{weekday:'narrow'});
+return `<div class="glance fade"><div class="gc"><div class="t">Your people</div><div class="dwrap ${empty?'ghost':''}"><svg class="donut" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="var(--bg2)"/>${segs}</svg><div class="dmid"><div><b data-n="${tot}">${tot}</b><br><span>contacts</span></div></div></div>
+<div class="leg">${empty?'<span>Fills as you add people</span>':ST.map((x,i)=>cn[i]?`<span><i style="background:var(${x[1]})"></i>${x[0].replace('Mock-up sent','Mock-up')} ${cn[i]}</span>`:'').join('')}</div></div>
+<div class="gc" onclick="setGoal()"><div class="t">Wins this week</div><div class="dwrap"><svg class="goalring" viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-gp)}"/></svg><div class="dmid"><div><b data-n="${wins}">${wins}</b><span style="display:block">of ${g}</span></div></div></div><div class="gsub">${wins>=g?'Goal hit! 🎉':'Tap to change goal'}</div></div>
+<div class="gc act"><div class="t">Last 7 days</div><div class="bars ${aE?'ghost':''}">${ad.map((n,i)=>`<div class="c ${i===6?'today':''}"><u style="height:${Math.max(4,Math.round(78*n/mx))}%;animation-delay:${i*70}ms"></u>${dl(days[i])}</div>`).join('')}</div><div class="gsub">${aE?'Your activity shows here as you add and update people':'Contacts added or updated each day'}</div></div></div>`}
+function dash(due,soon,od){const o=db.filter(open),w=db.filter(c=>c.stage==='Won'),l=db.filter(c=>c.stage==='Lost'),val=a=>a.reduce((x,c)=>x+(+c.value||0),0),rate=w.length+l.length?w.length/(w.length+l.length):0,t=today(),tod=due.filter(c=>c.next===t).length,tot=Math.max(1,db.length);
+return glance()+`<div class="tiles fade"><div class="tile ${od?'late':''}">${ring(od?1:0)}<div><div class="n" data-n="${od}">${od}</div><div class="t">Overdue</div></div></div>
+<div class="tile">${ring(tod?1:0)}<div><div class="n" data-n="${tod}">${tod}</div><div class="t">Due today</div></div></div>
+<div class="tile">${ring(o.length/tot)}<div><div class="n" data-n="${o.length}">${o.length}</div><div class="t">Open deals</div></div></div>
+<div class="tile">${ring(Math.min(1,soon.length/10))}<div><div class="n" data-n="${soon.length}">${soon.length}</div><div class="t">Coming up</div></div></div>
+<div class="tile">${ring(val(w)/Math.max(1,val(o)+val(w)))}<div><div class="n" data-n="${Math.round(val(o))}" data-p="£">${gbp0(val(o))}</div><div class="t">Pipeline</div></div></div>
+<div class="tile">${ring(rate)}<div><div class="n" data-n="${Math.round(rate*100)}" data-s="%">${Math.round(rate*100)}%</div><div class="t">Win rate</div></div></div></div>`}
+function countUp(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('[data-n]').forEach(e=>{const n=+e.dataset.n,p=e.dataset.p||'',s=e.dataset.s||'';if(!n)return;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/800),v=Math.round(n*(1-Math.pow(1-k,3)));e.textContent=p+v.toLocaleString('en-GB')+s;if(k<1)requestAnimationFrame(f)})(t0)})}
 function tab(n){T=n;render()}
 function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));const v=$('#v');
 $('#dt').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});window.scrollTo(0,0);
@@ -158,7 +188,7 @@ if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter
 $('#ttl').textContent='Chase';
 const won=db.filter(c=>c.stage==='Won').length,openN=db.filter(open).length;
 const od=due.filter(c=>c.next<t).length;
-v.innerHTML=`<div class="hero fade"><div class="big">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase right now':due.length===1?'person to chase now':'people to chase now'}</div><div class="chips"><span>${openN} open</span><span>${soon.length} coming up</span><span>${won} won</span></div></div>`+dash(due,soon,od)
+v.innerHTML=`<div class="hero fade"><div class="hello">${new Date().getHours()<12?'Good morning':new Date().getHours()<18?'Good afternoon':'Good evening'}</div><div class="big">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase right now':due.length===1?'person to chase now':'people to chase now'}</div><div class="chips"><span>${openN} open</span><span>${soon.length} coming up</span><span>${won} won</span></div></div>`+dash(due,soon,od)
 +'<h2>Chase now</h2>'+(due.length?due.map(chaseCard).join(''):'<div class="slot">Nobody to chase. Add someone with the + button.</div>')
 +'<h2>Coming up</h2>'+(soon.length?soon.map((c,i)=>card(c,'',i)).join(''):'<div class="slot">Reminders you set show here.</div>')
 +(none.length?'<h2>No date set</h2>'+none.map((c,i)=>card(c,'',i)).join(''):'')}
@@ -200,7 +230,7 @@ function dl(){const a=document.createElement('a');a.href=URL.createObjectURL(new
 function parseCSV(t){const r=[];let row=[],f='',q=false;for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=ch}else if(ch=='"')q=true;else if(ch==','){row.push(f);f=''}else if(ch=='\n'){row.push(f);r.push(row);row=[];f=''}else if(ch!='\r')f+=ch}row.push(f);r.push(row);return r}
 function imp(){const t=$('#imp').value.trim();if(!t)return;let add=[];try{if(t[0]=='['||t[0]=='{')add=JSON.parse(t);else{const r=parseCSV(t),h=r[0];add=r.slice(1).filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]])))}}catch(e){alert('Could not read that');return}
 add.forEach(a=>{a.id=a.id||'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);a.stage=STAGES.includes(a.stage)?a.stage:'Lead';a.emailOk=a.emailOk===true||a.emailOk==='true';if(!db.some(c=>c.id===a.id))db.push(a)});save();alert('Imported '+add.length);render()}
-render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+const _r=render;render=function(){_r();if(T===0)countUp()};render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* ===== VOICE: free in-browser speech, no AI service, data stays on the phone ===== */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let vRec=null,vPend=null,vOn=false,vSpeak=true;
 const DAYS=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'],MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
