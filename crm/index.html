@@ -2,31 +2,91 @@
 <html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Chase CRM</title>
-<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f6f5c">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#12212B">
 <style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d2421;--mute:#667;--acc:#1f6f5c;--warn:#b4421f;--line:#e2e0d8}
-@media(prefers-color-scheme:dark){:root{--bg:#141817;--card:#1e2422;--ink:#ecefed;--mute:#9aa6a1;--acc:#4fb79d;--warn:#f08a62;--line:#2d3633}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,sans-serif;padding-bottom:84px}
-header{padding:16px;display:flex;justify-content:space-between;align-items:center}
-h1{font-size:20px;margin:0}main{padding:0 16px}
-.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-.tabs button{flex:1;padding:14px 4px;background:none;border:0;color:var(--mute);font:inherit;font-size:14px}
-.tabs button.on{color:var(--acc);font-weight:700}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px}
-.card b{display:block}.sub{color:var(--mute);font-size:14px}
-.due{color:var(--warn);font-weight:700;font-size:14px}.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--line);margin-right:4px}
-button.p,.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:600}
-button.s{background:var(--line);color:var(--ink);border:0;border-radius:10px;padding:10px 12px;font:inherit}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
-input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
-h2{font-size:15px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin:18px 0 8px}
-.empty{color:var(--mute);text-align:center;padding:30px 0}
+/* ===== THEME: change only this block to re-skin the whole app ===== */
+:root{
+  --bg:#F4F1EA;            /* page */
+  --bg2:#EAE5D9;           /* soft panels, chips */
+  --card:#FFFFFF;
+  --ink:#12212B;           /* main text */
+  --mute:#66727A;          /* secondary text */
+  --line:#E3DED2;
+  --acc:#F2B705;           /* main accent (buttons, active tab) */
+  --acc-ink:#12212B;       /* text on the accent */
+  --hero:#12212B;          /* summary banner */
+  --hero-ink:#FFFFFF;
+  --warn:#C8421C;          /* overdue / today */
+  --warn-bg:#FBE9E2;
+  --ok:#1F8A5B;
+  --st-lead:#4F7CE0;--st-talking:#E08A1E;--st-mockup:#8A5CD6;--st-won:#1F8A5B;--st-lost:#8A949A;--st-dnc:#C8421C;
+  --radius:16px;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --shadow:0 1px 2px rgba(18,33,43,.06),0 6px 18px rgba(18,33,43,.06);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0E1A22;--bg2:#1A2B36;--card:#16252F;--ink:#EEF2F4;--mute:#9AABB5;--line:#26394A;
+  --hero:#F2B705;--hero-ink:#12212B;--warn:#FF8F66;--warn-bg:#3A2420;--ok:#4FD19A;
+  --st-lead:#7FA2FF;--st-talking:#FFB454;--st-mockup:#B795FF;--st-won:#4FD19A;--st-lost:#8FA0AA;--st-dnc:#FF8F66;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
+/* ================================================================== */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 var(--font);padding-bottom:110px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto}
+header{padding:calc(18px + env(safe-area-inset-top)) 18px 8px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+h1{font-size:28px;line-height:1.1;margin:0;font-weight:800;letter-spacing:-.02em}
+.date{color:var(--mute);font-size:13px;margin-top:2px}
+main{padding:0 16px}
+button{font:inherit;cursor:pointer;transition:transform .12s ease,filter .12s ease}
+button:active,.btn:active{transform:scale(.96)}
+button.add{width:46px;height:46px;border-radius:50%;border:0;background:var(--acc);color:var(--acc-ink);font-size:26px;line-height:1;font-weight:600;box-shadow:var(--shadow)}
+.tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:min(360px,calc(100% - 28px));display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px;box-shadow:var(--shadow);z-index:5}
+.tabs button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 6px;background:none;border:0;border-radius:999px;color:var(--mute);font-size:14px;font-weight:600}
+.tabs button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tabs button.on{background:var(--acc);color:var(--acc-ink)}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:22px;padding:18px 20px;margin:6px 0 6px;box-shadow:var(--shadow)}
+.hero .big{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.hero .lbl{font-size:15px;opacity:.85;margin-top:6px}
+.hero .chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.hero .chips span{background:rgba(255,255,255,.14);border-radius:99px;padding:5px 11px;font-size:13px;font-weight:600}
+@media(prefers-color-scheme:dark){.hero .chips span{background:rgba(18,33,43,.14)}}
+h2{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.09em;font-weight:700;margin:22px 4px 10px}
+.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:13px 14px;margin:0 0 10px;box-shadow:var(--shadow);position:relative;transition:transform .12s ease}
+.card:active{transform:scale(.985)}
+.av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;color:#fff;background:var(--st-lead)}
+.card[data-st="Talking"] .av{background:var(--st-talking)}.card[data-st="Mock-up sent"] .av{background:var(--st-mockup)}
+.card[data-st="Won"] .av{background:var(--st-won)}.card[data-st="Lost"] .av{background:var(--st-lost)}.card[data-st="Do not contact"] .av{background:var(--st-dnc)}
+.cb{min-width:0;flex:1}
+.cb b{display:block;font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.sub{color:var(--mute);font-size:14px;margin-top:3px}
+.due{color:var(--warn);font-weight:700;font-size:14px;margin-top:5px}
+.due.late{background:var(--warn-bg);display:inline-block;padding:2px 9px;border-radius:99px}
+.tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px}
+.pill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--bg2);color:var(--mute)}
+.pill.st{background:none;color:var(--ink);padding-left:0;display:inline-flex;align-items:center;gap:6px}
+.pill.st:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st-lead)}
+.card[data-st="Talking"] .pill.st:before{background:var(--st-talking)}.card[data-st="Mock-up sent"] .pill.st:before{background:var(--st-mockup)}
+.card[data-st="Won"] .pill.st:before{background:var(--st-won)}.card[data-st="Lost"] .pill.st:before{background:var(--st-lost)}.card[data-st="Do not contact"] .pill.st:before{background:var(--st-dnc)}
+button.p,.btn{background:var(--acc);color:var(--acc-ink);border:0;border-radius:12px;padding:12px 18px;font-weight:700;text-decoration:none;display:inline-block;box-shadow:var(--shadow)}
+button.s{background:var(--bg2);color:var(--ink);border:0;border-radius:12px;padding:10px 13px;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.cb .row .btn{padding:10px 14px;box-shadow:none}
+.cb .row .btn.wa{background:var(--ok);color:#fff}
+label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin:14px 2px 5px}
+input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;outline:none;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 28%,transparent)}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);vertical-align:-4px;margin-right:6px}
+.empty{color:var(--mute);text-align:center;padding:40px 10px;font-size:15px}
+.empty i{display:block;font-style:normal;font-size:38px;margin-bottom:6px}
 textarea.big{height:160px;font-size:13px}
-</style></head><body>
-<header><h1 id="ttl">Chase</h1><button class="p" onclick="edit()">+ Add</button></header>
-<main id="v"></main>
-<nav class="tabs"><button id="t0" onclick="tab(0)">Chase</button><button id="t1" onclick="tab(1)">All</button><button id="t2" onclick="tab(2)">Data</button></nav>
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:0 0 10px;box-shadow:var(--shadow)}
+.fade{animation:up .35s ease both}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.fade{animation:none}*{transition:none!important}}
+</style></head><body><div class="wrap">
+<header><div><h1 id="ttl">Chase</h1><div class="date" id="dt"></div></div><button class="add" onclick="edit()" aria-label="Add contact">+</button></header>
+<main id="v"></main></div>
+<nav class="tabs"><button id="t0" onclick="tab(0)"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Chase</button><button id="t1" onclick="tab(1)"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.3 2.4 3.5 6"/></svg>All</button><button id="t2" onclick="tab(2)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Data</button></nav>
 <script>
 const KEY='chase-crm-v1',STAGES=['Lead','Talking','Mock-up sent','Won','Lost','Do not contact'];
 let db=[],T=0,Q='',F='';
@@ -37,33 +97,37 @@ const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.t
 const today=()=>iso(new Date()),addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
 const nice=d=>d?new Date(d+'T12:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}):'';
 const open=c=>!['Won','Lost','Do not contact'].includes(c.stage);
-function card(c){const od=c.next&&c.next<today(),dt=c.next===today();
-return `<div class="card" onclick="edit('${c.id}')"><b>${esc(c.name||c.business)}${c.business&&c.name?' · '+esc(c.business):''}</b>
-<span class="pill">${esc(c.stage)}</span>${c.trade?`<span class="pill">${esc(c.trade)}</span>`:''}${c.emailOk?'<span class="pill">emails ok</span>':''}
-${c.action||c.next?`<div class="${od||dt?'due':'sub'}">${od?'Overdue · ':dt?'Today · ':''}${nice(c.next)} ${esc(c.action)}</div>`:''}
-${c.notes?`<div class="sub">${esc(c.notes).slice(0,90)}</div>`:''}</div>`}
-function chaseCard(c){return card(c).replace('</div>','').replace(/$/,`<div class="row" onclick="event.stopPropagation()"><button class="s" onclick="done('${c.id}')">Done</button><button class="s" onclick="snooze('${c.id}',1)">+1 day</button><button class="s" onclick="snooze('${c.id}',7)">+1 week</button>${c.phone?`<a class="btn" href="tel:${esc(c.phone)}">Call</a>`:''}${c.phone?`<a class="btn" href="https://wa.me/${esc(c.phone.replace(/\D/g,'').replace(/^0/,'44'))}">WhatsApp</a>`:''}</div></div>`)}
+const ini=c=>{const w=String(c.name||c.business||'?').trim().split(/\s+/);return ((w[0]||'?')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase()};
+function card(c,extra='',i=0){const od=c.next&&c.next<today(),dt=c.next===today();
+return `<div class="card fade" style="animation-delay:${Math.min(i,8)*35}ms" data-st="${esc(c.stage)}" onclick="edit('${c.id}')"><div class="av">${esc(ini(c))}</div><div class="cb"><b>${esc(c.name||c.business)}${c.business&&c.name?' · '+esc(c.business):''}</b>
+<div class="tags"><span class="pill st">${esc(c.stage)}</span>${c.trade?`<span class="pill">${esc(c.trade)}</span>`:''}${c.emailOk?'<span class="pill">emails ok</span>':''}</div>
+${c.action||c.next?`<div class="${od||dt?'due late':'sub'}">${od?'Overdue · ':dt?'Today · ':''}${nice(c.next)} ${esc(c.action)}</div>`:''}
+${c.notes?`<div class="sub">${esc(c.notes).slice(0,90)}</div>`:''}${extra}</div></div>`}
+function chaseCard(c,i){const ph=c.phone||'';return card(c,`<div class="row" onclick="event.stopPropagation()"><button class="s" onclick="done('${c.id}')">Done</button><button class="s" onclick="snooze('${c.id}',1)">+1 day</button><button class="s" onclick="snooze('${c.id}',7)">+1 week</button>${ph?`<a class="btn" href="tel:${esc(ph)}">Call</a>`:''}${ph?`<a class="btn wa" href="https://wa.me/${esc(ph.replace(/\D/g,'').replace(/^0/,'44'))}">WhatsApp</a>`:''}</div>`,i)}
 function tab(n){T=n;render()}
 function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',i===T));const v=$('#v');
+$('#dt').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});window.scrollTo(0,0);
 if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter(c=>c.next<=t).sort((a,b)=>a.next>b.next?1:-1),soon=act.filter(c=>c.next>t).sort((a,b)=>a.next>b.next?1:-1),none=db.filter(c=>open(c)&&!c.next);
-$('#ttl').textContent=due.length?`Chase (${due.length})`:'Chase';
-v.innerHTML=(due.length?'<h2>Chase now</h2>'+due.map(chaseCard).join(''):'<div class="empty">Nothing to chase. Nice.</div>')+(soon.length?'<h2>Coming up</h2>'+soon.map(card).join(''):'')+(none.length?'<h2>No date set</h2>'+none.map(card).join(''):'')}
+$('#ttl').textContent='Chase';
+const won=db.filter(c=>c.stage==='Won').length,openN=db.filter(open).length;
+v.innerHTML=`<div class="hero fade"><div class="big">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase. Nice.':due.length===1?'person to chase now':'people to chase now'}</div><div class="chips"><span>${openN} open</span><span>${soon.length} coming up</span>${won?`<span>${won} won</span>`:''}</div></div>`
++(due.length?'<h2>Chase now</h2>'+due.map(chaseCard).join(''):'')+(soon.length?'<h2>Coming up</h2>'+soon.map((c,i)=>card(c,'',i)).join(''):'')+(none.length?'<h2>No date set</h2>'+none.map((c,i)=>card(c,'',i)).join(''):'')+(!db.length?'<div class="empty"><i>👋</i>Tap + to add your first contact.</div>':'')}
 if(T===1){$('#ttl').textContent='All contacts';const q=Q.toLowerCase();const l=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q)));
-v.innerHTML=`<input placeholder="Search" value="${esc(Q)}" oninput="Q=this.value;render2()" id="q"><div class="row"><select onchange="F=this.value;render()"><option value="">All stages</option>${STAGES.map(s=>`<option ${F===s?'selected':''}>${s}</option>`).join('')}</select></div><div id="list" style="margin-top:12px">${l.map(card).join('')||'<div class="empty">None yet. Tap + Add.</div>'}</div>`}
-if(T===2){$('#ttl').textContent='Data';v.innerHTML=`<div class="card"><b>Your contacts live on this phone only.</b><div class="sub">Copy a backup now and then.</div></div>
+v.innerHTML=`<input placeholder="Search" value="${esc(Q)}" oninput="Q=this.value;render2()" id="q"><div class="row"><select onchange="F=this.value;render()"><option value="">All stages</option>${STAGES.map(s=>`<option ${F===s?'selected':''}>${s}</option>`).join('')}</select></div><div id="list" style="margin-top:14px">${l.map((c,i)=>card(c,'',i)).join('')||'<div class="empty"><i>🔍</i>None yet. Tap + Add.</div>'}</div>`}
+if(T===2){$('#ttl').textContent='Data';v.innerHTML=`<div class="panel fade"><b>Your contacts live on this phone only.</b><div class="sub">Copy a backup now and then.</div></div>
 <div class="row"><button class="p" onclick="copy('csv')">Copy as CSV</button><button class="s" onclick="share()">Share CSV</button><button class="s" onclick="dl()">Download CSV</button></div>
 <div class="row"><button class="s" onclick="copy('json')">Copy backup</button></div>
 <label>Restore: paste a backup (JSON) or CSV, then tap Import (adds, doesn't wipe)</label><textarea class="big" id="imp"></textarea><div class="row"><button class="p" onclick="imp()">Import</button></div>
-<label>Emails-ok contacts, grouped by trade (for seasonal one-to-one messages)</label><div class="card sub" id="grp">${grp()}</div>`}}
-function render2(){const q=Q.toLowerCase();$('#list').innerHTML=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q))).map(card).join('')}
+<label>Emails-ok contacts, grouped by trade (for seasonal one-to-one messages)</label><div class="panel sub" id="grp">${grp()}</div>`}}
+function render2(){const q=Q.toLowerCase();$('#list').innerHTML=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q))).map((c,i)=>card(c,'',i)).join('')}
 function grp(){const g={};db.filter(c=>c.emailOk&&c.stage!=='Do not contact').forEach(c=>(g[c.trade||'(no trade)']??=[]).push(c.name||c.business));return Object.entries(g).map(([k,v])=>`<b>${esc(k)}</b> ${esc(v.join(', '))}`).join('<br>')||'None yet. Tick "emails ok" only for customers or people who said yes.'}
-function edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textContent=id?'Edit':'Add contact';
+function edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textContent=id?'Edit':'Add contact';window.scrollTo(0,0);
 const f=(k,l,t='text')=>`<label>${l}</label><input type="${t}" id="f_${k}" value="${esc(c[k])}">`;
-$('#v').innerHTML=f('name','Name')+f('business','Business')+f('trade','Trade (cleaner, barber…)')+f('phone','Phone','tel')+f('email','Email','email')+
+$('#v').innerHTML='<div class="fade">'+f('name','Name')+f('business','Business')+f('trade','Trade (cleaner, barber…)')+f('phone','Phone','tel')+f('email','Email','email')+
 `<label>Stage</label><select id="f_stage">${STAGES.map(s=>`<option ${c.stage===s?'selected':''}>${s}</option>`).join('')}</select>`+
 f('how','How we met')+f('action','Next action')+`<label>Remind me on</label><input type="date" id="f_next" value="${esc(c.next)}"><div class="row"><button class="s" onclick="qd(1)">Tomorrow</button><button class="s" onclick="qd(3)">3 days</button><button class="s" onclick="qd(7)">Next week</button></div>`+
-`<label>Notes</label><textarea id="f_notes" rows="4">${esc(c.notes)}</textarea><label><input type="checkbox" id="f_emailOk" style="width:auto" ${c.emailOk?'checked':''}> Emails ok (customer, or said yes to emails)</label>
-<div class="row"><button class="p" onclick="sv('${id||''}')">Save</button><button class="s" onclick="render()">Cancel</button>${id?`<button class="s" onclick="del('${id}')">Delete</button>`:''}</div>`}
+`<label>Notes</label><textarea id="f_notes" rows="4">${esc(c.notes)}</textarea><label><input type="checkbox" id="f_emailOk" ${c.emailOk?'checked':''}> Emails ok (customer, or said yes to emails)</label>
+<div class="row" style="margin-top:18px"><button class="p" onclick="sv('${id||''}')">Save</button><button class="s" onclick="render()">Cancel</button>${id?`<button class="s" onclick="del('${id}')">Delete</button>`:''}</div></div>`}
 function qd(n){$('#f_next').value=addDays(n)}
 function sv(id){const c=db.find(x=>x.id===id)||{id:'c'+Date.now().toString(36),created:today()};
 ['name','business','trade','phone','email','stage','how','action','next','notes'].forEach(k=>c[k]=$('#f_'+k).value.trim());c.emailOk=$('#f_emailOk').checked;c.updated=today();
