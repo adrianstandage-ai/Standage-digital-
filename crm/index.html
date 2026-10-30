@@ -83,10 +83,32 @@ textarea.big{height:160px;font-size:13px}
 .fade{animation:up .35s ease both}
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.fade{animation:none}*{transition:none!important}}
+/* ===== VOICE ===== */
+.mic{position:fixed;right:18px;bottom:96px;z-index:30;width:58px;height:58px;border-radius:50%;border:0;background:var(--hero);color:var(--hero-ink);box-shadow:var(--shadow),0 8px 22px rgba(0,0,0,.22);display:grid;place-items:center}
+.mic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--card);border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.28);padding:14px 16px calc(16px + env(safe-area-inset-bottom));max-height:78vh;display:none;flex-direction:column}
+.sheet.on{display:flex}
+.sheet .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sheet .top b{font-size:17px}
+.log{overflow:auto;flex:1;min-height:90px;display:flex;flex-direction:column;gap:8px;padding:4px 0}
+.bub{max-width:86%;padding:9px 13px;border-radius:16px;font-size:15px;line-height:1.35;white-space:pre-wrap}
+.bub.me{align-self:flex-end;background:var(--acc);color:var(--acc-ink);border-bottom-right-radius:5px}
+.bub.bot{align-self:flex-start;background:var(--bg2);color:var(--ink);border-bottom-left-radius:5px}
+.vrow{display:flex;gap:8px;margin-top:10px;align-items:center}
+.vrow input{flex:1}
+.vrow button{border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:700;background:var(--bg2);color:var(--ink)}
+.vrow button.go{background:var(--acc);color:var(--acc-ink)}
+.vrow button.lis{background:var(--warn);color:#fff}
+.hint{font-size:13px;color:var(--mute);margin-top:8px}
 </style></head><body><div class="wrap">
 <header><div><h1 id="ttl">Chase</h1><div class="date" id="dt"></div></div><button class="add" onclick="edit()" aria-label="Add contact">+</button></header>
 <main id="v"></main></div>
 <nav class="tabs"><button id="t0" onclick="tab(0)"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Chase</button><button id="t1" onclick="tab(1)"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.3 2.4 3.5 6"/></svg>All</button><button id="t2" onclick="tab(2)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Data</button></nav>
+<button class="mic" id="mic" aria-label="Talk to Chase" onclick="vOpen()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+<div class="sheet" id="sheet"><div class="top"><b>Talk to Chase</b><button class="s" onclick="vClose()" style="border:0;background:none;color:var(--mute);font-size:15px">Close</button></div>
+<div class="log" id="vlog"></div>
+<div class="vrow"><input id="vin" placeholder="Type or tap the mic" autocomplete="off"><button class="go" onclick="vSend()">Send</button><button id="vlis" onclick="vListen()">Mic</button></div>
+<div class="hint">Try: "add Jo from Jo's Cafe, remind me Friday" · "who do I chase" · "done Jo" · "snooze Jo to Monday"</div></div>
 <script>
 const KEY='chase-crm-v1',STAGES=['Lead','Talking','Mock-up sent','Won','Lost','Do not contact'];
 let db=[],T=0,Q='',F='';
@@ -144,4 +166,60 @@ function parseCSV(t){const r=[];let row=[],f='',q=false;for(let i=0;i<t.length;i
 function imp(){const t=$('#imp').value.trim();if(!t)return;let add=[];try{if(t[0]=='['||t[0]=='{')add=JSON.parse(t);else{const r=parseCSV(t),h=r[0];add=r.slice(1).filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]])))}}catch(e){alert('Could not read that');return}
 add.forEach(a=>{a.id=a.id||'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);a.stage=STAGES.includes(a.stage)?a.stage:'Lead';a.emailOk=a.emailOk===true||a.emailOk==='true';if(!db.some(c=>c.id===a.id))db.push(a)});save();alert('Imported '+add.length);render()}
 render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+/* ===== VOICE: free in-browser speech, no AI service, data stays on the phone ===== */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let vRec=null,vPend=null,vOn=false,vSpeak=true;
+const DAYS=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'],MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
+const NUMW={a:1,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10};
+function parseWhen(t){let m,n=null;
+ if(m=t.match(/\bin (\d+|a|an|one|two|three|four|five|six|seven|eight|nine|ten) (day|days|week|weeks)\b/)){const q=NUMW[m[1]]||+m[1];n=q*(m[2][0]=='w'?7:1)}
+ else if(m=t.match(/\bday after tomorrow\b/))n=2;
+ else if(m=t.match(/\btomorrow\b/))n=1;
+ else if(m=t.match(/\b(today|tonight|this evening)\b/))n=0;
+ else if(m=t.match(/\bnext week\b/))n=7;
+ else if(m=t.match(/\b(?:on |next |this )?(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b/)){const k=DAYS.indexOf(m[1]);n=(k-new Date().getDay()+7)%7||7}
+ else if(m=t.match(new RegExp('\\b(\\d{1,2})(?:st|nd|rd|th)?(?: of)? ('+MONTHS.join('|')+')\\b'))||(m=t.match(new RegExp('\\b('+MONTHS.join('|')+') (\\d{1,2})(?:st|nd|rd|th)?\\b'))&&(m=[m[0],m[2],m[1]]))){const d=new Date(),k=MONTHS.indexOf(m[2]);let y=d.getFullYear();let x=new Date(y,k,+m[1]);if(x<new Date(y,d.getMonth(),d.getDate()))x=new Date(y+1,k,+m[1]);return{date:iso(x),rest:t.replace(m[0],' ')}}
+ if(n===null)return{date:null,rest:t};return{date:addDays(n),rest:t.replace(m[0],' ')}}
+const tc=s=>s.replace(/(^|\s)\w/g,c=>c.toUpperCase());
+function findC(q){q=q.toLowerCase().replace(/[^a-z0-9' ]/g,' ').trim();if(!q)return[];const w=q.split(/\s+/);
+ return db.filter(c=>{const h=((c.name||'')+' '+(c.business||'')).toLowerCase().replace(/[^a-z0-9' ]/g,' ');return w.every(x=>h.includes(x))})}
+function who(c){return c.name||c.business}
+function say(t){const l=$('#vlog');l.insertAdjacentHTML('beforeend',`<div class="bub bot">${esc(t)}</div>`);l.scrollTop=l.scrollHeight;
+ if(vSpeak&&window.speechSynthesis){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\n/g,'. '));u.lang='en-GB';speechSynthesis.speak(u)}catch(e){}}}
+function me(t){const l=$('#vlog');l.insertAdjacentHTML('beforeend',`<div class="bub me">${esc(t)}</div>`);l.scrollTop=l.scrollHeight}
+function when(d){return d===today()?'today':d===addDays(1)?'tomorrow':nice(d)}
+function chaseList(){const t=today(),due=db.filter(c=>open(c)&&c.next&&c.next<=t).sort((a,b)=>a.next>b.next?1:-1);
+ if(!due.length)return 'Nothing to chase today. Nice.';return `You have ${due.length} to chase:\n`+due.slice(0,6).map(c=>`${who(c)}${c.action?', '+c.action:''}`).join('\n')+(due.length>6?`\nand ${due.length-6} more.`:'')}
+function pickOne(q,verb){const r=findC(q);if(!r.length){say(`I can't find anyone called "${q}".`);return null}
+ if(r.length>1){say(`Which one: ${r.slice(0,4).map(who).join(', or ')}? Say the full name.`);return null}return r[0]}
+function vHandle(raw){let t=raw.toLowerCase().replace(/[.!?]+$/,'').replace(/\s+/g,' ').trim();if(!t)return;me(raw);
+ if(vPend){const p=vPend;vPend=null;if(/^(no|none|nope|skip|never mind|nothing)\b/.test(t)){say(`OK, ${who(p)} saved with no reminder.`);return}
+  const w=parseWhen(t);if(w.date){p.next=w.date;p.updated=today();save();render();say(`Reminder set for ${who(p)}, ${when(w.date)}.`);return}say("Sorry, I didn't catch the day. Say something like tomorrow, Friday or in 3 days, or say skip.");vPend=p;return}
+ let m;
+ if(/^(help|what can you do)/.test(t)){say('You can say: add Jo from Jo\'s Cafe, remind me Friday. Who do I chase. Done Jo. Snooze Jo to Monday. Mark Jo as won. Tell me about Jo.');return}
+ if(/\b(who|what)\b.*\b(chase|due|overdue|follow|do i need|today)\b|^(chase list|what'?s due|anything due)/.test(t)){say(chaseList());return}
+ if(m=t.match(/^(?:add|new contact|create contact|create|save)\s+(?:a |an )?(?:new )?(?:contact |lead )?(.+)$/)){let s=m[1];const w=parseWhen(s);s=w.rest;
+  let action='';const am=s.match(/\b(?:remind me|reminder|chase|follow up|and remind me)\b\s*(?:to |about |on |for )?(.*)$/);if(am){action=am[1].trim();s=s.slice(0,am.index)}
+  s=s.replace(/[, ]+(?:and|then)\s*$/,'').replace(/[,]+$/,'').trim();let note='';const nm=s.match(/\b(?:note|notes|met (?:at|through|on)|they)\b\s*(.*)$/);if(nm){note=(nm[0]).trim();s=s.slice(0,nm.index).trim()}
+  let trade='';const tm=s.match(/\b(?:trade|they're a|she's a|he's a|a)\s+(cleaner|barber|plumber|electrician|builder|baker|florist|hairdresser|cafe|restaurant|accountant|bookkeeper|garage|mechanic|roofer|decorator|gardener|photographer|trainer|therapist|beautician)s?$/);if(tm){trade=tm[1];s=s.slice(0,tm.index).trim()}
+  let name=s,biz='';const bm=s.match(/^(.+?)\s+(?:from|at|of|who runs|runs|owns)\s+(.+)$/);if(bm){name=bm[1];biz=bm[2]}
+  name=name.replace(/[, ]+$/,'').trim();if(!name){say('Who is the contact called?');return}
+  const c={id:'c'+Date.now().toString(36),created:today(),updated:today(),name:tc(name),business:tc(biz.replace(/[, ]+$/,'')),trade,stage:'Lead',action:action||'Chase',next:w.date||'',notes:note,emailOk:false};
+  db.push(c);save();render();
+  if(w.date)say(`Added ${who(c)}${c.business&&c.name?' from '+c.business:''}. Reminder ${when(w.date)}.`);else{say(`Added ${who(c)}. When should I remind you? Say a day, or skip.`);vPend=c}return}
+ if(m=t.match(/^(?:done|chased|finished|completed|tick off|i'?ve (?:chased|called|messaged|spoken to))\s+(.+)$/)){const c=pickOne(m[1]);if(c){c.next='';c.action='';c.updated=today();save();render();say(`Done. ${who(c)} is off your chase list.`)}return}
+ if(m=t.match(/^(?:snooze|remind me about|remind me to chase|chase|follow up with|follow up|push|move)\s+(.+)$/)){const w=parseWhen(m[1]);const c=pickOne(w.rest.replace(/\b(to|until|for|on)\s*$/,'').trim());if(c){if(!w.date){say(`When should I remind you about ${who(c)}?`);vPend=c;return}c.next=w.date;if(!c.action)c.action='Chase';c.updated=today();save();render();say(`OK, ${who(c)} is ${when(w.date)}.`)}return}
+ if(m=t.match(/^(?:mark|set|move|change)\s+(.+?)\s+(?:as|to)\s+(lead|talking|mock.?up sent|mock.?up|won|lost|do not contact|dead)$/)){const c=pickOne(m[1]);if(c){const k=m[2].replace(/\s/g,'');const s=/^mock/.test(k)?'Mock-up sent':k=='dead'?'Lost':STAGES.find(x=>x.toLowerCase().replace(/\s/g,'')==k);c.stage=s;if(!open(c)){c.next='';c.action=''}c.updated=today();save();render();say(`${who(c)} is now ${s}.`)}return}
+ if(m=t.match(/^(?:note|add note|add a note)\s+(?:to |for |on )?(.+?)\s*[:,]\s*(.+)$/)){const c=pickOne(m[1]);if(c){c.notes=(c.notes?c.notes+' | ':'')+m[2];c.updated=today();save();render();say(`Noted on ${who(c)}.`)}return}
+ if(m=t.match(/^(?:tell me about|find|who is|show me|what about|look up)\s+(.+)$/)){const c=pickOne(m[1]);if(c)say(`${who(c)}${c.business&&c.name?', '+c.business:''}. ${c.stage}${c.trade?', '+c.trade:''}.${c.next?' Next: '+when(c.next)+(c.action?', '+c.action:''):' No reminder set.'}${c.notes?' Notes: '+c.notes:''}`);return}
+ say("Sorry, I didn't get that. Say help to hear what I can do.")}
+function vOpen(){$('#sheet').classList.add('on');if(!$('#vlog').children.length)say(SR?'Hi, tap Mic and tell me who to add or who to chase. Say help for ideas.':'Hi, type what you need. Say help for ideas. (Voice needs Chrome.)');}
+function vClose(){$('#sheet').classList.remove('on');vStop();try{speechSynthesis.cancel()}catch(e){}}
+function vSend(){const i=$('#vin');const t=i.value.trim();i.value='';if(t)vHandle(t)}
+function vStop(){vOn=false;try{vRec&&vRec.stop()}catch(e){}$('#vlis').classList.remove('lis');$('#vlis').textContent='Mic'}
+function vListen(){if(!SR){say("Voice isn't available in this browser. Type instead.");return}if(vOn){vStop();return}
+ try{speechSynthesis.cancel()}catch(e){}vRec=new SR();vRec.lang='en-GB';vRec.interimResults=false;vRec.maxAlternatives=1;vOn=true;$('#vlis').classList.add('lis');$('#vlis').textContent='Listening…';
+ vRec.onresult=e=>{const t=e.results[0][0].transcript;vStop();vHandle(t)};
+ vRec.onerror=e=>{vStop();say(e.error==='not-allowed'?'I need microphone permission. Tap the padlock by the address bar and allow the microphone.':e.error==='no-speech'?"I didn't hear anything. Tap Mic and try again.":'Mic problem. You can type instead.')};
+ vRec.onend=()=>{if(vOn)vStop()};try{vRec.start()}catch(e){vStop()}}
+$('#vin').addEventListener('keydown',e=>{if(e.key==='Enter')vSend()});
 </script></body></html>
