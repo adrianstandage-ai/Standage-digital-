@@ -15,6 +15,8 @@
   --acc:#F2B705;           /* main accent (buttons, active tab) */
   --acc-ink:#12212B;       /* text on the accent */
   --hero:#12212B;          /* summary banner */
+  --hero2:#24506A;         /* banner gradient end */
+  --ring1:#F2B705;--ring2:#1F8A5B;--ring3:#4F7CE0;   /* activity rings */
   --hero-ink:#FFFFFF;
   --warn:#C8421C;          /* overdue / today */
   --warn-bg:#FBE9E2;
@@ -26,7 +28,7 @@
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#0E1A22;--bg2:#1A2B36;--card:#16252F;--ink:#EEF2F4;--mute:#9AABB5;--line:#26394A;
-  --hero:#F2B705;--hero-ink:#12212B;--warn:#FF8F66;--warn-bg:#3A2420;--ok:#4FD19A;
+  --hero:#F2B705;--hero2:#FFD65A;--ring1:#F2B705;--ring2:#4FD19A;--ring3:#7FA2FF;--hero-ink:#12212B;--warn:#FF8F66;--warn-bg:#3A2420;--ok:#4FD19A;
   --st-lead:#7FA2FF;--st-talking:#FFB454;--st-mockup:#B795FF;--st-won:#4FD19A;--st-lost:#8FA0AA;--st-dnc:#FF8F66;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
 /* ================================================================== */
@@ -113,6 +115,63 @@ textarea.big{height:160px;font-size:13px}
 @keyframes grow{from{transform:scaleY(0)}}
 .hello{font-size:15px;opacity:.9;margin-bottom:4px;font-weight:600}
 @media(prefers-reduced-motion:reduce){.donut .seg,.goalring .fg,.bars .c u{animation:none}}
+/* ===== DASHBOARD v3 ===== */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--hero),var(--hero2));display:flex;gap:10px;align-items:center;justify-content:space-between}
+.hero:before,.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 65%);animation:drift 11s ease-in-out infinite alternate;pointer-events:none}
+.hero:before{left:-60px;top:-90px}.hero:after{right:-70px;bottom:-110px;animation-duration:14s;animation-delay:-5s}
+@keyframes drift{to{transform:translate(50px,36px) scale(1.15)}}
+.hero>*{position:relative;z-index:1}
+.hero .txt{min-width:0}
+.hero .live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.hero .live i{width:8px;height:8px;border-radius:50%;background:#3DDC84;box-shadow:0 0 0 0 rgba(61,220,132,.7);animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+.rings{flex:none;width:128px;height:128px;position:relative}
+.rings svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rings circle{fill:none;stroke-width:8;stroke-linecap:round}
+.rings .tr{stroke:rgba(255,255,255,.16)}.rings .rg{stroke-dasharray:var(--c);animation:ringin 1.3s cubic-bezier(.2,.8,.2,1) both}
+@media(prefers-color-scheme:dark){.rings .tr{stroke:rgba(18,33,43,.16)}}
+@keyframes ringin{from{stroke-dashoffset:var(--c)}}
+.rings .r1{stroke:var(--ring1);filter:drop-shadow(0 0 4px var(--ring1))}.rings .r2{stroke:var(--ring2);filter:drop-shadow(0 0 4px var(--ring2));animation-delay:.15s}.rings .r3{stroke:var(--ring3);filter:drop-shadow(0 0 4px var(--ring3));animation-delay:.3s}
+.hero .rings .r1{stroke:#fff}.hero .rings .r2{stroke:#7CF5B4}.hero .rings .r3{stroke:#8FB6FF}
+@media(prefers-color-scheme:dark){.hero .rings .r1{stroke:#12212B}.hero .rings .r2{stroke:#0B6B45}.hero .rings .r3{stroke:#274BB0}}
+.hero .rings circle{filter:none}
+.rleg{display:flex;gap:6px 12px;flex-wrap:wrap;margin-top:10px;font-size:12px;font-weight:700}
+.rleg span{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.16);padding:4px 9px;border-radius:99px}
+@media(prefers-color-scheme:dark){.rleg span{background:rgba(18,33,43,.14)}}
+.rleg i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.xp{height:7px;border-radius:99px;background:rgba(255,255,255,.2);margin-top:10px;overflow:hidden}.xp b{display:block;height:100%;border-radius:99px;background:#fff;animation:xpin 1.2s cubic-bezier(.2,.8,.2,1) both}
+@media(prefers-color-scheme:dark){.xp{background:rgba(18,33,43,.2)}.xp b{background:#12212B}}
+@keyframes xpin{from{width:0!important}}
+.lvl{font-size:12px;font-weight:700;margin-top:6px;opacity:.9;display:flex;justify-content:space-between}
+.mom{padding:14px 14px 10px}.mom svg{width:100%;height:96px;display:block;overflow:visible}
+.mom .ln{fill:none;stroke:var(--acc);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;animation:draw 1.5s cubic-bezier(.4,0,.2,1) both;filter:drop-shadow(0 3px 5px color-mix(in srgb,var(--acc) 55%,transparent))}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.mom .ar{opacity:0;animation:fadein .9s .8s ease both}@keyframes fadein{to{opacity:1}}
+.mom .dot{fill:var(--acc);stroke:var(--card);stroke-width:3;opacity:0;animation:fadein .4s 1.4s ease both}
+.mom .pulse{fill:var(--acc);opacity:0;transform-box:fill-box;transform-origin:center;animation:pulse 2s 1.6s ease-out infinite}
+@keyframes pulse{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(3.4)}}
+.mom .grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 5}
+.mhead{display:flex;justify-content:space-between;align-items:baseline}.mhead b{font-size:22px;font-weight:800}
+.gauge{display:block;width:100%;max-width:170px;margin:0 auto}
+.gauge path{fill:none;stroke-width:11;stroke-linecap:round}
+.gauge .nd{transform-origin:50px 50px;transform-box:view-box;animation:needle 1.4s cubic-bezier(.3,1.4,.4,1) both}
+@keyframes needle{from{transform:rotate(-90deg)}}
+.gnum{text-align:center;font-size:26px;font-weight:800;margin-top:-4px}
+.pipe{margin:10px 0 4px}.pbar{display:flex;height:16px;border-radius:99px;overflow:hidden;background:var(--bg2);margin:8px 0}
+.pbar i{display:block;height:100%;transform-origin:left;animation:growx 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes growx{from{transform:scaleX(0)}}
+.pl{display:flex;justify-content:space-between;gap:6px;font-size:12px;font-weight:700;color:var(--mute)}.pl span{display:flex;flex-direction:column}.pl b{color:var(--ink);font-size:15px}
+.heat{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px;margin-top:8px}.heat i{aspect-ratio:1;border-radius:5px;background:var(--bg2);display:block;animation:pop .4s both}
+.heat i.t{outline:2px solid var(--acc);outline-offset:1px}
+@keyframes pop{from{transform:scale(0)}}
+.streak{display:flex;align-items:center;gap:10px}.streak .fire{font-size:30px;animation:flame 1.6s ease-in-out infinite alternate;transform-origin:50% 90%}
+@keyframes flame{to{transform:scale(1.14) rotate(-4deg)}}
+.toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translateX(-50%);z-index:80;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:800;font-size:15px;box-shadow:var(--shadow);animation:toast 1.7s ease both;pointer-events:none;white-space:nowrap}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,14px) scale(.9)}12%{opacity:1;transform:translate(-50%,0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-16px)}}
+.conf{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
+.conf i{position:absolute;width:9px;height:14px;border-radius:2px;animation:conf 1.3s cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes conf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+@media(prefers-reduced-motion:reduce){.hero:before,.hero:after,.streak .fire,.mom .ln,.mom .pulse,.rings .rg,.xp b,.gauge .nd,.pbar i,.heat i{animation:none!important}.mom .ar,.mom .dot{opacity:1}.mom .ln{stroke-dashoffset:0}}
 /* ===== VOICE ===== */
 .mic{position:fixed;right:18px;bottom:96px;z-index:30;width:58px;height:58px;border-radius:50%;border:0;background:var(--hero);color:var(--hero-ink);box-shadow:var(--shadow),0 8px 22px rgba(0,0,0,.22);display:grid;place-items:center}
 .mic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -147,6 +206,20 @@ const KEY='chase-crm-v1',STAGES=['Lead','Talking','Mock-up sent','Won','Lost','D
 let db=[],T=0,Q='',F='';
 try{db=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert('Could not save on this browser')}};
+
+const LOGK='chase-log',XPV={done:10,add:5,win:50,snooze:2};let LOG=[];try{LOG=JSON.parse(localStorage.getItem(LOGK)||'[]')}catch(e){}
+let LX=innerWidth/2,LY=innerHeight/2;addEventListener('pointerdown',e=>{LX=e.clientX;LY=e.clientY},{passive:true});
+function logAct(k){LOG.push({d:today(),k});if(LOG.length>3000)LOG=LOG.slice(-3000);try{localStorage.setItem(LOGK,JSON.stringify(LOG))}catch(e){}
+ try{navigator.vibrate&&navigator.vibrate(k==='win'?[25,40,25]:12)}catch(e){}
+ toast('+'+XPV[k]+' XP'+(k==='win'?'  Won! 🎉':k==='done'?'  Nice one':k==='add'?'  New contact':''));if(k==='win'||k==='done')burst(k==='win'?70:26)}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
+function burst(n){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const c=document.createElement('div');c.className='conf';const cols=['--acc','--ring2','--ring3','--warn','--st-mockup'];
+ for(let i=0;i<n;i++){const e=document.createElement('i'),a=Math.random()*Math.PI*2,r=80+Math.random()*(n>40?260:170);e.style.cssText=`left:${LX}px;top:${LY}px;background:var(${cols[i%5]});--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r-60+Math.random()*180}px;--rot:${Math.random()*720-360}deg;animation-delay:${Math.random()*80}ms`;c.appendChild(e)}
+ document.body.appendChild(c);setTimeout(()=>c.remove(),1500)}
+const xpTotal=()=>LOG.reduce((a,x)=>a+(XPV[x.k]||0),0);
+const LVN=['Rookie','Hustler','Closer','Rainmaker','Legend'];
+function lvl(){const x=xpTotal(),L=Math.floor(Math.sqrt(x/20))+1,lo=20*(L-1)*(L-1),hi=20*L*L;return{L,x,p:(x-lo)/(hi-lo),name:LVN[Math.min(LVN.length-1,L-1)],next:hi-x}}
+function streak(){const ds=new Set(LOG.map(x=>x.d));let n=0,i=ds.has(today())?0:1;while(ds.has(addDays(-i))){n++;i++}return n}
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
 const today=()=>iso(new Date()),addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
@@ -161,25 +234,35 @@ ${c.notes?`<div class="sub">${esc(c.notes).slice(0,90)}</div>`:''}${extra}</div>
 function chaseCard(c,i){const ph=c.phone||'';return card(c,`<div class="row" onclick="event.stopPropagation()"><button class="s" onclick="done('${c.id}')">Done</button><button class="s" onclick="snooze('${c.id}',1)">+1 day</button><button class="s" onclick="snooze('${c.id}',7)">+1 week</button>${ph?`<a class="btn" href="tel:${esc(ph)}">Call</a>`:''}${ph?`<a class="btn wa" href="https://wa.me/${esc(ph.replace(/\D/g,'').replace(/^0/,'44'))}">WhatsApp</a>`:''}</div>`,i)}
 const gbp0=n=>'£'+Math.round(n).toLocaleString('en-GB');
 function ring(p){const r=19,c=2*Math.PI*r;return `<svg class="ring" viewBox="0 0 46 46"><circle class="bg" cx="23" cy="23" r="${r}"/><circle class="fg" cx="23" cy="23" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-Math.max(0,Math.min(1,p)))}"/></svg>`}
-const GOALK='chase-goal';function goal(){try{return +localStorage.getItem(GOALK)||2}catch(e){return 2}}
+const GOALK='chase-goal',CHK='chase-target';function goal(){try{return +localStorage.getItem(GOALK)||2}catch(e){return 2}}
 function setGoal(){const v=prompt('Wins you want each week?',goal());if(v&&+v>0){try{localStorage.setItem(GOALK,String(Math.round(+v)))}catch(e){}render()}}
-function glance(){const C=251.33,ST=[['Lead','--st-lead'],['Talking','--st-talking'],['Mock-up sent','--st-mockup'],['Won','--st-won'],['Lost','--st-lost']],cn=ST.map(x=>db.filter(c=>c.stage===x[0]).length),tot=cn.reduce((a,b)=>a+b,0),empty=!tot;
-const dc=empty?[3,2,2,1,1]:cn,dt=dc.reduce((a,b)=>a+b,0);let acc=0;
-const segs=ST.map((x,i)=>{const L=C*dc[i]/dt;const o=`<circle class="seg" cx="50" cy="50" r="40" stroke="var(${x[1]})" stroke-dasharray="${Math.max(0,L-(dc.filter(Boolean).length>1?2:0))} ${C}" stroke-dashoffset="${-acc}" style="animation-delay:${i*90}ms"/>`;acc+=L;return dc[i]?o:''}).join('');
-const wk=addDays(-6),wins=db.filter(c=>c.stage==='Won'&&(c.updated||c.created||'')>=wk).length,g=goal(),gp=Math.min(1,wins/g);
-const days=[...Array(7).keys()].map(i=>addDays(i-6)),act=days.map(d=>db.filter(c=>c.created===d||c.updated===d).length),aE=!act.some(Boolean),ad=aE?[2,4,3,6,5,7,4]:act,mx=Math.max(1,...ad);
-const dl=d=>new Date(d+'T12:00').toLocaleDateString('en-GB',{weekday:'narrow'});
-return `<div class="glance fade"><div class="gc"><div class="t">Your people</div><div class="dwrap ${empty?'ghost':''}"><svg class="donut" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="var(--bg2)"/>${segs}</svg><div class="dmid"><div><b data-n="${tot}">${tot}</b><br><span>contacts</span></div></div></div>
-<div class="leg">${empty?'<span>Fills as you add people</span>':ST.map((x,i)=>cn[i]?`<span><i style="background:var(${x[1]})"></i>${x[0].replace('Mock-up sent','Mock-up')} ${cn[i]}</span>`:'').join('')}</div></div>
-<div class="gc" onclick="setGoal()"><div class="t">Wins this week</div><div class="dwrap"><svg class="goalring" viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-gp)}"/></svg><div class="dmid"><div><b data-n="${wins}">${wins}</b><span style="display:block">of ${g}</span></div></div></div><div class="gsub">${wins>=g?'Goal hit! 🎉':'Tap to change goal'}</div></div>
-<div class="gc act"><div class="t">Last 7 days</div><div class="bars ${aE?'ghost':''}">${ad.map((n,i)=>`<div class="c ${i===6?'today':''}"><u style="height:${Math.max(4,Math.round(78*n/mx))}%;animation-delay:${i*70}ms"></u>${dl(days[i])}</div>`).join('')}</div><div class="gsub">${aE?'Your activity shows here as you add and update people':'Contacts added or updated each day'}</div></div></div>`}
-function dash(due,soon,od){const o=db.filter(open),w=db.filter(c=>c.stage==='Won'),l=db.filter(c=>c.stage==='Lost'),val=a=>a.reduce((x,c)=>x+(+c.value||0),0),rate=w.length+l.length?w.length/(w.length+l.length):0,t=today(),tod=due.filter(c=>c.next===t).length,tot=Math.max(1,db.length);
-return glance()+`<div class="tiles fade"><div class="tile ${od?'late':''}">${ring(od?1:0)}<div><div class="n" data-n="${od}">${od}</div><div class="t">Overdue</div></div></div>
-<div class="tile">${ring(tod?1:0)}<div><div class="n" data-n="${tod}">${tod}</div><div class="t">Due today</div></div></div>
-<div class="tile">${ring(o.length/tot)}<div><div class="n" data-n="${o.length}">${o.length}</div><div class="t">Open deals</div></div></div>
-<div class="tile">${ring(Math.min(1,soon.length/10))}<div><div class="n" data-n="${soon.length}">${soon.length}</div><div class="t">Coming up</div></div></div>
-<div class="tile">${ring(val(w)/Math.max(1,val(o)+val(w)))}<div><div class="n" data-n="${Math.round(val(o))}" data-p="£">${gbp0(val(o))}</div><div class="t">Pipeline</div></div></div>
-<div class="tile">${ring(rate)}<div><div class="n" data-n="${Math.round(rate*100)}" data-s="%">${Math.round(rate*100)}%</div><div class="t">Win rate</div></div></div></div>`}
+function ringsSvg(a,b,c){const R=[[46,a,'r1'],[35,b,'r2'],[24,c,'r3']];return `<svg viewBox="0 0 110 110">${R.map(([r,p,k])=>{const C=2*Math.PI*r;return `<circle class="tr" cx="55" cy="55" r="${r}"/><circle class="rg ${k}" cx="55" cy="55" r="${r}" style="--c:${C}" stroke-dashoffset="${C*(1-Math.max(.001,Math.min(1,p)))}"/>`}).join('')}</svg>`}
+function curve(pts){let d=`M${pts[0][0]},${pts[0][1]}`;for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;d+=` C${p1[0]+(p2[0]-p0[0])/6},${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6},${p2[1]-(p3[1]-p1[1])/6} ${p2[0]},${p2[1]}`}return d}
+function dayCounts(n){const days=[...Array(n).keys()].map(i=>addDays(i-(n-1)));return days.map(d=>{const l=LOG.filter(x=>x.d===d).length;return l||db.filter(c=>c.created===d||c.updated===d).length})}
+function dash(due,soon,od){const t=today(),o=db.filter(open),w=db.filter(c=>c.stage==='Won'),l=db.filter(c=>c.stage==='Lost'),val=a=>a.reduce((x,c)=>x+(+c.value||0),0),rate=w.length+l.length?w.length/(w.length+l.length):0,tod=due.filter(c=>c.next===t).length,tot=Math.max(1,db.length);
+const C=251.33,ST=[['Lead','--st-lead'],['Talking','--st-talking'],['Mock-up sent','--st-mockup'],['Won','--st-won'],['Lost','--st-lost']],cn=ST.map(x=>db.filter(c=>c.stage===x[0]).length),dTot=cn.reduce((a,b)=>a+b,0),dEmpty=!dTot,dc=dEmpty?[3,2,2,1,1]:cn,dt=dc.reduce((a,b)=>a+b,0);let acc=0;
+const segs=ST.map((x,i)=>{const L=C*dc[i]/dt;const e=`<circle class="seg" cx="50" cy="50" r="40" stroke="var(${x[1]})" stroke-dasharray="${Math.max(0,L-(dc.filter(Boolean).length>1?2:0))} ${C}" stroke-dashoffset="${-acc}" style="animation-delay:${i*90}ms"/>`;acc+=L;return dc[i]?e:''}).join('');
+// momentum
+const N=14,mc=dayCounts(N),mE=!mc.some(Boolean),md=mE?[1,3,2,5,4,6,5,8,6,7,9,8,10,12]:mc,mx=Math.max(1,...md),pts=md.map((n,i)=>[i*(300/(N-1)),84-(n/mx)*68]),cv=curve(pts),last=pts[N-1],sum7=mc.slice(-7).reduce((a,b)=>a+b,0),prev7=mc.slice(0,7).reduce((a,b)=>a+b,0);
+// rings
+const doneT=LOG.filter(x=>x.d===t&&x.k==='done').length,wk=addDays(-6),wins=w.filter(c=>(c.updated||c.created||'')>=wk).length,adds=LOG.filter(x=>x.d>=wk&&x.k==='add').length,g=goal(),A=5,B=10,L2=lvl(),stk=streak();
+const hero=`<div class="hero fade"><div class="txt"><div class="live"><i></i>${new Date().getHours()<12?'Good morning':new Date().getHours()<18?'Good afternoon':'Good evening'}</div><div class="big" data-n="${due.length}">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase right now':due.length===1?'person to chase now':'people to chase now'}</div>
+<div class="rleg"><span><i style="background:#fff"></i>${doneT}/${A} chased</span><span><i style="background:#7CF5B4"></i>${wins}/${g} wins</span><span><i style="background:#8FB6FF"></i>${adds}/${B} added</span></div></div><div class="rings" onclick="setGoal()">${ringsSvg(doneT/A,wins/g,adds/B)}</div></div>`;
+const prog=`<div class="gc fade" style="margin-top:10px"><div class="streak"><span class="fire">${stk?'🔥':'✨'}</span><div style="flex:1"><b style="font-size:17px">${stk?stk+' day streak':'Start your streak today'}</b><div class="sub" style="margin:0">Level ${L2.L} · ${L2.name} · ${L2.x} XP</div></div></div><div class="xp" style="background:var(--bg2)"><b style="width:${Math.round(L2.p*100)}%;background:var(--acc)"></b></div><div class="lvl" style="color:var(--mute)"><span>${L2.next} XP to level ${L2.L+1}</span><span>Done +10 · Add +5 · Win +50</span></div></div>`;
+const mom=`<div class="gc mom fade" style="margin-top:10px;animation-delay:.08s"><div class="mhead"><div><div class="t" style="margin:0">Momentum · 14 days</div><b data-n="${sum7}">${sum7}</b> <span class="sub">actions this week${mE?'':sum7>=prev7?' ▲':' ▼'}</span></div></div>
+<svg viewBox="0 0 300 96" class="${mE?'ghost':''}" preserveAspectRatio="none"><defs><linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--acc);stop-opacity:.45"/><stop offset="1" style="stop-color:var(--acc);stop-opacity:0"/></linearGradient></defs>
+<line class="grid" x1="0" x2="300" y1="30" y2="30"/><line class="grid" x1="0" x2="300" y1="56" y2="56"/>
+<path class="ar" d="${cv} L300,96 L0,96Z" fill="url(#mg)"/><path class="ln" pathLength="1" d="${cv}"/><circle class="pulse" cx="${last[0]-4}" cy="${last[1]}" r="5"/><circle class="dot" cx="${last[0]-4}" cy="${last[1]}" r="5"/></svg>
+<div class="gsub">${mE?'Your momentum builds here as you chase, add and win':'Everything you do, day by day'}</div></div>`;
+const gauge=`<div class="gc fade" style="animation-delay:.14s"><div class="t">Win rate</div><svg class="gauge" viewBox="0 0 100 62"><path d="M10,50 A40,40 0 0 1 36,12.3" stroke="var(--warn)" opacity=".85"/><path d="M36,12.3 A40,40 0 0 1 64,12.3" stroke="var(--st-talking)" opacity=".85"/><path d="M64,12.3 A40,40 0 0 1 90,50" stroke="var(--ok)" opacity=".85"/><g class="nd" style="transform:rotate(${-90+180*rate}deg)"><line x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/><circle cx="50" cy="50" r="5.5" fill="var(--ink)"/></g></svg><div class="gnum" data-n="${Math.round(rate*100)}" data-s="%">${Math.round(rate*100)}%</div><div class="gsub" style="margin-top:2px">${w.length} won · ${l.length} lost</div></div>`;
+const donut=`<div class="gc fade" style="animation-delay:.2s"><div class="t">Your people</div><div class="dwrap ${dEmpty?'ghost':''}"><svg class="donut" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="var(--bg2)"/>${segs}</svg><div class="dmid"><div><b data-n="${dTot}">${dTot}</b><br><span>contacts</span></div></div></div><div class="leg">${dEmpty?'<span>Fills as you add people</span>':ST.map((x,i)=>cn[i]?`<span><i style="background:var(${x[1]})"></i>${x[0].replace('Mock-up sent','Mock-up')} ${cn[i]}</span>`:'').join('')}</div></div>`;
+// pipeline
+const PS=[['Lead','--st-lead'],['Talking','--st-talking'],['Mock-up sent','--st-mockup']],pv=PS.map(x=>val(db.filter(c=>c.stage===x[0]))),pT=pv.reduce((a,b)=>a+b,0),pE=!pT,pd=pE?[3,2,1]:pv,pdT=pd.reduce((a,b)=>a+b,0);
+const pipe=`<div class="gc fade pipe" style="animation-delay:.26s"><div class="mhead"><div><div class="t" style="margin:0">Pipeline</div><b data-n="${Math.round(pT)}" data-p="£">${gbp0(pT)}</b> <span class="sub">${gbp0(val(w))} won</span></div></div><div class="pbar ${pE?'ghost':''}">${PS.map((x,i)=>`<i style="width:${100*pd[i]/pdT}%;background:var(${x[1]});animation-delay:${i*120}ms"></i>`).join('')}</div><div class="pl">${PS.map((x,i)=>`<span><b>${gbp0(pv[i])}</b>${x[0].replace('Mock-up sent','Mock-up')}</span>`).join('')}</div></div>`;
+// heat
+const hc=dayCounts(14),hm=Math.max(1,...hc),heat=`<div class="gc fade" style="margin-top:10px;animation-delay:.3s"><div class="t">Last 14 days</div><div class="heat">${hc.map((n,i)=>`<i class="${i===13?'t':''}" style="${n?`background:var(--acc);opacity:${.3+.7*n/hm}`:''};animation-delay:${i*35}ms"></i>`).join('')}</div></div>`;
+const tiles=`<div class="tiles fade" style="animation-delay:.34s"><div class="tile ${od?'late':''}">${ring(od?1:0)}<div><div class="n" data-n="${od}">${od}</div><div class="t">Overdue</div></div></div><div class="tile">${ring(tod?1:0)}<div><div class="n" data-n="${tod}">${tod}</div><div class="t">Due today</div></div></div><div class="tile">${ring(o.length/tot)}<div><div class="n" data-n="${o.length}">${o.length}</div><div class="t">Open deals</div></div></div><div class="tile">${ring(Math.min(1,soon.length/10))}<div><div class="n" data-n="${soon.length}">${soon.length}</div><div class="t">Coming up</div></div></div></div>`;
+return {hero,body:prog+mom+`<div class="glance" style="margin-top:10px">${gauge}${donut}</div>`+pipe+heat+tiles}}
 function countUp(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('[data-n]').forEach(e=>{const n=+e.dataset.n,p=e.dataset.p||'',s=e.dataset.s||'';if(!n)return;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/800),v=Math.round(n*(1-Math.pow(1-k,3)));e.textContent=p+v.toLocaleString('en-GB')+s;if(k<1)requestAnimationFrame(f)})(t0)})}
 function tab(n){T=n;render()}
 function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));const v=$('#v');
@@ -188,7 +271,8 @@ if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter
 $('#ttl').textContent='Chase';
 const won=db.filter(c=>c.stage==='Won').length,openN=db.filter(open).length;
 const od=due.filter(c=>c.next<t).length;
-v.innerHTML=`<div class="hero fade"><div class="hello">${new Date().getHours()<12?'Good morning':new Date().getHours()<18?'Good afternoon':'Good evening'}</div><div class="big">${due.length}</div><div class="lbl">${due.length===0?'Nothing to chase right now':due.length===1?'person to chase now':'people to chase now'}</div><div class="chips"><span>${openN} open</span><span>${soon.length} coming up</span><span>${won} won</span></div></div>`+dash(due,soon,od)
+const D=dash(due,soon,od);
+v.innerHTML=D.hero+D.body
 +'<h2>Chase now</h2>'+(due.length?due.map(chaseCard).join(''):'<div class="slot">Nobody to chase. Add someone with the + button.</div>')
 +'<h2>Coming up</h2>'+(soon.length?soon.map((c,i)=>card(c,'',i)).join(''):'<div class="slot">Reminders you set show here.</div>')
 +(none.length?'<h2>No date set</h2>'+none.map((c,i)=>card(c,'',i)).join(''):'')}
@@ -205,7 +289,7 @@ if(T===2){$('#ttl').textContent='Data';v.innerHTML=`<div class="panel fade"><b>Y
 <div class="row"><button class="s" onclick="copy('json')">Copy backup</button></div>
 <label>Restore: paste a backup (JSON) or CSV, then tap Import (adds, doesn't wipe)</label><textarea class="big" id="imp"></textarea><div class="row"><button class="p" onclick="imp()">Import</button></div>
 <label>Emails-ok contacts, grouped by trade (for seasonal one-to-one messages)</label><div class="panel sub" id="grp">${grp()}</div>`}}
-function moveOn(id){const c=db.find(x=>x.id===id),P=['Lead','Talking','Mock-up sent','Won'];c.stage=P[Math.min(3,P.indexOf(c.stage)+1)];if(c.stage==='Won'){c.next='';c.action=''}c.updated=today();save();render()}
+function moveOn(id){const c=db.find(x=>x.id===id),P=['Lead','Talking','Mock-up sent','Won'];c.stage=P[Math.min(3,P.indexOf(c.stage)+1)];if(c.stage==='Won'){c.next='';c.action=''}c.updated=today();save();if(c.stage==='Won')logAct('win');render()}
 function render2(){const q=Q.toLowerCase();$('#list').innerHTML=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q))).map((c,i)=>card(c,'',i)).join('')}
 function grp(){const g={};db.filter(c=>c.emailOk&&c.stage!=='Do not contact').forEach(c=>(g[c.trade||'(no trade)']??=[]).push(c.name||c.business));return Object.entries(g).map(([k,v])=>`<b>${esc(k)}</b> ${esc(v.join(', '))}`).join('<br>')||'None yet. Tick "emails ok" only for customers or people who said yes.'}
 function edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textContent=id?'Edit':'Add contact';window.scrollTo(0,0);
@@ -218,10 +302,10 @@ f('value','Deal value (£)','number')+f('how','How we met')+f('action','Next act
 function qd(n){$('#f_next').value=addDays(n)}
 function sv(id){const c=db.find(x=>x.id===id)||{id:'c'+Date.now().toString(36),created:today()};
 ['name','business','trade','phone','email','stage','value','how','action','next','notes'].forEach(k=>c[k]=$('#f_'+k).value.trim());c.emailOk=$('#f_emailOk').checked;c.updated=today();
-if(!c.name&&!c.business){alert('Add a name or business');return}if(!db.includes(c))db.push(c);save();T=0;render()}
+if(!c.name&&!c.business){alert('Add a name or business');return}const isNew=!db.includes(c);if(isNew)db.push(c);save();if(isNew)logAct('add');T=0;render()}
 function del(id){if(confirm('Delete this contact?')){db=db.filter(c=>c.id!==id);save();T=1;render()}}
-function done(id){const c=db.find(x=>x.id===id);c.next='';c.action='';c.updated=today();save();render()}
-function snooze(id,n){db.find(x=>x.id===id).next=addDays(n);save();render()}
+function done(id){const c=db.find(x=>x.id===id);c.next='';c.action='';c.updated=today();save();logAct('done');render()}
+function snooze(id,n){db.find(x=>x.id===id).next=addDays(n);save();logAct('snooze');render()}
 const COLS=['name','business','trade','stage','value','phone','email','how','action','next','emailOk','notes','created'];
 function csv(){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return [COLS.join(','),...db.map(c=>COLS.map(k=>q(c[k])).join(','))].join('\n')}
 async function copy(w){const t=w==='csv'?csv():JSON.stringify(db);try{await navigator.clipboard.writeText(t);alert('Copied')}catch(e){T=2;prompt('Copy this',t)}}
@@ -269,13 +353,13 @@ function vHandle(raw){let t=raw.toLowerCase().replace(/[.!?]+$/,'').replace(/\s+
   let name=s,biz='';const bm=s.match(/^(.+?)\s+(?:from|at|of|who runs|runs|owns)\s+(.+)$/);if(bm){name=bm[1];biz=bm[2]}
   name=name.replace(/[, ]+$/,'').trim();if(!name){say('Who is the contact called?');return}
   const c={id:'c'+Date.now().toString(36),created:today(),updated:today(),name:tc(name),business:tc(biz.replace(/[, ]+$/,'')),trade,value:val,stage:'Lead',action:action||'Chase',next:w.date||'',notes:note,emailOk:false};
-  db.push(c);save();render();
+  db.push(c);save();logAct('add');render();
   if(w.date)say(`Added ${who(c)}${c.business&&c.name?' from '+c.business:''}. Reminder ${when(w.date)}.`);else{say(`Added ${who(c)}. When should I remind you? Say a day, or skip.`);vPend=c}return}
- if(m=t.match(/^(?:done|chased|finished|completed|tick off|i'?ve (?:chased|called|messaged|spoken to))\s+(.+)$/)){const c=pickOne(m[1]);if(c){c.next='';c.action='';c.updated=today();save();render();say(`Done. ${who(c)} is off your chase list.`)}return}
+ if(m=t.match(/^(?:done|chased|finished|completed|tick off|i'?ve (?:chased|called|messaged|spoken to))\s+(.+)$/)){const c=pickOne(m[1]);if(c){c.next='';c.action='';c.updated=today();save();logAct('done');render();say(`Done. ${who(c)} is off your chase list.`)}return}
  if(m=t.match(/^(?:snooze|remind me about|remind me to chase|chase|follow up with|follow up|push|move)\s+(.+)$/)){const w=parseWhen(m[1]);const c=pickOne(w.rest.replace(/\b(to|until|for|on)\s*$/,'').trim());if(c){if(!w.date){say(`When should I remind you about ${who(c)}?`);vPend=c;return}c.next=w.date;if(!c.action)c.action='Chase';c.updated=today();save();render();say(`OK, ${who(c)} is ${when(w.date)}.`)}return}
  if(/\b(how much|what'?s|what is|total)\b.*\b(pipeline|deals|worth|value)\b/.test(t)){const o=db.filter(open),n=o.reduce((x,c)=>x+(+c.value||0),0);say(`${o.length} open, worth £${n.toLocaleString('en-GB')} in the pipeline.`);return}
  if(m=t.match(/^(?:set |change )?(.+?)(?:'s)?\s+(?:value|worth|is worth|deal)\s+(?:to |at |is )?£?\s?(\d[\d,]*)/)){const c=pickOne(m[1]);if(c){c.value=m[2].replace(/,/g,'');c.updated=today();save();render();say(`${who(c)} is now worth £${(+c.value).toLocaleString('en-GB')}.`)}return}
- if(m=t.match(/^(?:mark|set|move|change)\s+(.+?)\s+(?:as|to)\s+(lead|talking|mock.?up sent|mock.?up|won|lost|do not contact|dead)$/)){const c=pickOne(m[1]);if(c){const k=m[2].replace(/\s/g,'');const s=/^mock/.test(k)?'Mock-up sent':k=='dead'?'Lost':STAGES.find(x=>x.toLowerCase().replace(/\s/g,'')==k);c.stage=s;if(!open(c)){c.next='';c.action=''}c.updated=today();save();render();say(`${who(c)} is now ${s}.`)}return}
+ if(m=t.match(/^(?:mark|set|move|change)\s+(.+?)\s+(?:as|to)\s+(lead|talking|mock.?up sent|mock.?up|won|lost|do not contact|dead)$/)){const c=pickOne(m[1]);if(c){const k=m[2].replace(/\s/g,'');const s=/^mock/.test(k)?'Mock-up sent':k=='dead'?'Lost':STAGES.find(x=>x.toLowerCase().replace(/\s/g,'')==k);c.stage=s;if(!open(c)){c.next='';c.action=''}c.updated=today();save();if(s==='Won')logAct('win');render();say(`${who(c)} is now ${s}.`)}return}
  if(m=t.match(/^(?:note|add note|add a note)\s+(?:to |for |on )?(.+?)\s*[:,]\s*(.+)$/)){const c=pickOne(m[1]);if(c){c.notes=(c.notes?c.notes+' | ':'')+m[2];c.updated=today();save();render();say(`Noted on ${who(c)}.`)}return}
  if(m=t.match(/^(?:tell me about|find|who is|show me|what about|look up)\s+(.+)$/)){const c=pickOne(m[1]);if(c)say(`${who(c)}${c.business&&c.name?', '+c.business:''}. ${c.stage}${c.trade?', '+c.trade:''}.${c.next?' Next: '+when(c.next)+(c.action?', '+c.action:''):' No reminder set.'}${c.notes?' Notes: '+c.notes:''}`);return}
  say("Sorry, I didn't get that. Say help to hear what I can do.")}
