@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Chase CRM</title>
+<title>Simple CRM</title>
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#12212B">
 <style>
 /* ===== THEME: change only this block to re-skin the whole app ===== */
@@ -193,15 +193,16 @@ textarea.big{height:160px;font-size:13px}
 .frow{display:flex;justify-content:space-between;font-size:14px;font-weight:600}.frow span:last-child{color:var(--mute);font-weight:500}
 .stg{font-size:15px;font-weight:800;margin:18px 2px 8px;display:flex;justify-content:space-between}.stg span{color:var(--mute);font-weight:600}
 .nb{font-style:normal;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--warn);color:#fff;font-size:11px;font-weight:800;place-items:center;line-height:1}
+.tabs button{white-space:nowrap;gap:4px;padding:11px 3px;font-size:13px}.tabs button svg{width:16px;height:16px}
 </style></head><body><div class="wrap">
 <header><div><h1 id="ttl">Chase</h1><div class="date" id="dt"></div></div><button class="add" onclick="edit()" aria-label="Add contact">+</button></header>
 <main id="v"></main></div>
-<nav class="tabs"><button id="t0" onclick="tab(0)"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Chase</button><button id="t3" onclick="tab(3)"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>Deals</button><button id="t1" onclick="tab(1)"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.3 2.4 3.5 6"/></svg>All</button><button id="t2" onclick="tab(2)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Data</button></nav>
-<button class="mic" id="mic" aria-label="Talk to Chase" onclick="vOpen()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
-<div class="sheet" id="sheet"><div class="top"><b>Talk to Chase</b><button class="s" onclick="vClose()" style="border:0;background:none;color:var(--mute);font-size:15px">Close</button></div>
+<nav class="tabs"><button id="t0" onclick="tab(0)"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>To chase</button><button id="t3" onclick="tab(3)"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>Deals</button><button id="t1" onclick="tab(1)"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.3 2.4 3.5 6"/></svg>All</button><button id="t2" onclick="tab(2)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Data</button></nav>
+<button class="mic" id="mic" aria-label="Talk to your list" onclick="vOpen()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+<div class="sheet" id="sheet"><div class="top"><b>Talk to your list</b><button class="s" onclick="vClose()" style="border:0;background:none;color:var(--mute);font-size:15px">Close</button></div>
 <div class="log" id="vlog"></div>
 <div class="vrow"><input id="vin" placeholder="Type or tap the mic" autocomplete="off"><button class="go" onclick="vSend()">Send</button><button id="vlis" onclick="vListen()">Mic</button></div>
-<div class="hint">Try: "add Jo from Jo's Cafe, remind me Friday" · "who do I chase" · "done Jo" · "snooze Jo to Monday"</div></div>
+<div class="hint">Try: "add Jo from Jo's Cafe, chase Friday" · "who do I chase" · "done Jo" · "snooze Jo to Monday"</div></div>
 <script>
 const KEY='chase-crm-v1',STAGES=['Lead','Talking','Mock-up sent','Won','Lost','Do not contact'];
 let db=[],T=0,Q='',F='';
@@ -269,17 +270,17 @@ function tab(n){T=n;render()}
 function dueBadge(){const t=today(),n=db.filter(c=>open(c)&&c.next&&c.next<=t).length,b=$('#t0');
  let k=b.querySelector('.nb');if(!k){k=document.createElement('i');k.className='nb';b.appendChild(k)}k.textContent=n>9?'9+':n;k.style.display=n?'inline-grid':'none';
  try{n?navigator.setAppBadge&&navigator.setAppBadge(n):navigator.clearAppBadge&&navigator.clearAppBadge()}catch(e){}
- document.title=n?'('+n+') Chase CRM':'Chase CRM'}
+ document.title=n?'('+n+') Simple CRM':'Simple CRM'}
 function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));dueBadge();const v=$('#v');
 $('#dt').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});window.scrollTo(0,0);
 if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter(c=>c.next<=t).sort((a,b)=>a.next>b.next?1:-1),soon=act.filter(c=>c.next>t).sort((a,b)=>a.next>b.next?1:-1),none=db.filter(c=>open(c)&&!c.next);
-$('#ttl').textContent='Chase';
+$('#ttl').textContent='To chase';
 const won=db.filter(c=>c.stage==='Won').length,openN=db.filter(open).length;
 const od=due.filter(c=>c.next<t).length;
 const D=dash(due,soon,od);
 v.innerHTML=D.hero+D.body
 +'<h2>Chase now</h2>'+(due.length?due.map(chaseCard).join(''):'<div class="slot">Nobody to chase. Add someone with the + button.</div>')
-+'<h2>Coming up</h2>'+(soon.length?soon.map((c,i)=>card(c,'',i)).join(''):'<div class="slot">Reminders you set show here.</div>')
++'<h2>Coming up</h2>'+(soon.length?soon.map((c,i)=>card(c,'',i)).join(''):'<div class="slot">Follow-ups you set show here.</div>')
 +(none.length?'<h2>No date set</h2>'+none.map((c,i)=>card(c,'',i)).join(''):'')}
 if(T===3){$('#ttl').textContent='Deals';const PIPE=['Lead','Talking','Mock-up sent','Won'],val=c=>+c.value||0,sum=a=>a.reduce((x,c)=>x+val(c),0),gbp=n=>'£'+n.toLocaleString('en-GB');
 const op=db.filter(open),won=db.filter(c=>c.stage==='Won'),lost=db.filter(c=>c.stage==='Lost'),rate=won.length+lost.length?Math.round(100*won.length/(won.length+lost.length)):null;
@@ -324,7 +325,7 @@ function edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textCo
 const f=(k,l,t='text')=>`<label>${l}</label><input type="${t}" id="f_${k}" value="${esc(c[k])}">`;
 $('#v').innerHTML='<div class="fade">'+f('name','Name')+f('business','Business')+f('trade','Trade (cleaner, barber…)')+f('phone','Phone','tel')+f('email','Email','email')+
 `<label>Stage</label><select id="f_stage">${STAGES.map(s=>`<option ${c.stage===s?'selected':''}>${s}</option>`).join('')}</select>`+
-f('value','Deal value (£)','number')+f('prob','Chance to close % (blank = stage default)','number')+`<label>Expected close month</label><input type="month" id="f_close" value="${esc(c.close)}">`+f('how','How we met')+f('action','Next action')+`<label>Remind me on</label><input type="date" id="f_next" value="${esc(c.next)}"><div class="row"><button class="s" onclick="qd(1)">Tomorrow</button><button class="s" onclick="qd(3)">3 days</button><button class="s" onclick="qd(7)">Next week</button></div>`+
+f('value','Deal value (£)','number')+f('prob','Chance to close % (blank = stage default)','number')+`<label>Expected close month</label><input type="month" id="f_close" value="${esc(c.close)}">`+f('how','How we met')+f('action','Next action')+`<label>Follow up on</label><input type="date" id="f_next" value="${esc(c.next)}"><div class="row"><button class="s" onclick="qd(1)">Tomorrow</button><button class="s" onclick="qd(3)">3 days</button><button class="s" onclick="qd(7)">Next week</button></div>`+
 `<label>Notes</label><textarea id="f_notes" rows="4">${esc(c.notes)}</textarea><label><input type="checkbox" id="f_emailOk" ${c.emailOk?'checked':''}> Emails ok (customer, or said yes to emails)</label>
 <div class="row" style="margin-top:18px"><button class="p" onclick="sv('${id||''}')">Save</button><button class="s" onclick="render()">Cancel</button>${id?`<button class="s" onclick="del('${id}')">Delete</button>`:''}</div></div>`}
 function qd(n){$('#f_next').value=addDays(n)}
@@ -369,10 +370,10 @@ function chaseList(){const t=today(),due=db.filter(c=>open(c)&&c.next&&c.next<=t
 function pickOne(q,verb){const r=findC(q);if(!r.length){say(`I can't find anyone called "${q}".`);return null}
  if(r.length>1){say(`Which one: ${r.slice(0,4).map(who).join(', or ')}? Say the full name.`);return null}return r[0]}
 function vHandle(raw){let t=raw.toLowerCase().replace(/[.!?]+$/,'').replace(/\s+/g,' ').trim();if(!t)return;me(raw);
- if(vPend){const p=vPend;vPend=null;if(/^(no|none|nope|skip|never mind|nothing)\b/.test(t)){say(`OK, ${who(p)} saved with no reminder.`);return}
-  const w=parseWhen(t);if(w.date){p.next=w.date;p.updated=today();save();render();say(`Reminder set for ${who(p)}, ${when(w.date)}.`);return}say("Sorry, I didn't catch the day. Say something like tomorrow, Friday or in 3 days, or say skip.");vPend=p;return}
+ if(vPend){const p=vPend;vPend=null;if(/^(no|none|nope|skip|never mind|nothing)\b/.test(t)){say(`OK, ${who(p)} saved with no date.`);return}
+  const w=parseWhen(t);if(w.date){p.next=w.date;p.updated=today();save();render();say(`On your list: ${who(p)}, ${when(w.date)}.`);return}say("Sorry, I didn't catch the day. Say something like tomorrow, Friday or in 3 days, or say skip.");vPend=p;return}
  let m;
- if(/^(help|what can you do)/.test(t)){say('You can say: add Jo from Jo\'s Cafe, remind me Friday. Who do I chase. Done Jo. Snooze Jo to Monday. Mark Jo as won. Tell me about Jo.');return}
+ if(/^(help|what can you do)/.test(t)){say('You can say: add Jo from Jo\'s Cafe, chase Friday. Who do I chase. Done Jo. Snooze Jo to Monday. Mark Jo as won. Tell me about Jo.');return}
  if(/\b(who|what)\b.*\b(chase|due|overdue|follow|do i need|today)\b|^(chase list|what'?s due|anything due)/.test(t)){say(chaseList());return}
  if(m=t.match(/^(?:add|new contact|create contact|create|save)\s+(?:a |an )?(?:new )?(?:contact |lead )?(.+)$/)){let s=m[1];const w=parseWhen(s);s=w.rest;let val='';const vm=s.match(/(?:worth |valued at |value of )?£\s?(\d[\d,]*)|worth (\d[\d,]*)|(\d[\d,]*) (?:pounds|quid)/);if(vm){val=(vm[1]||vm[2]||vm[3]).replace(/,/g,'');s=s.replace(vm[0],' ')}
   let action='';const am=s.match(/\b(?:remind me|reminder|chase|follow up|and remind me)\b\s*(?:to |about |on |for )?(.*)$/);if(am){action=am[1].trim();s=s.slice(0,am.index)}
@@ -382,16 +383,16 @@ function vHandle(raw){let t=raw.toLowerCase().replace(/[.!?]+$/,'').replace(/\s+
   name=name.replace(/[, ]+$/,'').trim();if(!name){say('Who is the contact called?');return}
   const c={id:'c'+Date.now().toString(36),created:today(),updated:today(),name:tc(name),business:tc(biz.replace(/[, ]+$/,'')),trade,value:val,stage:'Lead',action:action||'Chase',next:w.date||'',notes:note,emailOk:false};
   db.push(c);save();logAct('add');render();
-  if(w.date)say(`Added ${who(c)}${c.business&&c.name?' from '+c.business:''}. Reminder ${when(w.date)}.`);else{say(`Added ${who(c)}. When should I remind you? Say a day, or skip.`);vPend=c}return}
+  if(w.date)say(`Added ${who(c)}${c.business&&c.name?' from '+c.business:''}. On your list for ${when(w.date)}.`);else{say(`Added ${who(c)}. Which day should I put them on your list? Say a day, or skip.`);vPend=c}return}
  if(m=t.match(/^(?:done|chased|finished|completed|tick off|i'?ve (?:chased|called|messaged|spoken to))\s+(.+)$/)){const c=pickOne(m[1]);if(c){c.next='';c.action='';c.updated=today();save();logAct('done');render();say(`Done. ${who(c)} is off your chase list.`)}return}
- if(m=t.match(/^(?:snooze|remind me about|remind me to chase|chase|follow up with|follow up|push|move)\s+(.+)$/)){const w=parseWhen(m[1]);const c=pickOne(w.rest.replace(/\b(to|until|for|on)\s*$/,'').trim());if(c){if(!w.date){say(`When should I remind you about ${who(c)}?`);vPend=c;return}c.next=w.date;if(!c.action)c.action='Chase';c.updated=today();save();render();say(`OK, ${who(c)} is ${when(w.date)}.`)}return}
+ if(m=t.match(/^(?:snooze|remind me about|remind me to chase|chase|follow up with|follow up|push|move)\s+(.+)$/)){const w=parseWhen(m[1]);const c=pickOne(w.rest.replace(/\b(to|until|for|on)\s*$/,'').trim());if(c){if(!w.date){say(`Which day for ${who(c)}?`);vPend=c;return}c.next=w.date;if(!c.action)c.action='Chase';c.updated=today();save();render();say(`OK, ${who(c)} is ${when(w.date)}.`)}return}
 if(/\b(forecast|report|predict|expect)/.test(t)){const nm=MONTHS.findIndex(x=>t.includes(x)||t.includes(x.slice(0,3)+' '));let m=/next month/.test(t)?nextM():/this month/.test(t)?nowM():null;if(m===null&&nm>=0){const y=new Date().getFullYear(),d=new Date();m=(nm<d.getMonth()?y+1:y)+'-'+String(nm+1).padStart(2,'0')}
   if(m)say(fcMonth(m));else{const x=fcData(),tw=x.deals.reduce((a,d)=>a+d.w,0);say(`${x.deals.length} open deals, about ${gb(tw)} expected. ${x.months.slice(0,3).map(y=>fcMonth(y.m)).join(' ')} Open the Deals tab for the full report.`)}return}
  if(/\b(how much|what'?s|what is|total)\b.*\b(pipeline|deals|worth|value)\b/.test(t)){const o=db.filter(open),n=o.reduce((x,c)=>x+(+c.value||0),0);say(`${o.length} open, worth £${n.toLocaleString('en-GB')} in the pipeline.`);return}
  if(m=t.match(/^(?:set |change )?(.+?)(?:'s)?\s+(?:value|worth|is worth|deal)\s+(?:to |at |is )?£?\s?(\d[\d,]*)/)){const c=pickOne(m[1]);if(c){c.value=m[2].replace(/,/g,'');c.updated=today();save();render();say(`${who(c)} is now worth £${(+c.value).toLocaleString('en-GB')}.`)}return}
  if(m=t.match(/^(?:mark|set|move|change)\s+(.+?)\s+(?:as|to)\s+(lead|talking|mock.?up sent|mock.?up|won|lost|do not contact|dead)$/)){const c=pickOne(m[1]);if(c){const k=m[2].replace(/\s/g,'');const s=/^mock/.test(k)?'Mock-up sent':k=='dead'?'Lost':STAGES.find(x=>x.toLowerCase().replace(/\s/g,'')==k);c.stage=s;if(!open(c)){c.next='';c.action=''}c.updated=today();save();if(s==='Won')logAct('win');render();say(`${who(c)} is now ${s}.`)}return}
  if(m=t.match(/^(?:note|add note|add a note)\s+(?:to |for |on )?(.+?)\s*[:,]\s*(.+)$/)){const c=pickOne(m[1]);if(c){c.notes=(c.notes?c.notes+' | ':'')+m[2];c.updated=today();save();render();say(`Noted on ${who(c)}.`)}return}
- if(m=t.match(/^(?:tell me about|find|who is|show me|what about|look up)\s+(.+)$/)){const c=pickOne(m[1]);if(c)say(`${who(c)}${c.business&&c.name?', '+c.business:''}. ${c.stage}${c.trade?', '+c.trade:''}.${c.next?' Next: '+when(c.next)+(c.action?', '+c.action:''):' No reminder set.'}${c.notes?' Notes: '+c.notes:''}`);return}
+ if(m=t.match(/^(?:tell me about|find|who is|show me|what about|look up)\s+(.+)$/)){const c=pickOne(m[1]);if(c)say(`${who(c)}${c.business&&c.name?', '+c.business:''}. ${c.stage}${c.trade?', '+c.trade:''}.${c.next?' Next: '+when(c.next)+(c.action?', '+c.action:''):' No date set.'}${c.notes?' Notes: '+c.notes:''}`);return}
  say("Sorry, I didn't get that. Say help to hear what I can do.")}
 function vOpen(){$('#sheet').classList.add('on');if(!$('#vlog').children.length)say(SR?'Hi, tap Mic and tell me who to add or who to chase. Say help for ideas.':'Hi, type what you need. Say help for ideas. (Voice needs Chrome.)');}
 function vClose(){$('#sheet').classList.remove('on');vStop();try{speechSynthesis.cancel()}catch(e){}}
