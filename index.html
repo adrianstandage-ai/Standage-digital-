@@ -275,6 +275,15 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .sticky .btn{width:100%;max-width:660px;margin:0 auto;display:flex;box-shadow:0 8px 24px -8px #0008}
 @media (min-width:820px){.hero.home .wrap{grid-template-columns:1.1fr .9fr;align-items:center;column-gap:30px}.hero.home .wrap>*{grid-column:1}.hero.home .wrap>.stage{grid-column:2;grid-row:1/6}}
 
+.meet{background:var(--bg)}
+.meet .wrap{padding-block:44px 8px}
+.meetcard{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:0 18px 40px -26px #12212b66}
+.meetcard img{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:50% 35%;border:3px solid var(--accent);box-shadow:0 0 0 5px #F2B7052e}
+.meetcard h2{margin:0 0 4px;font-family:var(--display);font-size:1.35rem}
+.meetcard p{margin:0 0 12px;color:var(--muted);font-size:.98rem;line-height:1.45}
+.meetcard .btn{padding:11px 18px;font-size:.95rem}
+@media (max-width:380px){.meetcard{grid-template-columns:1fr;justify-items:center;text-align:center}}
+@media (min-width:820px){.meetcard{padding:26px 30px;gap:28px}.meetcard img{width:150px;height:150px}.meetcard h2{font-size:1.7rem}}
 /* real demo showcase */
 .demos{background:var(--band);color:var(--band-fg);position:relative;overflow:hidden}
 .demos::before{content:"";position:absolute;inset:-20% -30% auto -30%;height:70%;background:radial-gradient(closest-side,#F2B70533,transparent 70%);pointer-events:none}
@@ -296,7 +305,7 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .dcard p{margin:0;color:var(--band-muted);max-width:34ch}
 .dcard .btn.ghost{color:#fff}
 .dfoot{margin:6px auto 0;text-align:center;font-size:.82rem;color:var(--band-muted);max-width:52ch}
-@media (min-width:820px){.dphone{width:288px}.dcard{--tilt:-2deg}}
+.dgrid{}@media (min-width:820px){.dgrid{grid-template-columns:1fr 1fr;gap:30px;align-items:start}.dphone{width:288px}.dcard:nth-child(1){--tilt:-3deg}.dcard:nth-child(2){--tilt:3deg;margin-top:34px}}
 @media (prefers-reduced-motion:reduce){.dscreen img{animation:none!important}.dscreen{overflow:auto}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -551,8 +560,8 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 
 <section class="demos" id="demos" aria-labelledby="demosh"><div class="wrap">
   <span class="eyebrow rv">See what I can build</span>
-  <h2 class="rv" style="--d:1" id="demosh">A full website. Tap it and try it.</h2>
-  <p class="lead rv" style="--d:2">A made-up business, built the same way as yours. A real page you can scroll, tap and order on, not just a picture.</p>
+  <h2 class="rv" style="--d:1" id="demosh">Two full websites. Tap one and try it.</h2>
+  <p class="lead rv" style="--d:2">Made-up businesses, built the same way as yours. Real pages you can scroll, tap and book on, not just pictures.</p>
   <div class="dgrid">
     <article class="dcard rv" style="--d:2;--glow:#c0562b">
       <a class="dphone" style="--dur:75s" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener" aria-label="Open the Izakaya Sakura demo website in a new tab"><div class="dscreen"><img src="showcase/izakaya-scroll.webp" width="480" height="10049" loading="lazy" decoding="async" alt="Scrolling preview of the Izakaya Sakura demo website, a made-up Japanese restaurant"></div></a>
@@ -561,9 +570,25 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
       <p>Menu, ordering, booking and a guided tour. Built for a restaurant, but the same ideas work for a café or takeaway.</p>
       <a class="btn primary" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener">Open the live demo</a>
     </article>
+    <article class="dcard rv" style="--d:3;--glow:#2a8fdb">
+      <a class="dphone" style="--dur:40s" href="showcase/willow-wren/index.html" target="_blank" rel="noopener" aria-label="Open the Willow and Wren Cleaning demo website in a new tab"><div class="dscreen"><img src="showcase/cleaning-scroll.webp" width="480" height="__H__" loading="lazy" decoding="async" alt="Scrolling preview of the Willow and Wren Cleaning demo website, a made-up cleaning business"></div></a>
+      <span class="dtag">Demo · fictional cleaner</span>
+      <h3>Willow &amp; Wren Cleaning</h3>
+      <p>A waiting-list page for a busy one-person service: prices, a simple join form and a friendly feel.</p>
+      <a class="btn primary" href="showcase/willow-wren/index.html" target="_blank" rel="noopener">Open the live demo</a>
+    </article>
   </div>
-  <p class="dfoot rv">A made-up business with AI-generated images, shown to demonstrate the work. Yours would use your name, your prices and your own photos.</p>
+  <p class="dfoot rv">Both are made-up businesses with AI-generated images, shown to demonstrate the work. Yours would use your name, your prices and your own photos.</p>
   <div class="cta-row rv" style="justify-content:center"><a class="btn ghost" style="color:#fff" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Get my free draft</a></div>
+</div></section>
+
+<section class="meet" aria-labelledby="meeth"><div class="wrap">
+  <div class="meetcard rv">
+    <img src="img/adrian.jpg" width="104" height="104" loading="lazy" decoding="async" alt="Adrian Standage, who builds and looks after your website">
+    <div><h2 id="meeth">Hi, I'm Adrian</h2>
+    <p>I live in Basingstoke, and I build and look after your website myself. You message me, I do it.</p>
+    <a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Message me on WhatsApp</a></div>
+  </div>
 </div></section>
 
 <section class="conv" aria-labelledby="convh"><div class="pin">
