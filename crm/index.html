@@ -321,18 +321,26 @@ function copyReport(){const t=fcText();try{navigator.clipboard.writeText(t).then
 function moveOn(id){const c=db.find(x=>x.id===id),P=['Lead','Talking','Mock-up sent','Won'];c.stage=P[Math.min(3,P.indexOf(c.stage)+1)];if(c.stage==='Won'){c.next='';c.action=''}c.updated=today();save();if(c.stage==='Won')logAct('win');render()}
 function render2(){const q=Q.toLowerCase();$('#list').innerHTML=db.filter(c=>(!F||c.stage===F)&&(!q||JSON.stringify(c).toLowerCase().includes(q))).map((c,i)=>card(c,'',i)).join('')}
 function grp(){const g={};db.filter(c=>c.emailOk&&c.stage!=='Do not contact').forEach(c=>(g[c.trade||'(no trade)']??=[]).push(c.name||c.business));return Object.entries(g).map(([k,v])=>`<b>${esc(k)}</b> ${esc(v.join(', '))}`).join('<br>')||'None yet. Tick "emails ok" only for customers or people who said yes.'}
-function edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textContent=id?'Edit':'Add contact';window.scrollTo(0,0);
+function _edit(id){const c=db.find(x=>x.id===id)||{stage:'Lead'};$('#ttl').textContent=id?'Edit':'Add contact';window.scrollTo(0,0);
 const f=(k,l,t='text')=>`<label>${l}</label><input type="${t}" id="f_${k}" value="${esc(c[k])}">`;
 $('#v').innerHTML='<div class="fade">'+f('name','Name')+f('business','Business')+f('trade','Trade (cleaner, barber…)')+f('phone','Phone','tel')+f('email','Email','email')+
 `<label>Stage</label><select id="f_stage">${STAGES.map(s=>`<option ${c.stage===s?'selected':''}>${s}</option>`).join('')}</select>`+
 f('value','Deal value (£)','number')+f('prob','Chance to close % (blank = stage default)','number')+`<label>Expected close month</label><input type="month" id="f_close" value="${esc(c.close)}">`+f('how','How we met')+f('action','Next action')+`<label>Follow up on</label><input type="date" id="f_next" value="${esc(c.next)}"><div class="row"><button class="s" onclick="qd(1)">Tomorrow</button><button class="s" onclick="qd(3)">3 days</button><button class="s" onclick="qd(7)">Next week</button></div>`+
 `<label>Notes</label><textarea id="f_notes" rows="4">${esc(c.notes)}</textarea><label><input type="checkbox" id="f_emailOk" ${c.emailOk?'checked':''}> Emails ok (customer, or said yes to emails)</label>
-<div class="row" style="margin-top:18px"><button class="p" onclick="sv('${id||''}')">Save</button><button class="s" onclick="render()">Cancel</button>${id?`<button class="s" onclick="del('${id}')">Delete</button>`:''}</div></div>`}
+<div class="row" style="margin-top:18px"><button class="p" onclick="sv('${id||''}')">Save</button><button class="s" onclick="cancelEdit()">Cancel</button>${id?`<button class="s" onclick="del('${id}')">Delete</button>`:''}</div></div>`}
+let EDIT=false;const DK='chase-draft-v1',FIELDS=['name','business','trade','phone','email','stage','value','prob','close','how','action','next','notes'];
+function clearDraft(){try{localStorage.removeItem(DK)}catch(e){}}
+function cancelEdit(){clearDraft();render()}
+function edit(id,draft){_edit(id);EDIT=true;const v=$('#v');
+ if(draft){FIELDS.forEach(k=>{const el=$('#f_'+k);if(el&&draft.v[k]!==undefined)el.value=draft.v[k]});const e=$('#f_emailOk');if(e)e.checked=!!draft.v.emailOk;v.insertAdjacentHTML('afterbegin','<div class="sub" style="margin:0 0 8px;font-weight:700">Restored your unsaved changes.</div>')}
+ const sd=()=>{try{const o={};FIELDS.forEach(k=>{const el=$('#f_'+k);if(el)o[k]=el.value});const e=$('#f_emailOk');o.emailOk=e?e.checked:false;localStorage.setItem(DK,JSON.stringify({id:id||'',v:o,t:Date.now()}))}catch(e){}};
+ v.oninput=sd;v.onchange=sd}
+function restoreDraft(){try{const d=JSON.parse(localStorage.getItem(DK)||'null');if(!d||Date.now()-d.t>3*864e5)return;const has=Object.values(d.v).some(x=>x&&x!==true&&x!=='Lead');if(!has){clearDraft();return}if(d.id&&!db.find(c=>c.id===d.id)){clearDraft();return}edit(d.id,d)}catch(e){}}
 function qd(n){$('#f_next').value=addDays(n)}
 function sv(id){const c=db.find(x=>x.id===id)||{id:'c'+Date.now().toString(36),created:today()};
 ['name','business','trade','phone','email','stage','value','prob','close','how','action','next','notes'].forEach(k=>c[k]=$('#f_'+k).value.trim());c.emailOk=$('#f_emailOk').checked;c.updated=today();
-if(!c.name&&!c.business){alert('Add a name or business');return}const isNew=!db.includes(c);if(isNew)db.push(c);save();if(isNew)logAct('add');T=0;render()}
-function del(id){if(confirm('Delete this contact?')){db=db.filter(c=>c.id!==id);save();T=1;render()}}
+if(!c.name&&!c.business){alert('Add a name or business');return}const isNew=!db.includes(c);if(isNew)db.push(c);save();clearDraft();if(isNew)logAct('add');T=0;render()}
+function del(id){if(confirm('Delete this contact?')){db=db.filter(c=>c.id!==id);save();clearDraft();T=1;render()}}
 function done(id){const c=db.find(x=>x.id===id);c.next='';c.action='';c.updated=today();save();logAct('done');render()}
 function snooze(id,n){db.find(x=>x.id===id).next=addDays(n);save();logAct('snooze');render()}
 const COLS=['name','business','trade','stage','value','prob','close','phone','email','how','action','next','emailOk','notes','created'];
@@ -343,7 +351,7 @@ function dl(){const a=document.createElement('a');a.href=URL.createObjectURL(new
 function parseCSV(t){const r=[];let row=[],f='',q=false;for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=ch}else if(ch=='"')q=true;else if(ch==','){row.push(f);f=''}else if(ch=='\n'){row.push(f);r.push(row);row=[];f=''}else if(ch!='\r')f+=ch}row.push(f);r.push(row);return r}
 function imp(){const t=$('#imp').value.trim();if(!t)return;let add=[];try{if(t[0]=='['||t[0]=='{')add=JSON.parse(t);else{const r=parseCSV(t),h=r[0];add=r.slice(1).filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]])))}}catch(e){alert('Could not read that');return}
 add.forEach(a=>{a.id=a.id||'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);a.stage=STAGES.includes(a.stage)?a.stage:'Lead';a.emailOk=a.emailOk===true||a.emailOk==='true';if(!db.some(c=>c.id===a.id))db.push(a)});save();alert('Imported '+add.length);render()}
-const _r=render;render=function(){_r();if(T===0)countUp()};render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+const _r=render;render=function(){EDIT=false;_r();if(T===0)countUp()};render();restoreDraft();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 /* ===== VOICE: free in-browser speech, no AI service, data stays on the phone ===== */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let vRec=null,vPend=null,vOn=false,vSpeak=true;
 const DAYS=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'],MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
@@ -404,5 +412,5 @@ function vListen(){if(!SR){say("Voice isn't available in this browser. Type inst
  vRec.onerror=e=>{vStop();say(e.error==='not-allowed'?'I need microphone permission. Tap the padlock by the address bar and allow the microphone.':e.error==='no-speech'?"I didn't hear anything. Tap Mic and try again.":'Mic problem. You can type instead.')};
  vRec.onend=()=>{if(vOn)vStop()};try{vRec.start()}catch(e){vStop()}}
 $('#vin').addEventListener('keydown',e=>{if(e.key==='Enter')vSend()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)render()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(EDIT)dueBadge();else render()}});
 </script></body></html>
