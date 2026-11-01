@@ -274,6 +274,30 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .sticky.show{transform:none}
 .sticky .btn{width:100%;max-width:660px;margin:0 auto;display:flex;box-shadow:0 8px 24px -8px #0008}
 @media (min-width:820px){.hero.home .wrap{grid-template-columns:1.1fr .9fr;align-items:center;column-gap:30px}.hero.home .wrap>*{grid-column:1}.hero.home .wrap>.stage{grid-column:2;grid-row:1/6}}
+
+/* real demo showcase */
+.demos{background:var(--band);color:var(--band-fg);position:relative;overflow:hidden}
+.demos::before{content:"";position:absolute;inset:-20% -30% auto -30%;height:70%;background:radial-gradient(closest-side,#F2B70533,transparent 70%);pointer-events:none}
+.demos .wrap{max-width:980px;padding-block:64px 70px;position:relative}
+.demos .eyebrow{color:var(--accent)}
+.demos h2{color:#fff}
+.demos .lead{color:var(--band-muted)}
+.dgrid{display:grid;gap:44px;margin-top:14px}
+.dcard{display:grid;gap:22px;justify-items:center;text-align:center}
+.dphone{position:relative;width:min(268px,72vw);aspect-ratio:390/844;border-radius:38px;padding:9px;background:linear-gradient(145deg,#2c3a44,#0a1217);box-shadow:0 30px 60px -18px #000c,0 0 0 1.5px #ffffff22 inset,0 0 80px -20px var(--glow,#F2B705);transform:rotate(var(--tilt,0deg));transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s;text-decoration:none;display:block}
+.dphone:hover,.dphone:focus-visible{transform:rotate(0) translateY(-6px) scale(1.02)}
+.dscreen{position:relative;width:100%;height:100%;border-radius:30px;overflow:hidden;background:#fff;container-type:size}
+.dscreen::before{content:"";position:absolute;top:7px;left:50%;width:84px;height:20px;margin-left:-42px;border-radius:12px;background:#0a1217;z-index:3}
+.dscreen img{display:block;width:100%;height:auto;will-change:transform;animation:dscroll var(--dur,50s) linear 1s infinite alternate;transform:translateY(0)}
+.dphone:hover .dscreen img,.dphone:focus-visible .dscreen img{animation-play-state:paused}
+@keyframes dscroll{to{transform:translateY(calc(-100% + 100cqh))}}
+.dtag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:99px;background:#ffffff14;color:var(--band-muted);border:1px solid #ffffff22}
+.dcard h3{margin:0;font-family:var(--display);font-size:1.5rem;color:#fff}
+.dcard p{margin:0;color:var(--band-muted);max-width:34ch}
+.dcard .btn.ghost{color:#fff}
+.dfoot{margin:6px auto 0;text-align:center;font-size:.82rem;color:var(--band-muted);max-width:52ch}
+@media (min-width:820px){.dgrid{grid-template-columns:1fr 1fr;gap:30px;align-items:start}.dphone{width:288px}.dcard:nth-child(1){--tilt:-3deg}.dcard:nth-child(2){--tilt:3deg;margin-top:34px}}
+@media (prefers-reduced-motion:reduce){.dscreen img{animation:none!important}.dscreen{overflow:auto}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .marq div{animation:none}html{scroll-behavior:auto}
@@ -510,7 +534,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 <header class="hero home"><i class="aur a"></i><i class="aur b"></i><i class="aur c"></i><div class="wrap">
   <h1 data-split>A proper website for your business. <em>You message me, it's done.</em></h1>
   <p class="lead">I'm Adrian Standage, and I live in Basingstoke. I build your site, then look after it, so you never have to touch a thing.</p>
-  <div class="cta-row"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Get my free draft</a><a class="btn ghost" href="#looks">See examples</a></div>
+  <div class="cta-row"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Get my free draft</a><a class="btn ghost" href="#demos">See examples</a></div>
   <p class="first5">First 5 businesses: <b>£199 setup</b>, free draft first.</p>
   <div class="stage">
     <i class="glow"></i>
@@ -524,6 +548,30 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 </div></header>
 
 <div class="marq" aria-hidden="true"><div><span>Barbers</span><span>Hair and nails</span><span>Cafés</span><span>Restaurants</span><span>Takeaways</span><span>Garages</span><span>Electricians</span><span>Plumbers</span><span>Builders</span><span>Dog groomers</span><span>Local businesses</span><span>Barbers</span><span>Hair and nails</span><span>Cafés</span><span>Restaurants</span><span>Takeaways</span><span>Garages</span><span>Electricians</span><span>Plumbers</span><span>Builders</span><span>Dog groomers</span><span>Local businesses</span></div></div>
+
+<section class="demos" id="demos" aria-labelledby="demosh"><div class="wrap">
+  <span class="eyebrow rv">See what I can build</span>
+  <h2 class="rv" style="--d:1" id="demosh">Two full websites. Tap one and try it.</h2>
+  <p class="lead rv" style="--d:2">Made-up businesses, built the same way as yours. Real pages you can scroll, tap and book on, not just pictures.</p>
+  <div class="dgrid">
+    <article class="dcard rv" style="--d:2;--glow:#c0562b">
+      <a class="dphone" style="--dur:75s" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener" aria-label="Open the Izakaya Sakura demo website in a new tab"><div class="dscreen"><img src="showcase/izakaya-scroll.webp" width="480" height="10049" loading="lazy" decoding="async" alt="Scrolling preview of the Izakaya Sakura demo website, a made-up Japanese restaurant"></div></a>
+      <span class="dtag">Demo · fictional restaurant</span>
+      <h3>Izakaya Sakura</h3>
+      <p>Menu, ordering, booking and a guided tour. Built for a restaurant, but the same ideas work for a café or takeaway.</p>
+      <a class="btn primary" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener">Open the live demo</a>
+    </article>
+    <article class="dcard rv" style="--d:3;--glow:#2a8fdb">
+      <a class="dphone" style="--dur:40s" href="showcase/willow-wren/index.html" target="_blank" rel="noopener" aria-label="Open the Willow and Wren Cleaning demo website in a new tab"><div class="dscreen"><img src="showcase/cleaning-scroll.webp" width="480" height="4676" loading="lazy" decoding="async" alt="Scrolling preview of the Willow and Wren Cleaning demo website, a made-up cleaning business"></div></a>
+      <span class="dtag">Demo · fictional cleaner</span>
+      <h3>Willow &amp; Wren Cleaning</h3>
+      <p>A waiting-list page for a busy one-person service: prices, a simple join form and a friendly feel.</p>
+      <a class="btn primary" href="showcase/willow-wren/index.html" target="_blank" rel="noopener">Open the live demo</a>
+    </article>
+  </div>
+  <p class="dfoot rv">Both are made-up businesses with AI-generated images, shown to demonstrate the work. Yours would use your name, your prices and your own photos.</p>
+  <div class="cta-row rv" style="justify-content:center"><a class="btn ghost" style="color:#fff" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Get my free draft</a></div>
+</div></section>
 
 <section class="conv" aria-labelledby="convh"><div class="pin">
   <span class="eyebrow" style="color:var(--band-muted)">One page for it all</span>
