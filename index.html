@@ -284,6 +284,51 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .meetcard .btn{padding:11px 18px;font-size:.95rem}
 @media (max-width:380px){.meetcard{grid-template-columns:1fr;justify-items:center;text-align:center}}
 @media (min-width:820px){.meetcard{padding:26px 30px;gap:28px}.meetcard img{width:150px;height:150px}.meetcard h2{font-size:1.7rem}}
+
+/* live app + digital tiles */
+.live{display:grid;gap:14px;justify-items:center;text-align:center;margin-top:6px}
+.lphone{position:relative;width:min(292px,76vw);aspect-ratio:390/844;border-radius:40px;padding:10px;background:linear-gradient(145deg,#2c3a44,#0a1217);box-shadow:0 30px 70px -18px #000c,0 0 0 1.5px #ffffff22 inset,0 0 90px -24px #1E8A5A}
+.lscr{position:relative;width:100%;height:100%;border-radius:31px;overflow:hidden;background:#f5f0e6}
+.lscr iframe{position:absolute;left:0;top:0;width:390px;height:844px;border:0;background:#f5f0e6;transform-origin:0 0;transform:scale(var(--s,.7))}
+.lposter{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ltap{position:absolute;inset:0;display:grid;place-items:end center;padding-bottom:22px;background:linear-gradient(#0000 55%,#0b141a99);border:0;cursor:pointer;font-family:inherit}
+.lgo{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:13px 20px;border-radius:99px;box-shadow:0 10px 26px -8px #000a;animation:lpulse 2.2s ease-in-out infinite}
+.lgo i{width:0;height:0;border-left:11px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
+@keyframes lpulse{50%{transform:scale(1.06)}}
+.lcap{margin:0;max-width:36ch;color:#fff;font-size:1rem;line-height:1.45}
+.lcap b{color:var(--accent)}
+.lhint{margin:-6px 0 0;color:var(--band-muted);font-size:.84rem}
+.dt .wrap{padding-block:48px 24px}
+.dtg{display:grid;gap:14px}
+.dtile{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;gap:8px;box-shadow:0 18px 40px -28px #12212b66}
+.dtile h3{margin:0;font-family:var(--display);font-size:1.25rem}
+.dtile p{margin:0;color:var(--muted);font-size:.97rem;line-height:1.45}
+.dtv{position:relative;height:108px;border-radius:16px;background:var(--band);overflow:hidden;margin-bottom:4px}
+.v1 i{position:absolute;left:14%;border-radius:6px;background:#ffffff33;animation:v1a 5s ease-in-out infinite}
+.v1 .b1{top:16px;height:14px;width:72%}.v1 .b2{top:40px;height:36px;width:34%}.v1 .b3{top:40px;left:52%;height:36px;width:34%;animation-delay:.15s}.v1 .b4{top:84px;height:12px;width:50%;animation-delay:.3s}
+@keyframes v1a{0%,35%{background:#ffffff33;border-radius:2px}60%,100%{background:var(--accent);border-radius:12px}}
+.v2 svg{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-30px 0 0 -23px;fill:var(--accent);stroke:var(--accent);stroke-width:0;animation:v2a 2.4s ease-in-out infinite}
+.v2 svg circle{fill:var(--band)}
+.v2 i{position:absolute;left:50%;bottom:18px;width:60px;height:18px;margin-left:-30px;border:2px solid var(--accent);border-radius:50%;opacity:0;animation:v2r 2.4s ease-out infinite}
+.v2 .r2{animation-delay:1.2s}
+@keyframes v2a{50%{transform:translateY(-10px)}}
+@keyframes v2r{0%{transform:scale(.3);opacity:.9}100%{transform:scale(2);opacity:0}}
+.v3 i{position:absolute;font-style:normal;font-size:.8rem;padding:7px 12px;border-radius:14px;opacity:0;animation:v3a 6s infinite}
+.v3 .q{left:12px;top:12px;background:#ffffff26;color:#fff;border-bottom-left-radius:4px}
+.v3 .a{right:12px;top:56px;background:var(--accent);color:var(--accent-ink);font-weight:600;border-bottom-right-radius:4px;animation-delay:2s}
+.v3 .d{right:12px;top:56px;background:#ffffff26;display:flex;gap:4px;animation:v3d 6s infinite}
+.v3 .d u{width:6px;height:6px;border-radius:50%;background:#fff;animation:v3b .9s infinite}.v3 .d u:nth-child(2){animation-delay:.15s}.v3 .d u:nth-child(3){animation-delay:.3s}
+@keyframes v3a{0%{opacity:0;transform:translateY(8px)}8%,86%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes v3d{0%,12%{opacity:0}16%,32%{opacity:1}36%,100%{opacity:0}}
+@keyframes v3b{50%{transform:translateY(-4px);opacity:.5}}
+.v4 .ph{position:absolute;left:50%;top:10px;width:58px;height:150px;margin-left:-29px;border-radius:12px;border:3px solid #ffffff55;background:#0a1217}
+.v4 i{position:absolute;font-style:normal;font-size:.72rem;padding:5px 9px;border-radius:10px;opacity:0}
+.v4 .m1{left:50%;top:22px;margin-left:-22px;background:#dcf8c6;color:#12212B;animation:v4a 5s infinite}
+.v4 .m2{left:50%;top:60px;margin-left:-26px;background:var(--accent);color:var(--accent-ink);font-weight:700;animation:v4a 5s 1.2s infinite}
+@keyframes v4a{0%{opacity:0;transform:translateY(10px) scale(.9)}12%,80%{opacity:1;transform:none}100%{opacity:0}}
+@media (min-width:820px){.dtg{grid-template-columns:repeat(4,1fr)}.dtile{padding:16px}}
+@media (min-width:520px) and (max-width:819px){.dtg{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){.lgo,.v1 i,.v2 svg,.v2 i,.v3 i,.v3 .d u,.v4 i{animation:none!important}.v3 i,.v4 i{opacity:1!important}.v3 .d{display:none}.v1 i{background:var(--accent)}}
 /* real demo showcase */
 .demos{background:var(--band);color:var(--band-fg);position:relative;overflow:hidden}
 .demos::before{content:"";position:absolute;inset:-20% -30% auto -30%;height:70%;background:radial-gradient(closest-side,#F2B70533,transparent 70%);pointer-events:none}
@@ -446,7 +491,7 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .reduce .duo .app{transform:none}
 
 /* build scene */
-.build{height:300svh;position:relative;background:var(--band);color:var(--band-fg)}
+.build{height:170svh;position:relative;background:var(--band);color:var(--band-fg)}
 .build .pin{position:sticky;top:var(--hh);height:calc(100svh - var(--hh));display:grid;grid-template-rows:auto 1fr auto;gap:8px;padding:14px 16px;max-width:700px;margin:0 auto;justify-items:center;text-align:center}
 .bcap{display:grid;gap:4px;min-height:110px;align-content:start}.bcap .eyebrow{color:var(--band-muted)}
 .bcap h2{font-size:clamp(1.6rem,7vw,2.3rem);color:var(--accent)}.bcap p{color:var(--band-muted)}
@@ -749,29 +794,19 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   <h1 data-split>Digital help for local businesses</h1>
   <p class="lead">Websites first, then whatever gets you found and keeps it simple. One local person, down the road.</p>
 </div></header>
-<section class="wipe"><div class="pin">
-  <span class="eyebrow" style="color:var(--band-muted)">A fresh look for your current site</span>
-  <h2>Same content, new look</h2>
-  <div class="wcmp" aria-label="Sample: a plain layout and the same content in a fresh look">
-    <div class="wf"><i class="h"></i><i class="l1"></i><i class="l2"></i><i class="bx"></i><i class="l3"></i><i class="l3"></i></div>
-    <img data-img="cafe" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="390" height="844" alt="Sample cafe website, made-up business">
-    <span class="knob"></span>
+<section class="dt"><div class="wrap">
+  <span class="eyebrow rv">What I can do for you</span>
+  <h2 class="rv" style="--d:1">Four simple ways I help</h2>
+  <div class="dtg">
+    <article class="dtile rv"><div class="dtv v1" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div><h3>A fresh look</h3><p>Already have a site? I'll make a free mock-up of a refreshed version, keeping what works. Message me for a price.</p></article>
+    <article class="dtile rv" style="--d:1"><div class="dtv v2" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M27 48S10 32 10 21a17 17 0 0 1 34 0C44 32 27 48 27 48z"/><circle cx="27" cy="21" r="6"/></svg><i class="r1"></i><i class="r2"></i></div><h3>Found on Google</h3><p>A tidy Google profile with your hours, services, photos, a review link and a QR code. £49, credited off a website within 60 days.</p></article>
+    <article class="dtile rv" style="--d:2"><div class="dtv v3" aria-hidden="true"><i class="q">Are you open Sunday?</i><i class="a">Yes, 10 to 4.</i><i class="d"><u></u><u></u><u></u></i></div><h3>A chat box</h3><p>Answers your customers from your own details: prices, hours, where you are. £15 a month, free on the I run it for you plan.</p></article>
+    <article class="dtile rv" style="--d:3"><div class="dtv v4" aria-hidden="true"><i class="ph"></i><i class="m1">Quote please</i><i class="m2">&#10003; Booked</i></div><h3>Quote and booking requests</h3><p>Customers message you on WhatsApp straight from your page. Keep your Booksy or Fresha button too.</p></article>
   </div>
-  <p class="sub2">Already have a site? I'll make a free mock-up of a refreshed version, keeping what works. Message me for a price. Sample only.</p>
-</div></section>
-<section><div class="wrap">
-  <div class="pinwrap rv" aria-hidden="true"><i class="r1"></i><i class="r2"></i><svg viewBox="0 0 54 54"><path d="M27 48S10 32 10 21a17 17 0 0 1 34 0C44 32 27 48 27 48z"/><circle cx="27" cy="21" r="6"/></svg></div>
-  <span class="eyebrow rv">Getting found on Google</span>
-  <h2 class="rv" style="--d:1">A tidy Google profile, ticked off</h2>
-  <ul class="ticks">
-    <li class="rv"><span>✓</span>Opening hours</li><li class="rv" style="--d:1"><span>✓</span>Services</li><li class="rv" style="--d:2"><span>✓</span>Your photos</li><li class="rv" style="--d:3"><span>✓</span>A review link</li><li class="rv" style="--d:4"><span>✓</span>A QR code</li>
-  </ul>
-  <p class="rv">I set up and tidy your Google profile: hours, services, your photos, a review link and QR code. £49, credited off a website within 60 days.</p>
 </div></section>
 <section><div class="wrap">
   <div class="cards">
-    <div class="card"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M8 10h38a3 3 0 0 1 3 3v22a3 3 0 0 1-3 3H25l-10 9v-9H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z"/><path d="M15 21h24M15 28h15"/></svg><h3>Handy extras</h3><p>A chat box that answers from your own details, £15 a month (free on the I run it for you plan). WhatsApp quote and booking requests. Your Booksy or Fresha button on your own page.</p></div>
-    <div class="card"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M5 12a3 3 0 0 1 3-3h22a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H17l-8 7v-7H8a3 3 0 0 1-3-3z"/><path d="M38 20h8a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3h-1v7l-8-7H27a3 3 0 0 1-3-3v-2"/></svg><h3>A chat about your online side</h3><p>Not sure what you need? We'll go through what you have and what's worth doing. Message me for a price.</p></div>
+        <div class="card"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M5 12a3 3 0 0 1 3-3h22a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H17l-8 7v-7H8a3 3 0 0 1-3-3z"/><path d="M38 20h8a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3h-1v7l-8-7H27a3 3 0 0 1-3-3v-2"/></svg><h3>A chat about your online side</h3><p>Not sure what you need? We'll go through what you have and what's worth doing. Message me for a price.</p></div>
   </div>
   <div class="close rv"><b>Not sure? Message me.</b><span class="small">WhatsApp, Messenger or Instagram, whichever's easiest.</span>
     <div class="cta-row"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20to%20chat%20about%20my%20online%20side">WhatsApp me</a><a class="btn ghost" href="https://www.instagram.com/standagedigital/">Instagram</a><a class="btn ghost" href="https://www.facebook.com/share/1CPJ8z9dkG/">Facebook</a></div></div>
@@ -782,10 +817,18 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 <header class="hero sub"><i class="aur a"></i><i class="aur b"></i><div class="wrap">
   <span class="eyebrow" style="color:var(--band-muted)">Apps</span>
   <h1 data-split>Your business, in your customers' pocket</h1>
-  <p class="lead">Android and iPhone. A free home-screen app with every site, and a Google Play app if you want one.</p><div class="duo" aria-label="Sample app running on an Android phone and an iPhone, made-up business"><div class="app and" data-sim><div class="bezel"><div class="scr2"><div class="sb"><span>9:41</span><i class="hole"></i><span>5G ▮</span></div><div class="ah"><div><b>Sample Barbers</b><small>Booking requests today</small></div><div class="diary" data-diary><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="pulse"></div><div class="blist" data-list></div><div class="tabs2"><i class="on">Today</i><i>Menu</i><i>Offers</i><i>Chat</i></div><div class="anav"><i></i></div><div class="coins" data-coins></div></div></div></div><div class="app ios" data-sim><div class="bezel"><div class="scr2"><div class="sb"><span>9:41</span><i class="isl"></i><span>5G ▮</span></div><div class="ah"><div><b>Sample Barbers</b><small>Booking requests today</small></div><div class="diary" data-diary><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="pulse"></div><div class="blist" data-list></div><div class="tabs2"><i class="on">Today</i><i>Menu</i><i>Offers</i><i>Chat</i></div><div class="hind"></div><div class="coins" data-coins></div></div></div></div></div><p class="small" style="color:var(--band-muted);text-align:center">Sample requests, made-up business. You confirm each one.</p>
+  <p class="lead">Android and iPhone. A free home-screen app with every site, and a Google Play app if you want one.</p><div class="live" data-live>
+    <div class="lphone"><div class="lscr">
+      <img class="lposter" src="img/propnet-poster.webp" width="390" height="844" alt="The PropNet app showing a landlord's profit dashboard with sample data">
+      <button class="ltap" type="button" aria-label="Try the real PropNet app here"><span class="lgo"><i></i>Tap to try the real app</span></button>
+    </div></div>
+    <p class="lcap"><b>This is PropNet, a real app I built.</b> It works properly: tap around. Yours would have your business in it.</p>
+    <p class="lhint">When it opens, tap Next, then Skip.</p>
+    <div class="cta-row" style="justify-content:center"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20to%20ask%20about%20an%20app">Ask me about an app</a><a class="btn ghost" style="color:#fff" href="/propnet/" target="_blank" rel="noopener">PropNet's own website</a></div>
+  </div>
 </div></header>
 <section class="build" id="build"><div class="pin">
-  <div class="bcap"><span class="eyebrow">Watch an app come together</span><h2 data-cap>Your name and logo</h2><p data-sub>Your business at the top of the screen.</p></div>
+  <div class="bcap"><span class="eyebrow">How your app comes together</span><h2 data-cap>Your name and logo</h2><p data-sub>Your business at the top of the screen.</p></div>
   <div class="bphone"><div class="bscr">
     <div class="l l1"><i class="logo">S</i><b>Sample Barbers</b></div>
     <div class="l l2"><div><span>Skin fade</span><b>£18</b></div><div><span>Cut and beard</span><b>£25</b></div><div><span>Kids</span><b>£12</b></div></div>
@@ -814,11 +857,6 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     <li class="rv"><span class="n">3</span><div><h3>There's your icon</h3><p>With your name, one tap from their other apps.</p></div></li>
   </ol>
   <div class="homescr rv" aria-hidden="true"><div class="in"><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico me">S</i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i></div></div>
-</div></section>
-<section><div class="wrap">
-  <span class="eyebrow rv">A real app I built</span>
-  <div class="pn rv"><a class="ytile" href="https://youtu.be/IMIeKZSIOQQ" aria-label="Watch PropNet on YouTube"><span class="tri"></span><b>PropNet</b></a><h2>PropNet</h2><p>I also build my own apps. Here's one I made, PropNet on YouTube.</p>
-    <div class="cta-row"><a class="btn primary" href="https://youtu.be/IMIeKZSIOQQ">Watch PropNet on YouTube</a></div></div>
 </div></section>
 </main>
 <main id="p-contact" data-page="contact" hidden>
@@ -1024,6 +1062,8 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     if(scrollTo_){var e=document.getElementById(scrollTo_);if(e)setTimeout(function(){e.scrollIntoView()},30)}else window.scrollTo(0,0);
     dispatchEvent(new Event("resize"));setTimeout(function(){dispatchEvent(new Event("scroll"))},50);
   }
+  (function(){var l=document.querySelector("[data-live]");if(!l)return;var b=l.querySelector(".ltap");if(!b)return;
+    b.addEventListener("click",function(){var f=document.createElement("iframe");f.src="https://adrianstandage-ai.github.io/Standageadrian-/";f.title="PropNet, a real app by Adrian, running live";f.allow="clipboard-write";f.setAttribute("sandbox","allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals");f.loading="eager";var sc=b.parentNode;function fit(){f.style.setProperty("--s",sc.clientWidth/390)}fit();addEventListener("resize",fit);sc.appendChild(f);b.remove();var po=sc.querySelector(".lposter");if(po)po.remove()})})();
   addEventListener("hashchange",route);route();
 })();
 </script>
