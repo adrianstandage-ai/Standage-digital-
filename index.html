@@ -278,13 +278,23 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .meet{background:var(--bg)}
 .meet .wrap{padding-block:44px 8px}
 .meetcard{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:0 18px 40px -26px #12212b66}
-.meetcard img{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:50% 35%;border:3px solid var(--accent);box-shadow:0 0 0 5px #F2B7052e}
+.meetcard img{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:50% 50%;border:3px solid var(--accent);box-shadow:0 0 0 5px #F2B7052e}
 .meetcard h2{margin:0 0 4px;font-family:var(--display);font-size:1.35rem}
 .meetcard p{margin:0 0 12px;color:var(--muted);font-size:.98rem;line-height:1.45}
 .meetcard .btn{padding:11px 18px;font-size:.95rem}
 @media (max-width:380px){.meetcard{grid-template-columns:1fr;justify-items:center;text-align:center}}
 @media (min-width:820px){.meetcard{padding:26px 30px;gap:28px}.meetcard img{width:150px;height:150px}.meetcard h2{font-size:1.7rem}}
 
+.build{height:auto!important;padding-block:44px 52px}
+.build .pin{position:static!important;height:auto!important;grid-template-rows:none!important;gap:18px!important}
+.build .bphone{height:min(470px,64svh);max-height:none}
+.bscr{position:relative}
+.bscr .l6{position:absolute;inset:0;z-index:5;background:linear-gradient(160deg,#1b3140,#0c1820);display:grid;grid-template-rows:1fr auto;padding:34px 14px 18px;color:#fff;font-size:.78rem;text-align:center;border-radius:24px}
+.bscr .l6 .hg{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:min-content;gap:16px 10px;align-content:start}
+.bscr .l6 .hg i{aspect-ratio:1;border-radius:22%;background:#ffffff22}
+.bscr .l6 .hg i.me{background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:1.3rem;animation:hpop 1.6s ease-in-out infinite}
+@keyframes hpop{50%{transform:scale(1.16)}}
+.bscr .l6 b{font-weight:600;opacity:.9}
 /* live app + digital tiles */
 .live{display:grid;gap:14px;justify-items:center;text-align:center;margin-top:6px}
 .lphone{position:relative;width:min(292px,76vw);aspect-ratio:390/844;border-radius:40px;padding:10px;background:linear-gradient(145deg,#2c3a44,#0a1217);box-shadow:0 30px 70px -18px #000c,0 0 0 1.5px #ffffff22 inset,0 0 90px -24px #1E8A5A}
@@ -835,8 +845,9 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     <div class="l l3"><span>Book now</span></div>
     <div class="l l4"><b>Christmas hours</b><small>Closed 25th and 26th</small></div>
     <div class="l l5"><i>What time do you close?</i><i class="r">Answers from your own details</i></div>
+    <div class="l l6" aria-hidden="true"><div class="hg"><i></i><i></i><i></i><i></i><i></i><i class="me">S</i><i></i><i></i><i></i><i></i><i></i><i></i></div><b>Sample Barbers</b></div>
   </div></div>
-  <div class="bdots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="bdots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 </div></section>
 
 <section><div class="wrap">
@@ -849,15 +860,6 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   </div>
   <div class="cta-row rv"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20to%20ask%20about%20an%20app">Ask me about an app</a></div>
 </div></section>
-<section><div class="wrap">
-  <span class="eyebrow rv">How the free one works</span>
-  <ol class="steps">
-    <li class="rv"><span class="n">1</span><div><h3>Open your site</h3><p>Your customers open your page on their phone.</p></div></li>
-    <li class="rv"><span class="n">2</span><div><h3>Add it to the home screen</h3><p>One tap in the browser menu.</p></div></li>
-    <li class="rv"><span class="n">3</span><div><h3>There's your icon</h3><p>With your name, one tap from their other apps.</p></div></li>
-  </ol>
-  <div class="homescr rv" aria-hidden="true"><div class="in"><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico me">S</i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i><i class="ico"></i></div></div>
-</div></section>
 </main>
 <main id="p-contact" data-page="contact" hidden>
 <header class="hero sub"><i class="aur a"></i><i class="aur b"></i><div class="wrap">
@@ -865,6 +867,13 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   <h1 data-split>Fancy a free draft?</h1>
   <p class="lead">Message me your business name and what you do. I'll send you a link to your draft, usually within a day or two.</p><div class="floaty" aria-hidden="true"><i>Hi Adrian 👋</i><i class="r">Free draft please</i><i>Sounds good</i></div>
 </div></header>
+<section class="meet"><div class="wrap">
+  <div class="meetcard rv">
+    <img src="img/adrian.jpg" width="104" height="104" loading="lazy" decoding="async" alt="Adrian Standage, who builds and looks after your website">
+    <div><h2>You'll be talking to me</h2>
+    <p>I'm Adrian, I live in Basingstoke and I answer every message myself, usually the same day.</p></div>
+  </div>
+</div></section>
 <section><div class="wrap">
   <div class="contacts">
     <a class="cc main rv" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website"><span>WhatsApp</span><b>Message me now</b></a>
@@ -1029,15 +1038,20 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   var bd=$(".build");
   if(bd){
     var L=$$(".bscr .l",bd),cp=$("[data-cap]",bd),sb=$("[data-sub]",bd),bdt=$$(".bdots i",bd);
-    var T=[["Your name and logo","Your business at the top of the screen."],["Your services and prices","Sample prices. Yours would be your own."],["A Book button","Right where people look for it."],["Offers and hours","Christmas hours, a special offer, whatever's on."],["A chat box","Answers from your own details."]];
+    var T=[["Your name and logo","Your business at the top of the screen."],["Your services and prices","Sample prices. Yours would be your own."],["A Book button","Right where people look for it."],["Offers and hours","Christmas hours, a special offer, whatever's on."],["A chat box","Answers from your own details."],["On their home screen","One tap, free with every site."]];
     var bc=-1;
-    function bframe(){
-      var r=bd.getBoundingClientRect(),p=clamp(-r.top/(r.height-innerHeight)),k=reduce?L.length-1:Math.min(L.length-1,Math.floor(p*(L.length+.3)));
-      if(k===bc)return;bc=k;
-      L.forEach(function(l,j){l.classList.toggle("on",j<=k)});bdt.forEach(function(x,j){x.classList.toggle("on",j===k)});
+    function bshow(k){
+      bc=k;L.forEach(function(l,j){l.classList.toggle("on",j<=k)});bdt.forEach(function(x,j){x.classList.toggle("on",j===k)});
       cp.textContent=T[k][0];sb.textContent=T[k][1];
     }
-    addEventListener("scroll",bframe,{passive:true});bframe();
+    if(reduce){bshow(T.length-1)}else{
+      var bt=null,bn=0;
+      function bstep(){bshow(bn%T.length);bn++}
+      function bgo(){if(!bt){bstep();bt=setInterval(bstep,2400)}}
+      function bstop(){clearInterval(bt);bt=null}
+      if("IntersectionObserver" in window){new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?bgo():bstop()})},{threshold:.35}).observe(bd)}else bgo();
+      bshow(0);
+    }
   }
 
   // hero video: respect reduced motion, pause off screen
