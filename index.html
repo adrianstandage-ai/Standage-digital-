@@ -363,7 +363,10 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .dscreen{position:relative;width:100%;height:100%;border-radius:30px;overflow:hidden;background:#fff;container-type:size}
 .dscreen::before{content:"";position:absolute;top:7px;left:50%;width:84px;height:20px;margin-left:-42px;border-radius:12px;background:#0a1217;z-index:3}
 .dscreen img{display:block;width:100%;height:auto;will-change:transform;animation:dscroll var(--dur,50s) linear 1s infinite alternate;transform:translateY(0)}
-.dphone:hover .dscreen img,.dphone:focus-visible .dscreen img{animation-play-state:paused}
+
+.js .dscreen{overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.js .dscreen::-webkit-scrollbar{display:none}
+.js .dscreen img{animation:none;will-change:auto}
 @keyframes dscroll{to{transform:translateY(calc(-100% + 100cqh))}}
 .dtag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:99px;background:#ffffff14;color:var(--band-muted);border:1px solid #ffffff22}
 .dcard h3{margin:0;font-family:var(--display);font-size:1.5rem;color:#fff}
@@ -626,17 +629,17 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 <section class="demos" id="demos" aria-labelledby="demosh"><div class="wrap">
   <span class="eyebrow rv">See what I can build</span>
   <h2 class="rv" style="--d:1" id="demosh">Two full websites. Tap one and try it.</h2>
-  <p class="lead rv" style="--d:2">Every site is designed around the individual business, never a template with your name dropped in. These are made-up businesses, built the same way as yours. Real pages you can scroll, tap and try.</p>
+  <p class="lead rv" style="--d:2">Every site is designed around the individual business, never a template with your name dropped in. These are made-up businesses, built the same way as yours. Real pages you can scroll, tap and try. Swipe a phone to scroll it, or tap the button to open the full site.</p>
   <div class="dgrid">
     <article class="dcard rv" style="--d:2;--glow:#c0562b">
-      <a class="dphone" style="--dur:75s" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener" aria-label="Open the Izakaya Sakura demo website in a new tab"><div class="dscreen"><img src="showcase/izakaya-scroll.webp" width="480" height="10049" loading="lazy" decoding="async" alt="Scrolling preview of the Izakaya Sakura demo website, a made-up Japanese restaurant"></div></a>
+      <div class="dphone" style="--dur:75s" role="group" aria-label="Preview of the Izakaya Sakura demo website"><div class="dscreen"><img src="showcase/izakaya-scroll.webp" width="480" height="10049" loading="lazy" decoding="async" alt="Scrolling preview of the Izakaya Sakura demo website, a made-up Japanese restaurant"></div></div>
       <span class="dtag">Demo · restaurant and takeaway style</span>
       <h3>Izakaya Sakura</h3>
       <p>Menu, ordering, booking and a guided tour. Built for a restaurant, and the same ideas work for a takeaway or café.</p>
       <a class="btn primary" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener">Open the live demo</a>
     </article>
     <article class="dcard rv" style="--d:3;--glow:#2a8fdb">
-      <a class="dphone" style="--dur:40s" href="showcase/willow-wren/index.html" target="_blank" rel="noopener" aria-label="Open the Willow and Wren Cleaning demo website in a new tab"><div class="dscreen"><img src="showcase/cleaning-scroll.webp" width="480" height="4676" loading="lazy" decoding="async" alt="Scrolling preview of the Willow and Wren Cleaning demo website, a made-up cleaning business"></div></a>
+      <div class="dphone" style="--dur:40s" role="group" aria-label="Preview of the Willow and Wren Cleaning demo website"><div class="dscreen"><img src="showcase/cleaning-scroll.webp" width="480" height="4676" loading="lazy" decoding="async" alt="Scrolling preview of the Willow and Wren Cleaning demo website, a made-up cleaning business"></div></div>
       <span class="dtag">Demo · fictional cleaner</span>
       <h3>Willow &amp; Wren Cleaning</h3>
       <p>A waiting-list page for a busy one-person service: prices, a simple join form and a friendly feel.</p>
@@ -1093,6 +1096,28 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   }
   (function(){var l=document.querySelector("[data-live]");if(!l)return;var b=l.querySelector(".ltap");if(!b)return;
     b.addEventListener("click",function(){var f=document.createElement("iframe");f.src="https://adrianstandage-ai.github.io/Standageadrian-/";f.title="PropNet, a real app by Adrian, running live";f.allow="clipboard-write";f.setAttribute("sandbox","allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals");f.loading="eager";var sc=b.parentNode;function fit(){f.style.setProperty("--s",sc.clientWidth/390)}fit();addEventListener("resize",fit);sc.appendChild(f);b.remove();var po=sc.querySelector(".lposter");if(po)po.remove()})})();
+
+  // demo phones: auto-scroll that you can take over by swiping
+  (function(){
+    var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,scr=[].slice.call(document.querySelectorAll(".dscreen"));if(!scr.length)return;
+    scr.forEach(function(el){
+      var a=el.closest(".dphone"),dur=parseFloat(getComputedStyle(a).getPropertyValue("--dur"))||50;
+      var pos=0,dir=1,held=true,vis=false,last=0,idle=null;
+      function resume(ms){clearTimeout(idle);idle=setTimeout(function(){pos=el.scrollTop;held=false},ms)}
+      function hold(){held=true;resume(4000)}
+      ["touchstart","pointerdown","wheel","focusin"].forEach(function(ev){el.addEventListener(ev,hold,{passive:true})});
+      el.addEventListener("mouseenter",function(){held=true;clearTimeout(idle)},{passive:true});
+      el.addEventListener("mouseleave",function(){resume(800)},{passive:true});
+      if("IntersectionObserver" in window)new IntersectionObserver(function(en){vis=en[0].isIntersecting},{threshold:.2}).observe(el);else vis=true;
+      if(!reduce)setTimeout(function(){held=false;pos=el.scrollTop},1000);
+      function tick(t){
+        var dt=Math.min(.1,(t-(last||t))/1000);last=t;
+        var max=el.scrollHeight-el.clientHeight;
+        if(!reduce&&!held&&vis&&max>0){pos+=dir*(max/dur)*dt;if(pos>=max){pos=max;dir=-1}else if(pos<=0){pos=0;dir=1}el.scrollTop=pos}
+        requestAnimationFrame(tick)}
+      requestAnimationFrame(tick);
+    });
+  })();
   addEventListener("hashchange",route);route();
 })();
 </script>
