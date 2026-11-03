@@ -364,9 +364,14 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .dscreen::before{content:"";position:absolute;top:7px;left:50%;width:84px;height:20px;margin-left:-42px;border-radius:12px;background:#0a1217;z-index:3}
 .dscreen img{display:block;width:100%;height:auto;will-change:transform;animation:dscroll var(--dur,50s) linear 1s infinite alternate;transform:translateY(0)}
 
-.js .dscreen{overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.js .dscreen{overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
 .js .dscreen::-webkit-scrollbar{display:none}
 .js .dscreen img{animation:none;will-change:auto}
+@media (max-width:819px){
+.dgrid{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-left:-16px;margin-right:-16px;padding:6px 16px 14px;overscroll-behavior-x:contain}
+.dgrid::-webkit-scrollbar{display:none}
+.dgrid .dcard{flex:0 0 88%;scroll-snap-align:center;min-width:0}
+}
 @keyframes dscroll{to{transform:translateY(calc(-100% + 100cqh))}}
 .dtag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:99px;background:#ffffff14;color:var(--band-muted);border:1px solid #ffffff22}
 .dcard h3{margin:0;font-family:var(--display);font-size:1.5rem;color:#fff}
@@ -1117,6 +1122,31 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
         requestAnimationFrame(tick)}
       requestAnimationFrame(tick);
     });
+  })();
+
+  // swipe left/right to change page (Websites, Digital help, Apps, Contact)
+  (function(){
+    var order=["home","digital","apps","contact"],x0,y0,t0,ok=false;
+    var skip=".dgrid,.dscreen,.lphone,iframe,.tabs,.build,.showcase,.conv,input,textarea,select,details[open]";
+    document.addEventListener("touchstart",function(e){
+      if(e.touches.length!==1){ok=false;return}
+      var t=e.target;ok=!(t.closest&&t.closest(skip));
+      x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();
+    },{passive:true});
+    var lx,ly;
+    document.addEventListener("touchmove",function(e){if(ok&&e.touches.length===1){lx=e.touches[0].clientX;ly=e.touches[0].clientY}},{passive:true});
+    function done(e){
+      if(!ok)return;ok=false;
+      var c=e.changedTouches&&e.changedTouches[0],ex=c?c.clientX:lx,ey=c?c.clientY:ly;
+      if(ex==null)return;
+      var dx=ex-x0,dy=ey-y0;
+      if(Date.now()-t0>800||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8)return;
+      var cur=(location.hash||"#home").slice(1);if(order.indexOf(cur)<0)cur="home";
+      var i=order.indexOf(cur)+(dx<0?1:-1);
+      if(i>=0&&i<order.length)location.hash="#"+order[i];
+    }
+    document.addEventListener("touchend",done,{passive:true});
+    document.addEventListener("touchcancel",done,{passive:true});
   })();
   addEventListener("hashchange",route);route();
 })();
