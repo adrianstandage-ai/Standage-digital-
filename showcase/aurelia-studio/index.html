@@ -119,6 +119,8 @@
 </div>
 </main>
 <div id="site-footer"></div>
+<script>/* view-early: show only the current view even if the main script is slow or fails */
+(function(){try{function r(){var h=(location.hash||"#home").slice(1)||"home",v=h.indexOf("t-")===0?"treatments":(h.indexOf("book-")===0?"book":h),vs=document.querySelectorAll(".view"),f=0,i;for(i=0;i<vs.length;i++){if(vs[i].getAttribute("data-view")===v)f=1}if(!f)v="home";for(i=0;i<vs.length;i++){var on=vs[i].getAttribute("data-view")===v;vs[i].className=vs[i].className.replace(/ ?\bon\b/g,"")+(on?" on":"");vs[i].hidden=!on}}r();window.addEventListener("hashchange",r)}catch(e){}})();</script>
 <script src="assets/site.js"></script>
 <script src="assets/booking.js"></script>
 <script>

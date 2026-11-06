@@ -515,3 +515,5 @@ h1 em,h2 em,h3 em,.quote em{font-weight:500;background:linear-gradient(115deg,#5
  .hero{padding-top:28px}
 }
 .slot .phchip{top:auto;bottom:16px;left:50%;transform:translateX(-50%);white-space:nowrap}
+
+.view:not(.on){display:none}
