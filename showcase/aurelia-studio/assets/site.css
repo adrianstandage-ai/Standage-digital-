@@ -452,3 +452,21 @@ h1 em,h2 em,h3 em,.quote em{font-weight:500;background:linear-gradient(115deg,#5
 .fbtn{font-size:.74rem}
 .opt b{font-weight:500}.sum b{font-weight:500}
 .fld input,.fld textarea,.fld select{color:var(--ink);font-weight:400;border-color:rgba(125,62,77,.4)}
+
+/* Page bar (phone) and browse chips */
+.pagebar{display:none}
+@media (max-width:980px){
+ .pagebar{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding:0 var(--gutter-r) 12px var(--gutter);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ .pagebar::-webkit-scrollbar{display:none}
+ .pagebar a{flex:none;scroll-snap-align:center;padding:12px 20px;border-radius:999px;border:1px solid rgba(125,62,77,.4);font:500 .74rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);background:#fff}
+ .pagebar a.on{background:var(--rose-deep);color:#fff7f2;border-color:var(--rose-deep)}
+ .hdr .wrap{min-height:72px}
+}
+.ribbon .row{animation:none;width:auto;gap:12px;padding:16px max(20px,env(safe-area-inset-right,0px)) 16px max(20px,env(safe-area-inset-left,0px));overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;font:500 .74rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;align-items:center;justify-content:center}
+.ribbon .row::-webkit-scrollbar{display:none}
+.ribbon .row a{flex:none;scroll-snap-align:center;padding:13px 22px;border-radius:999px;background:rgba(255,248,235,.78);border:1px solid rgba(60,36,6,.45);color:#1c0b05;transition:.3s}
+.ribbon .row a:hover{background:#fff}
+.ribbon .rl{flex:none;color:#1c0b05;font-weight:600;padding-right:6px}
+@media (max-width:900px){.ribbon .row{justify-content:flex-start}}
+
+.ribbon .row span::after{content:none!important}

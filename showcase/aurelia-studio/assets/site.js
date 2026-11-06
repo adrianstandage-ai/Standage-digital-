@@ -71,7 +71,8 @@ window.SITE = {
   if(hd) hd.innerHTML = `
     <div class="demo-strip"><b>Demonstration website</b> &nbsp;·&nbsp; studio name, images, prices and details are placeholders</div>
     <header class="hdr"><div class="wrap">${logo}<nav class="nav" aria-label="Main">${navHTML}</nav>
-    <a class="btn hbtn" href="#book">Book Appointment</a><button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button></div></header>
+    <a class="btn hbtn" href="#book">Book Appointment</a><button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button></div>
+    <nav class="pagebar" aria-label="Pages">${links.map(([h,t,k])=>`<a href="${h}" data-k="${k}">${t}</a>`).join("")}</nav></header>
     <div class="drawer" id="drawer" aria-hidden="true"><div class="top">${logo}<button class="burger" aria-label="Close menu" aria-expanded="true" id="closeDrawer"><i></i><i></i></button></div>
       <a class="big" href="#home">Home</a><a class="big" href="#treatments">Treatments</a>
       <div class="sub">${S.treatments.map(x=>`<a href="#t-${x.id}">${x.name}</a>`).join("")}</div>
@@ -139,11 +140,17 @@ window.SITE = {
     if(ROUTES.indexOf(v)<0) v="home";
     page=v;
     $$(".view").forEach(x=>{x.hidden=x.dataset.view!==v;if(!x.hidden){x.classList.remove("in");void x.offsetWidth;x.classList.add("in")}});
-    $$(".nav [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
+    $$(".nav [data-k], .pagebar [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
     setDr(false); updFab();
+    const on=$(".pagebar a.on"); if(on&&on.scrollIntoView) on.scrollIntoView({inline:"center",block:"nearest"});
     window.dispatchEvent(new CustomEvent("studio:route",{detail:{v:v,sub:sub}}));
     const el=(sub&&v==="treatments")?document.getElementById(sub):null;
     if(el) requestAnimationFrame(()=>el.scrollIntoView({block:"start"})); else window.scrollTo(0,0);
   }
+  // Swipe left/right between pages (ignored on rows that scroll sideways and on form fields)
+  let tx=0,ty=0,ok=false;
+  document.addEventListener("touchstart",e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;ok=!e.target.closest(".pagebar,.ribbon,.stepper,.times,.filters,.lb,.cal,input,textarea,select,.drawer")},{passive:true});
+  document.addEventListener("touchend",e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
+    if(Math.abs(dx)>80&&Math.abs(dy)<Math.abs(dx)*.5){const i=ROUTES.indexOf(page),n=i+(dx<0?1:-1);if(n>=0&&n<ROUTES.length)location.hash="#"+ROUTES[n]}},{passive:true});
   addEventListener("hashchange",route); route();
 })();
