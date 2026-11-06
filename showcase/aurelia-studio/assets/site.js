@@ -16,7 +16,7 @@ window.SITE = {
   hours: [["Tuesday","10:00 – 18:00"],["Wednesday","10:00 – 18:00"],["Thursday","10:00 – 20:00"],["Friday","10:00 – 18:00"],["Saturday","09:00 – 15:00"],["Sunday – Monday","Closed"]],
   openDays: [2,3,4,5,6],   // 0 = Sunday. Used by the booking demo calendar
   // Where to anchor each photo when it is cropped to its frame ("x% y%"). Edit when swapping images.
-  imgPos: {"hero-portrait.jpg":"72% 40%","hero-detail.jpg":"18% 50%","philosophy-a.jpg":"38% 50%","philosophy-b.jpg":"50% 50%","practitioner.jpg":"50% 30%","about-portrait.jpg":"50% 30%",
+  imgPos: {"hero-portrait.jpg":"80% 50%","hero-detail.jpg":"18% 50%","philosophy-a.jpg":"38% 50%","philosophy-b.jpg":"50% 50%","practitioner.jpg":"50% 30%","about-portrait.jpg":"50% 30%",
     "about-hands.jpg":"62% 50%","about-studio.jpg":"50% 50%","treatment-signature-facial.jpg":"45% 40%","treatment-deep-hydration.jpg":"88% 40%","treatment-dermaplaning.jpg":"40% 40%",
     "treatment-brow-lamination.jpg":"55% 20%","treatment-skin-consultation.jpg":"58% 40%","gallery-01.jpg":"62% 50%","gallery-02.jpg":"72% 40%","gallery-03.jpg":"62% 40%",
     "gallery-04.jpg":"40% 50%","gallery-05.jpg":"50% 50%","gallery-06.jpg":"50% 40%","gallery-09.jpg":"58% 40%","gallery-11.jpg":"20% 50%","gallery-12.jpg":"58% 40%","gallery-08.jpg":"45% 50%"},
@@ -69,10 +69,9 @@ window.SITE = {
 
   const hd = $("#site-header");
   if(hd) hd.innerHTML = `
-    <div class="demo-strip"><b>Demonstration website</b> &nbsp;·&nbsp; studio name, images, prices and details are placeholders</div>
+    <div class="demo-strip"><b>Demonstration website</b><span class="ds2"> &nbsp;·&nbsp; studio name, images, prices and details are placeholders</span></div>
     <header class="hdr"><div class="wrap">${logo}<nav class="nav" aria-label="Main">${navHTML}</nav>
-    <a class="btn hbtn" href="#book">Book Appointment</a><button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button></div>
-    <nav class="pagebar" aria-label="Pages">${links.map(([h,t,k])=>`<a href="${h}" data-k="${k}">${t}</a>`).join("")}</nav></header>
+    <a class="btn hbtn" href="#book">Book Appointment</a><button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button></div></header>
     <div class="drawer" id="drawer" aria-hidden="true"><div class="top">${logo}<button class="burger" aria-label="Close menu" aria-expanded="true" id="closeDrawer"><i></i><i></i></button></div>
       <a class="big" href="#home">Home</a><a class="big" href="#treatments">Treatments</a>
       <div class="sub">${S.treatments.map(x=>`<a href="#t-${x.id}">${x.name}</a>`).join("")}</div>
@@ -140,9 +139,8 @@ window.SITE = {
     if(ROUTES.indexOf(v)<0) v="home";
     page=v;
     $$(".view").forEach(x=>{x.hidden=x.dataset.view!==v;if(!x.hidden){x.classList.remove("in");void x.offsetWidth;x.classList.add("in")}});
-    $$(".nav [data-k], .pagebar [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
+    $$(".nav [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
     setDr(false); updFab();
-    const on=$(".pagebar a.on"); if(on&&on.scrollIntoView) on.scrollIntoView({inline:"center",block:"nearest"});
     window.dispatchEvent(new CustomEvent("studio:route",{detail:{v:v,sub:sub}}));
     const el=(sub&&v==="treatments")?document.getElementById(sub):null;
     if(el) requestAnimationFrame(()=>el.scrollIntoView({block:"start"})); else window.scrollTo(0,0);
@@ -152,5 +150,7 @@ window.SITE = {
   document.addEventListener("touchstart",e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;ok=!e.target.closest(".pagebar,.ribbon,.stepper,.times,.filters,.lb,.cal,input,textarea,select,.drawer")},{passive:true});
   document.addEventListener("touchend",e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
     if(Math.abs(dx)>80&&Math.abs(dy)<Math.abs(dx)*.5){const i=ROUTES.indexOf(page),n=i+(dx<0?1:-1);if(n>=0&&n<ROUTES.length)location.hash="#"+ROUTES[n]}},{passive:true});
+  // Browse chips: hide the swipe hint once the row is scrolled to its end
+  $$(".ribbon .row").forEach(r=>{const rb=r.parentElement;const f=()=>rb.classList.toggle("end",r.scrollLeft+r.clientWidth>=r.scrollWidth-8);r.addEventListener("scroll",f,{passive:true});f()});
   addEventListener("hashchange",route); route();
 })();
