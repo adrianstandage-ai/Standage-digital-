@@ -389,7 +389,7 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .dcard p{margin:0;color:var(--band-muted);max-width:34ch}
 .dcard .btn.ghost{color:#fff}
 .dfoot{margin:6px auto 0;text-align:center;font-size:.82rem;color:var(--band-muted);max-width:52ch}
-.dgrid{}@media (min-width:820px){.dgrid{grid-template-columns:1fr 1fr;gap:30px;align-items:start}.dphone{width:288px}.dcard:nth-child(1){--tilt:-3deg}.dcard:nth-child(2){--tilt:3deg;margin-top:34px}}
+.dgrid{}@media (min-width:820px){.dgrid{grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}.dphone{width:min(100%,262px)}.dcard:nth-child(1){--tilt:-3deg}.dcard:nth-child(2){--tilt:3deg;margin-top:34px}.dcard:nth-child(3){--tilt:-2deg}}
 @media (prefers-reduced-motion:reduce){.dscreen img{animation:none!important}.dscreen{overflow:auto}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -644,7 +644,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 
 <section class="demos" id="demos" aria-labelledby="demosh"><div class="wrap">
   <span class="eyebrow rv">See what I can build</span>
-  <h2 class="rv" style="--d:1" id="demosh">Two full websites. Tap one and try it.</h2>
+  <h2 class="rv" style="--d:1" id="demosh">Three full websites. Tap one and try it.</h2>
   <p class="lead rv" style="--d:2">Every site is designed around the individual business, never a template with your name dropped in. These are made-up businesses, built the same way as yours. Real pages you can scroll, tap and try. Swipe a phone to scroll it, or tap the button to open the full site.</p>
   <div class="dgrid">
     <article class="dcard rv" style="--d:2;--glow:#c0562b">
@@ -661,8 +661,15 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
       <p>A waiting-list page for a busy one-person service: prices, a simple join form and a friendly feel.</p>
       <a class="btn primary" href="showcase/willow-wren/index.html" target="_blank" rel="noopener">Open the live demo</a>
     </article>
+    <article class="dcard rv" style="--d:4;--glow:#c9a24a">
+      <div class="dphone" style="--dur:90s" role="group" aria-label="Preview of the Aurelia Aesthetic Studio demo website"><div class="dscreen"><img src="showcase/aurelia-scroll.webp" width="480" height="12437" loading="lazy" decoding="async" alt="Scrolling preview of the Aurelia Aesthetic Studio demo website, a made-up beauty studio"></div></div>
+      <span class="dtag">Demo · beauty and aesthetics style</span>
+      <h3>Aurelia Aesthetic Studio</h3>
+      <p>A calm, premium look for a beauty studio: treatments, a gallery and a booking page. Swipe between pages on your phone.</p>
+      <a class="btn primary" href="showcase/aurelia-studio/index.html" target="_blank" rel="noopener">Open the live demo</a>
+    </article>
   </div>
-  <p class="dfoot rv">Both are made-up businesses with AI-generated images, shown to demonstrate the work. Yours would use your name, your prices and your own photos. Restaurants and takeaways are a speciality: menus, ordering and booking by WhatsApp.</p><p class="dfoot rv"><b>Free and private.</b> Send me your business name and I'll make a free mock-up just for you. Nobody else sees it, and there's no obligation.</p>
+  <p class="dfoot rv">All three are made-up businesses with AI-generated images, shown to demonstrate the work. Yours would use your name, your prices and your own photos. Restaurants and takeaways are a speciality: menus, ordering and booking by WhatsApp.</p><p class="dfoot rv"><b>Free and private.</b> Send me your business name and I'll make a free mock-up just for you. Nobody else sees it, and there's no obligation.</p>
   <div class="cta-row rv" style="justify-content:center"><a class="btn ghost" style="color:#fff" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Get my free draft</a></div>
 </div></section>
 
