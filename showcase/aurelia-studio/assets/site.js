@@ -138,7 +138,7 @@ window.SITE = {
     if(h.indexOf("t-")===0){v="treatments";sub=h.slice(2)}else if(h.indexOf("book-")===0){v="book";sub=h.slice(5)}
     if(ROUTES.indexOf(v)<0) v="home";
     page=v;
-    $$(".view").forEach(x=>{x.hidden=x.dataset.view!==v;if(!x.hidden){x.classList.remove("in");void x.offsetWidth;x.classList.add("in")}});
+    $$(".view").forEach(x=>{x.hidden=x.dataset.view!==v;x.classList.toggle("on",!x.hidden);if(!x.hidden){x.classList.remove("in");void x.offsetWidth;x.classList.add("in")}});
     $$(".nav [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
     setDr(false); updFab();
     window.dispatchEvent(new CustomEvent("studio:route",{detail:{v:v,sub:sub}}));
