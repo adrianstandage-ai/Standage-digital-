@@ -72,6 +72,7 @@ window.SITE = {
     <div class="demo-strip"><b>Demonstration website</b><span class="ds2"> &nbsp;·&nbsp; studio name, images, prices and details are placeholders</span></div>
     <header class="hdr"><div class="wrap">${logo}<nav class="nav" aria-label="Main">${navHTML}</nav>
     <a class="btn hbtn" href="#book">Book Appointment</a><button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button></div></header>
+    <nav class="pagebar" aria-label="Pages">${links.map(([h,t,k])=>`<a href="${h}" data-k="${k}">${t}</a>`).join("")}</nav>
     <div class="drawer" id="drawer" aria-hidden="true"><div class="top">${logo}<button class="burger" aria-label="Close menu" aria-expanded="true" id="closeDrawer"><i></i><i></i></button></div>
       <a class="big" href="#home">Home</a><a class="big" href="#treatments">Treatments</a>
       <div class="sub">${S.treatments.map(x=>`<a href="#t-${x.id}">${x.name}</a>`).join("")}</div>
@@ -139,7 +140,7 @@ window.SITE = {
     if(ROUTES.indexOf(v)<0) v="home";
     page=v;
     $$(".view").forEach(x=>{x.hidden=x.dataset.view!==v;x.classList.toggle("on",!x.hidden);if(!x.hidden){x.classList.remove("in");void x.offsetWidth;x.classList.add("in")}});
-    $$(".nav [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
+    $$(".nav [data-k],.pagebar [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
     setDr(false); updFab();
     window.dispatchEvent(new CustomEvent("studio:route",{detail:{v:v,sub:sub}}));
     const el=(sub&&v==="treatments")?document.getElementById(sub):null;
