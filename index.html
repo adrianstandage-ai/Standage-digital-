@@ -306,6 +306,7 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .lgo{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:13px 20px;border-radius:99px;box-shadow:0 10px 26px -8px #000a;animation:lpulse 2.2s ease-in-out infinite}
 .lgo i{width:0;height:0;border-left:11px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
 @keyframes lpulse{50%{transform:scale(1.06)}}
+.lvid{display:block;width:min(340px,86vw);height:auto;aspect-ratio:4/5;border-radius:20px;box-shadow:0 30px 70px -18px #000c;background:#f5f0e6}
 .lcap{margin:0;max-width:36ch;color:#fff;font-size:1rem;line-height:1.45}
 .lcap b{color:var(--accent)}
 .lhint{margin:-6px 0 0;color:var(--band-muted);font-size:.84rem}
@@ -930,6 +931,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   <span class="eyebrow" style="color:var(--band-muted)">Apps</span>
   <h1 data-split>Your business, in your customers' pocket</h1>
   <p class="lead">I build apps for local businesses: your name, your prices, your offers, on your customers' phones. Here's a real one I made.</p><div class="live" data-live>
+    <video class="lvid" src="img/propnet-showcase.mp4" poster="img/propnet-showcase-poster.jpg" autoplay muted loop playsinline preload="metadata" width="540" height="675" aria-label="A 15 second tour of PropNet: profit dashboard, properties, logging rent and costs, and the tax summary"></video>
     <div class="lphone"><div class="lscr">
       <img class="lposter" src="img/propnet-poster.webp" width="390" height="844" alt="The PropNet app showing a landlord's profit dashboard with sample data">
       <button class="ltap" type="button" aria-label="Try the real PropNet app here"><span class="lgo"><i></i>Tap to try the real app</span></button>
