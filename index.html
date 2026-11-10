@@ -374,6 +374,15 @@ footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
 .dgrid::-webkit-scrollbar{display:none}
 .dgrid .dcard{flex:0 0 88%;scroll-snap-align:center;min-width:0}
 }
+
+.dphone[data-demo]{cursor:pointer}
+.dphone[data-demo]::after{content:"Tap to try the full site";position:absolute;left:50%;bottom:20px;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.78rem;padding:8px 14px;border-radius:99px;box-shadow:0 8px 20px -6px #000a;white-space:nowrap;pointer-events:none;z-index:4}
+.dov{position:fixed;inset:0;z-index:100;background:#050a0ee6;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:12px}
+.dov.on{display:flex}
+.dov .ovn{color:#fff;font-weight:700;font-size:.95rem;display:flex;gap:12px;align-items:center}
+.dov .ovn button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:99px;font-weight:800;padding:9px 18px;font-size:.95rem}
+.dov .ovp{height:min(calc(100dvh - 96px),calc((100vw - 24px)*2.1));aspect-ratio:390/844;border-radius:40px;padding:10px;background:linear-gradient(145deg,#2c3a44,#0a1217);box-shadow:0 30px 70px -18px #000,0 0 0 1.5px #ffffff22 inset;max-width:calc(100vw - 24px)}
+.dov iframe{width:100%;height:100%;border:0;border-radius:30px;background:#fff;display:block}
 .svc{padding-top:0}
 .svcs{display:grid;gap:14px;margin-top:10px}
 .svcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;display:grid;gap:10px;align-content:start;box-shadow:0 18px 40px -28px #12212b66}
@@ -640,21 +649,21 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   <p class="lead rv" style="--d:2">Every site is designed around the individual business, never a template with your name dropped in. These are made-up businesses, built the same way as yours. Real pages you can scroll, tap and try. Swipe a phone to scroll it, or tap the button to open the full site.</p>
   <div class="dgrid">
     <article class="dcard rv" style="--d:2;--glow:#c9a24a">
-      <div class="dphone" style="--dur:90s" role="group" aria-label="Preview of the Aurelia Aesthetic Studio demo website"><div class="dscreen"><img src="showcase/aurelia-scroll.webp" width="480" height="12437" loading="lazy" decoding="async" alt="Scrolling preview of the Aurelia Aesthetic Studio demo website, a made-up beauty studio"></div></div>
+      <div class="dphone" style="--dur:90s" role="button" tabindex="0" data-demo="showcase/aurelia-studio/index.html" data-name="Aurelia Aesthetic Studio" aria-label="Open the Aurelia Aesthetic Studio demo inside a phone"><div class="dscreen"><img src="showcase/aurelia-scroll.webp" width="480" height="12437" loading="lazy" decoding="async" alt="Scrolling preview of the Aurelia Aesthetic Studio demo website, a made-up beauty studio"></div></div>
       <span class="dtag">Demo · beauty and aesthetics style</span>
       <h3>Aurelia Aesthetic Studio</h3>
       <p>A calm, premium look for a beauty studio: treatments, a gallery and a booking requests page. Swipe between pages on your phone.</p>
       <a class="btn primary" href="showcase/aurelia-studio/index.html" target="_blank" rel="noopener">Open the live demo</a>
     </article>
     <article class="dcard rv" style="--d:3;--glow:#c0562b">
-      <div class="dphone" style="--dur:75s" role="group" aria-label="Preview of the Izakaya Sakura demo website"><div class="dscreen"><img src="showcase/izakaya-scroll.webp" width="480" height="10049" loading="lazy" decoding="async" alt="Scrolling preview of the Izakaya Sakura demo website, a made-up Japanese restaurant"></div></div>
+      <div class="dphone" style="--dur:75s" role="button" tabindex="0" data-demo="https://adrianstandage-ai.github.io/izakaya-sakura/" data-name="Izakaya Sakura" aria-label="Open the Izakaya Sakura demo inside a phone"><div class="dscreen"><img src="showcase/izakaya-scroll.webp" width="480" height="10049" loading="lazy" decoding="async" alt="Scrolling preview of the Izakaya Sakura demo website, a made-up Japanese restaurant"></div></div>
       <span class="dtag">Demo · restaurant and takeaway style</span>
       <h3>Izakaya Sakura</h3>
       <p>Menu, ordering, booking and a guided tour. Built for a restaurant, and the same ideas work for a takeaway or café.</p>
       <a class="btn primary" href="https://adrianstandage-ai.github.io/izakaya-sakura/" target="_blank" rel="noopener">Open the live demo</a>
     </article>
     <article class="dcard rv" style="--d:4;--glow:#2a8fdb">
-      <div class="dphone" style="--dur:40s" role="group" aria-label="Preview of the Willow and Wren Cleaning demo website"><div class="dscreen"><img src="showcase/cleaning-scroll.webp" width="480" height="4676" loading="lazy" decoding="async" alt="Scrolling preview of the Willow and Wren Cleaning demo website, a made-up cleaning business"></div></div>
+      <div class="dphone" style="--dur:40s" role="button" tabindex="0" data-demo="showcase/willow-wren/index.html" data-name="Willow &amp; Wren Cleaning" aria-label="Open the Willow and Wren Cleaning demo inside a phone"><div class="dscreen"><img src="showcase/cleaning-scroll.webp" width="480" height="4676" loading="lazy" decoding="async" alt="Scrolling preview of the Willow and Wren Cleaning demo website, a made-up cleaning business"></div></div>
       <span class="dtag">Demo · fictional cleaner</span>
       <h3>Willow &amp; Wren Cleaning</h3>
       <p>A waiting-list page for a busy one-person service: prices, a simple join form and a friendly feel.</p>
@@ -1221,6 +1230,23 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     document.addEventListener("touchcancel",done,{passive:true});
   })();
   addEventListener("hashchange",route);route();
+})();
+</script>
+<script>
+(function(){
+  var ov=document.createElement("div");ov.className="dov";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");
+  ov.innerHTML='<div class="ovn"><span></span><button type="button">Close</button></div><div class="ovp"><iframe title="Demo website" loading="lazy"></iframe></div>';
+  document.body.appendChild(ov);
+  var fr=ov.querySelector("iframe"),nm=ov.querySelector("span");
+  function open(el){nm.innerHTML=el.getAttribute("data-name")+" (made-up demo)";fr.src=el.getAttribute("data-demo");ov.classList.add("on");document.body.style.overflow="hidden"}
+  function close(){ov.classList.remove("on");fr.src="about:blank";document.body.style.overflow=""}
+  ov.querySelector("button").addEventListener("click",close);
+  ov.addEventListener("click",function(e){if(e.target===ov)close()});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&ov.classList.contains("on"))close()});
+  [].forEach.call(document.querySelectorAll(".dphone[data-demo]"),function(p){
+    p.addEventListener("click",function(){open(p)});
+    p.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open(p)}});
+  });
 })();
 </script>
 </body>
