@@ -142,6 +142,7 @@ window.SITE = {
     $$(".view").forEach(x=>{x.hidden=x.dataset.view!==v;x.classList.toggle("on",!x.hidden);if(!x.hidden){x.classList.remove("in");void x.offsetWidth;x.classList.add("in")}});
     $$(".nav [data-k],.pagebar [data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===v));
     setDr(false); updFab();
+    $$(".pagebar").forEach(b=>{const a=b.querySelector("[data-k].on");if(a)b.scrollTo({left:a.offsetLeft-(b.clientWidth-a.offsetWidth)/2,behavior:"smooth"})});
     window.dispatchEvent(new CustomEvent("studio:route",{detail:{v:v,sub:sub}}));
     const el=(sub&&v==="treatments")?document.getElementById(sub):null;
     if(el) requestAnimationFrame(()=>el.scrollIntoView({block:"start"})); else window.scrollTo(0,0);
