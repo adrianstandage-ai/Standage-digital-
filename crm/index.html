@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Flowdesk</title>
+<title>Nudgebook</title>
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#12212B">
 <style>
 /* ===== THEME: change only this block to re-skin the whole app ===== */
@@ -270,7 +270,7 @@ function tab(n){T=n;render()}
 function dueBadge(){const t=today(),n=db.filter(c=>open(c)&&c.next&&c.next<=t).length,b=$('#t0');
  let k=b.querySelector('.nb');if(!k){k=document.createElement('i');k.className='nb';b.appendChild(k)}k.textContent=n>9?'9+':n;k.style.display=n?'inline-grid':'none';
  try{n?navigator.setAppBadge&&navigator.setAppBadge(n):navigator.clearAppBadge&&navigator.clearAppBadge()}catch(e){}
- document.title=n?'('+n+') Flowdesk':'Flowdesk'}
+ document.title=n?'('+n+') Nudgebook':'Nudgebook'}
 function render(){document.querySelectorAll('.tabs button').forEach((b,i)=>b.classList.toggle('on',b.id==='t'+T));dueBadge();const v=$('#v');
 $('#dt').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});window.scrollTo(0,0);
 if(T===0){const t=today(),act=db.filter(c=>open(c)&&c.next);const due=act.filter(c=>c.next<=t).sort((a,b)=>a.next>b.next?1:-1),soon=act.filter(c=>c.next>t).sort((a,b)=>a.next>b.next?1:-1),none=db.filter(c=>open(c)&&!c.next);
