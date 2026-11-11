@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Start your free draft | Standage Digital</title>
+<meta name="description" content="Tell me what you'd like your website to feel like. A few taps, about three minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--bg:#F5F7F6;--surface:#fff;--ink:#12212B;--muted:#55636C;--line:#DCE3E0;--accent:#DDB44A;--accent-ink:#12212B;--display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:"Figtree",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0A1B3A;--surface:#112A52;--ink:#E9EEF0;--muted:#A3B3CC;--line:#223F6E;--accent:#E6BC4E;color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);-webkit-text-size-adjust:100%}
+.wrap{max-width:660px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-left)) 120px}
+h1,h2{font-family:var(--display);line-height:1.06;margin:0;letter-spacing:-.02em}
+h1{font-size:clamp(2rem,9vw,3rem);font-weight:800}h2{font-size:1.7rem;font-weight:800;margin-bottom:6px}
+p{margin:0}.small{font-size:.88rem;color:var(--muted)}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;font-weight:600}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;width:25%;background:linear-gradient(90deg,#F6DA85,var(--accent),#B98F2C);transition:width .3s}
+fieldset{border:0;padding:0;margin:22px 0 0}legend{font-weight:600;padding:0;margin-bottom:10px}
+.step{display:none}.step.on{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{position:relative}.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt span{display:flex;flex-direction:column;gap:2px;min-height:58px;justify-content:center;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:var(--surface);font-weight:600;line-height:1.25}
+.opt span small{font-weight:400;color:var(--muted);font-size:.8rem}
+.opt input:checked+span{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+.opt input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.sw{display:flex;align-items:center;gap:10px;flex-direction:row!important}.sw b{width:26px;height:26px;border-radius:50%;flex:none;border:1px solid #0003}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.full{grid-column:1/-1}
+label.f{display:block;font-weight:600;margin-top:14px}
+input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:6px;min-height:48px}
+textarea{min-height:90px}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--accent);outline-offset:1px}
+.nav{position:fixed;left:0;right:0;bottom:0;padding:10px max(16px,env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 35%);}
+.nav div{max-width:660px;margin:0 auto;display:flex;gap:10px}
+.btn{flex:1;display:inline-flex;align-items:center;justify-content:center;padding:15px 22px;border-radius:999px;font:600 1rem var(--body);border:2px solid transparent;cursor:pointer;text-decoration:none}
+.btn.primary{background:linear-gradient(135deg,#F6DA85 0%,var(--accent) 45%,#B98F2C 100%);color:var(--accent-ink);flex:2}
+.btn.ghost{border-color:var(--line);background:transparent;color:inherit}
+.btn[disabled]{opacity:.6}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:18px}
+.hp{position:absolute;left:-9999px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px}.chk input{width:22px;height:22px;margin-top:3px;flex:none;accent-color:var(--accent)}
+.err{color:#e06a5a;font-weight:600;margin-top:10px;min-height:1em}
+.done{display:none;text-align:left}
+</style></head><body>
+<div class="wrap">
+<div class="top"><a href="/" style="text-decoration:none">← Standage Digital</a><span class="small" id="stepLabel">Step 1 of 4</span></div>
+<div class="bar"><i id="bar"></i></div>
+<h1 style="margin-top:18px">Start your free draft</h1>
+<p style="margin-top:10px">A few taps, about three minutes. Filling this in is free, and so is the first draft. It just helps me make it feel like you.</p>
+
+<form id="f" novalidate action="https://formsubmit.co/ajax/hello@standagedigital.co.uk" method="POST">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<input type="hidden" name="_subject" value="New free draft request"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false">
+
+<section class="step on" data-step="1">
+<fieldset><legend>What feel are you after?</legend><div class="grid">
+<label class="opt"><input type="radio" name="Style" value="Clean and modern"><span>Clean and modern<small>Light, simple, lots of space</small></span></label>
+<label class="opt"><input type="radio" name="Style" value="Bold and striking"><span>Bold and striking<small>Big type, strong contrast</small></span></label>
+<label class="opt"><input type="radio" name="Style" value="Warm and friendly"><span>Warm and friendly<small>Welcoming, personal</small></span></label>
+<label class="opt"><input type="radio" name="Style" value="Elegant and premium"><span>Elegant and premium<small>Polished, calm, upmarket</small></span></label>
+<label class="opt"><input type="radio" name="Style" value="Fun and playful"><span>Fun and playful<small>Bright, cheerful</small></span></label>
+<label class="opt"><input type="radio" name="Style" value="Not sure, surprise me"><span>Not sure<small>Surprise me</small></span></label>
+</div></fieldset>
+<fieldset><legend>Light or dark?</legend><div class="row3">
+<label class="opt"><input type="radio" name="Light or dark" value="Light"><span>Light</span></label>
+<label class="opt"><input type="radio" name="Light or dark" value="Dark"><span>Dark</span></label>
+<label class="opt"><input type="radio" name="Light or dark" value="No preference"><span>Either</span></label></div></fieldset>
+<label class="f">A website you like the look of (optional)<input type="text" name="Example site" placeholder="Paste a link or a name"></label>
+</section>
+
+<section class="step" data-step="2">
+<fieldset><legend>Colours you like (pick up to two)</legend><div class="grid" id="cols">
+<label class="opt"><input type="checkbox" name="Colours" value="Blue"><span class="sw"><b style="background:#2F6FDE"></b>Blue</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Green"><span class="sw"><b style="background:#2E9E6B"></b>Green</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Red"><span class="sw"><b style="background:#D63C3C"></b>Red</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Pink"><span class="sw"><b style="background:#E0529C"></b>Pink</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Orange or yellow"><span class="sw"><b style="background:#EFA02B"></b>Orange / yellow</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Purple"><span class="sw"><b style="background:#7B4FD0"></b>Purple</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Black, white or grey"><span class="sw"><b style="background:linear-gradient(90deg,#111 50%,#eee 50%)"></b>Black / white</span></label>
+<label class="opt"><input type="checkbox" name="Colours" value="Earthy neutrals"><span class="sw"><b style="background:#B08A62"></b>Earthy neutrals</span></label>
+</div></fieldset>
+<fieldset><legend>How strong should the colour be?</legend><div class="row3">
+<label class="opt"><input type="radio" name="Colour intensity" value="Soft"><span>Soft<small>Gentle</small></span></label>
+<label class="opt"><input type="radio" name="Colour intensity" value="Balanced"><span>Balanced<small>In between</small></span></label>
+<label class="opt"><input type="radio" name="Colour intensity" value="Bold"><span>Bold<small>Vivid</small></span></label></div></fieldset>
+<label class="f">Already have brand colours or a logo? Tell me about it (optional)<input type="text" name="Brand colours" placeholder="e.g. dark green and cream"></label>
+</section>
+
+<section class="step" data-step="3">
+<fieldset><legend>What do you already have? (tick any)</legend><div class="grid">
+<label class="opt"><input type="checkbox" name="Already have" value="Logo"><span>Logo</span></label>
+<label class="opt"><input type="checkbox" name="Already have" value="Own photos"><span>My own photos</span></label>
+<label class="opt"><input type="checkbox" name="Already have" value="Wording written"><span>Wording written</span></label>
+<label class="opt"><input type="checkbox" name="Already have" value="Current website"><span>A current website</span></label>
+<label class="opt"><input type="checkbox" name="Already have" value="Facebook or Instagram"><span>Facebook / Instagram</span></label>
+<label class="opt"><input type="checkbox" name="Already have" value="Google Business Profile"><span>Google profile</span></label>
+</div></fieldset>
+<fieldset><legend>Where might you want a hand? (tick any)</legend><p class="small" style="margin:-4px 0 10px">I'll tell you what's included and any cost before anything starts.</p><div class="grid">
+<label class="opt"><input type="checkbox" name="Need help with" value="Writing the wording"><span>Writing the wording</span></label>
+<label class="opt"><input type="checkbox" name="Need help with" value="Photos"><span>Photos</span></label>
+<label class="opt"><input type="checkbox" name="Need help with" value="Logo"><span>A logo</span></label>
+<label class="opt"><input type="checkbox" name="Need help with" value="Booking requests"><span>Booking requests</span></label>
+<label class="opt"><input type="checkbox" name="Need help with" value="WhatsApp button"><span>WhatsApp button</span></label>
+<label class="opt"><input type="checkbox" name="Need help with" value="Google profile"><span>Google profile</span></label>
+<label class="opt full"><input type="checkbox" name="Need help with" value="A questionnaire or enquiry form like this one, for my own site"><span>A questionnaire or enquiry form like this one, for my own site</span></label>
+</div></fieldset>
+<fieldset><legend>The technical bits (no worries if unsure)</legend>
+<label class="f" style="margin-top:0">Domain name (the .co.uk or .com)
+<select name="Domain"><option value="">Choose</option><option>I have one</option><option>No, I need one</option><option>Not sure</option></select></label>
+<input type="text" name="Domain name" placeholder="Your domain, if you have one">
+<label class="f">Website hosting
+<select name="Hosting"><option value="">Choose</option><option>I have hosting</option><option>No, I need it sorted</option><option>Not sure</option></select></label>
+<label class="f">Business email
+<select name="Email"><option value="">Choose</option><option>I have one</option><option>No, I use Gmail or similar</option><option>I'd like one</option><option>Not sure</option></select></label>
+</fieldset>
+</section>
+
+<section class="step" data-step="4">
+<fieldset style="margin-top:0"><legend>Who am I making it for?</legend>
+<label class="f" style="margin-top:0">Your name<input type="text" name="name" autocomplete="name" required></label>
+<label class="f">Business name<input type="text" name="Business" autocomplete="organization" required></label>
+<label class="f">What does the business do?<input type="text" name="Trade" placeholder="e.g. hair salon, plumber, café"></label>
+<label class="f">Mobile number<input type="tel" name="Phone" autocomplete="tel" inputmode="tel"></label>
+<label class="f">Email<input type="email" name="email" autocomplete="email" inputmode="email"></label>
+<label class="f">Best way to reach you
+<select name="Best way"><option>WhatsApp</option><option>Phone call</option><option>Email</option></select></label>
+<label class="f">Anything else I should know? (optional)<textarea name="Notes"></textarea><span class="small">Please don't include passwords or card details.</span></label>
+</fieldset>
+<label class="chk"><input type="checkbox" id="ok"><span>I'm happy for Standage Digital to use these details to contact me about my free draft.</span></label>
+<div class="note small">Privacy: Adrian Standage, trading as Standage Digital, Basingstoke. I'll only use your details to reply about your draft. This form is delivered through FormSubmit, a third-party form service. I won't sell your details, share them or add you to a mailing list. If we don't go ahead I'll delete them after 6 months, or sooner if you ask: email hello@standagedigital.co.uk.</div>
+<p class="err" id="err" role="alert"></p>
+</section>
+</form>
+
+<section class="done" id="done"><h2>Thank you, that's with me.</h2>
+<p style="margin-top:8px">I'll message you soon about your draft. If you'd like to give me a nudge, tap below.</p>
+<div style="margin-top:16px;display:flex;flex-direction:column;gap:10px"><a class="btn primary" id="wa" href="#">Message me on WhatsApp</a><a class="btn ghost" href="/">Back to the site</a></div></section>
+</div>
+<div class="nav" id="nav"><div><button class="btn ghost" id="back" type="button" style="visibility:hidden">Back</button><button class="btn primary" id="next" type="button">Next</button></div></div>
+<script>
+(function(){
+var f=document.getElementById("f"),steps=[].slice.call(document.querySelectorAll(".step")),i=0,
+next=document.getElementById("next"),back=document.getElementById("back"),err=document.getElementById("err");
+function show(n){i=n;steps.forEach(function(s,k){s.classList.toggle("on",k===n)});
+document.getElementById("bar").style.width=((n+1)*25)+"%";document.getElementById("stepLabel").textContent="Step "+(n+1)+" of 4";
+back.style.visibility=n?"visible":"hidden";next.textContent=n===3?"Send it":"Next";window.scrollTo(0,0)}
+f.addEventListener("change",function(e){if(e.target.name==="Colours"){var c=f.querySelectorAll('[name=Colours]:checked');if(c.length>2)e.target.checked=false}});
+back.onclick=function(){show(i-1)};
+function summary(){var o=[],fd=new FormData(f),m={};fd.forEach(function(v,k){if(!v||k[0]==="_")return;m[k]=m[k]?m[k]+", "+v:v});
+for(var k in m)o.push(k+": "+m[k]);return o.join("\n")}
+next.onclick=function(){err.textContent="";
+if(i<3){show(i+1);return}
+var n=f.elements.name.value.trim(),b=f.elements.Business.value.trim(),p=f.elements.Phone.value.trim(),e=f.elements.email.value.trim();
+if(!n||!b){err.textContent="Please add your name and business name.";return}
+if(!p&&!e){err.textContent="Please add a mobile number or an email so I can reply.";return}
+if(!document.getElementById("ok").checked){err.textContent="Please tick the box so I can contact you.";return}
+if(f.elements._honey.value)return;
+next.disabled=true;next.textContent="Sending…";
+var wa="https://wa.me/447751435993?text="+encodeURIComponent("Hi Adrian, I've just filled in the free draft form.\n\n"+summary());
+document.getElementById("wa").href=wa;
+fetch(f.action,{method:"POST",headers:{"Accept":"application/json"},body:new FormData(f)}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(){fin()}).catch(function(){
+next.disabled=false;next.textContent="Send it";
+err.innerHTML='That didn\'t send. Please tap here to send it by <a href="'+wa+'">WhatsApp</a> instead.'});
+function fin(){f.style.display="none";document.getElementById("nav").style.display="none";document.querySelector(".bar").style.display="none";document.getElementById("done").style.display="block";document.getElementById("stepLabel").textContent="Done";window.scrollTo(0,0)}
+};
+})();
+</script></body></html>
