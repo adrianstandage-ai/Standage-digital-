@@ -276,7 +276,7 @@ footer{background:var(--band);color:var(--band-muted);border-top:1px solid #ffff
 footer .wrap{padding-block:26px 100px;display:grid;gap:12px;font-size:.84rem}
 footer nav{display:flex;flex-wrap:wrap;gap:6px 16px}
 footer nav a{color:var(--band-fg);font-weight:600;text-decoration:none}
-.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:linear-gradient(transparent,var(--bg) 42%);transform:translateY(120%);transition:transform .4s}
+.sticky{display:none!important;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:linear-gradient(transparent,var(--bg) 42%);transform:translateY(120%);transition:transform .4s}
 .sticky.show{transform:none}
 .sticky .btn{width:100%;max-width:660px;margin:0 auto;display:flex;box-shadow:0 8px 24px -8px #0008}
 @media (min-width:820px){.hero.home .wrap{max-width:760px}.hero.home .wrap>*{grid-column:1}}
@@ -639,7 +639,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 <div class="prog" aria-hidden="true"></div>
 <header class="top"><div class="wrap">
   <a class="brand" href="#home" aria-label="Standage Digital home"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C10 2 2 9.4 2 18.6c0 5 2.4 9.4 6.2 12.4L6.5 38l8.3-3.9c1.6.4 3.4.6 5.2.6 10 0 18-7.4 18-16.6S30 2 20 2z" fill="#C9A24A"/><text x="20" y="26.5" text-anchor="middle" font-family="Bricolage Grotesque, Trebuchet MS, sans-serif" font-weight="800" font-size="21" fill="#12212B">S</text></svg><span>Standage Digital</span></a>
-  <a class="btn primary mini" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Free draft</a>
+  <a class="btn primary mini" href="/start/">Free draft</a>
   <nav class="tabs" aria-label="Main"><a href="#home" data-tab="home">Websites</a><a href="#digital" data-tab="digital">Digital help</a><a href="#apps" data-tab="apps">Apps</a><a href="#contact" data-tab="contact">Contact</a></nav>
 </div></header>
 <main id="p-home" data-page="home">
@@ -765,7 +765,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 <section class="band" id="end"><i class="aur a"></i><div class="wrap">
   <h2 class="rv">Fancy a free draft?</h2>
   <p class="rv">Tell me what your business does and what you'd like to improve. I'll come back to you with some ideas. No pressure and no obligation.</p>
-  <div class="cta-row rv"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">WhatsApp me</a><a class="btn ghost" href="#contact">Other ways to reach me</a></div>
+  <div class="cta-row rv"><a class="btn primary" href="/start/">Get my free draft</a><a class="btn ghost" href="#contact">Other ways to reach me</a></div>
 </div></section>
 </main>
 <main id="p-digital" data-page="digital" hidden>
