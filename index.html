@@ -223,6 +223,11 @@ section .wrap{padding-block:56px;display:grid;gap:20px}
 .tick{width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
 .about{display:grid;grid-template-columns:104px 1fr;gap:18px;align-items:center}
 .about img{width:104px;height:104px;object-fit:cover;border-radius:50% 50% 50% 14px;border:3px solid var(--accent)}
+.hbs{display:grid;gap:12px;padding-top:26px;padding-bottom:6px}
+.hb>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font:700 1.15rem var(--display);padding:18px 20px;border:2px solid var(--line);border-radius:18px;background:var(--surface)}
+.hb>summary::-webkit-details-marker{display:none}
+.hb>summary::after{content:"+";font-size:1.5rem;color:var(--accent);line-height:1}
+.hb[open]>summary{border-color:var(--accent)}.hb[open]>summary::after{content:"\2212"}
 .faq details{border-bottom:1px solid var(--line);padding:14px 0}
 .faq summary{font-weight:600;cursor:pointer}
 .faq details p{color:var(--muted);margin-top:8px}
@@ -688,7 +693,8 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
   </div>
 </div></section>
 
-<section><div class="wrap">
+<div class="hbs wrap">
+<details class="hb"><summary>How it works</summary><section><div class="wrap">
   <span class="eyebrow rv">How it works</span>
   <h2 class="rv" style="--d:1">You see your site before you pay a penny</h2>
   <ol class="steps">
@@ -698,9 +704,8 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     <li class="rv"><span class="n">4</span><div><h3>Changes by WhatsApp</h3><p>New price, new offer, closed for a week? Send me a message or a photo and I sort it.</p></div></li>
   </ol>
   <div class="cta-row rv"><a class="btn primary" href="/start/">Start with a free draft</a></div>
-</div></section>
-
-<section id="prices"><div class="wrap">
+</div></section></details>
+<details class="hb"><summary>Prices</summary><section id="prices"><div class="wrap">
   <span class="eyebrow rv">Prices</span>
   <h2 class="rv" style="--d:1">Straight prices, two ways to pay</h2>
   <div class="founding rv"><b>Founding customer rate: £199 setup, limited to 5 businesses</b>
@@ -734,28 +739,8 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     <div class="row rv"><b>Send me a business that signs up</b><span class="amt">1 month free</span></div>
   </div>
   <p class="small rv">Updates are for the everyday things on your page; a new page or a big rebuild is quoted separately. On the pay-once option you can cancel the monthly any month. Your web address stays yours. Looking for more than a website? See <a href="#digital"><b>Digital help</b></a>.</p>
-</div></section>
-
-<section><div class="wrap">
-  <span class="eyebrow rv">My promise</span>
-  <h2 class="rv" style="--d:1">If it's not right, you get your money back</h2>
-  <div class="promise">
-    <div class="rv"><span class="tick">✓</span><p><b>Free draft. Pay nothing until it's live.</b> Your setup fee is due when your site goes live, and monthly fees start then.</p></div>
-    <div class="rv"><span class="tick">✓</span><p><b>30-day money back.</b> Don't love it in 30 days? Money back, on either option.</p></div>
-    <div class="rv"><span class="tick">✓</span><p><b>No long contract on the pay-once option.</b> Stop the monthly whenever you like. The no-setup-fee option has a 12-month minimum.</p></div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <span class="eyebrow rv">About me</span>
-  <div class="about rv">
-    <img data-img="adrian" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="104" height="104" alt="Adrian Standage" loading="lazy">
-    <p>I'm Adrian. I spent 20 years in IT sales and now help local businesses get online properly. I'm in Basingstoke, so you're dealing with a person down the road, not a call centre. Most owners don't want to learn website software. They want it done, so I do it.</p>
-  </div>
-  <p class="rv">I also build my own apps. Here's one I made, <a href="#apps"><b>PropNet</b></a>.</p>
-</div></section>
-
-<section class="faq"><div class="wrap">
+</div></section></details>
+<details class="hb"><summary>Common questions</summary><section class="faq"><div class="wrap">
   <span class="eyebrow rv">Questions</span>
   <h2 class="rv" style="--d:1">Things people ask</h2>
   <div class="rv">
@@ -764,6 +749,17 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
     <details><summary>Whose photos do you use?</summary><p>Yours. Real photos of your work look better and are honest. If you need some, there's the photo day.</p></details>
     <details><summary>Who owns the website address?</summary><p>You do. It's registered in your name.</p></details>
   </div>
+</div></section></details>
+<p class="small" style="text-align:center;margin-top:14px"><a href="/terms/">Terms, including the 30-day money back</a></p>
+</div>
+
+<section><div class="wrap">
+  <span class="eyebrow rv">About me</span>
+  <div class="about rv">
+    <img data-img="adrian" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="104" height="104" alt="Adrian Standage" loading="lazy">
+    <p>I'm Adrian. I spent 20 years in IT sales and now help local businesses get online properly. I'm in Basingstoke, so you're dealing with a person down the road, not a call centre. Most owners don't want to learn website software. They want it done, so I do it.</p>
+  </div>
+  <p class="rv">I also build my own apps. Here's one I made, <a href="#apps"><b>PropNet</b></a>.</p>
 </div></section>
 
 <section class="band" id="end"><i class="aur a"></i><div class="wrap">
@@ -925,7 +921,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.7
 </div></section>
 </main>
 <footer><div class="wrap">
-  <nav aria-label="Footer"><a href="#home">Websites</a><a href="#digital">Digital help</a><a href="#apps">Apps</a><a href="#contact">Contact</a></nav>
+  <nav aria-label="Footer"><a href="#home">Websites</a><a href="#digital">Digital help</a><a href="#apps">Apps</a><a href="#contact">Contact</a><a href="/terms/">Terms</a></nav>
   <p>Standage Digital · Adrian Standage · Basingstoke, Hampshire · Covering Basingstoke, Winchester, Alton, Fleet, Farnham and Newbury · Mon to Fri, 9am to 5.30pm, Sat 9.30am to 4.30pm · The examples on this site are made-up businesses.</p>
 </div></footer>
 <div class="sticky" id="sticky"><a class="btn primary" href="https://wa.me/447751435993?text=Hi%20Adrian%2C%20I%27d%20like%20a%20free%20draft%20of%20my%20website">Get my free draft on WhatsApp</a></div>
