@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8">
+<title>Lux Building Solutions | Front page mock-up</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#14110e">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14110e;--ink2:#1d1914;--card:#241f19;--gold:#c9a45c;--gold2:#e6cf9a;--cream:#f6f1e8;--mut:#b9ad9a;--line:rgba(201,164,92,.28)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:var(--cream);font:400 16px/1.65 Jost,system-ui,sans-serif;overflow-x:hidden;padding-bottom:78px}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:.2px}
+.wrap{width:min(1120px,100% - 40px);margin:auto}
+.eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500;display:inline-flex;gap:12px;align-items:center}
+.eyebrow:before{content:"";width:28px;height:1px;background:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border-radius:2px;font-weight:500;letter-spacing:.06em;font-size:14px;text-transform:uppercase;border:1px solid var(--gold);transition:.3s;cursor:pointer;font-family:inherit}
+.btn.gold{background:linear-gradient(135deg,#e6cf9a,#c9a45c 55%,#a9842f);color:#1a140a;border-color:transparent}
+.btn.gold:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.btn.ghost{color:var(--gold2)}.btn.ghost:hover{background:rgba(201,164,92,.12)}
+/* banner */
+.demo{background:#0b0907;border-bottom:1px solid var(--line);font-size:12px;text-align:center;padding:8px 14px;color:var(--mut);letter-spacing:.03em}
+.demo b{color:var(--gold2);font-weight:500}
+/* nav */
+header{position:sticky;top:0;z-index:50;background:rgba(20,17,14,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:.32em;font-weight:600;color:var(--gold2)}
+.logo small{display:block;font:400 9px/1 Jost;letter-spacing:.42em;color:var(--mut);margin-top:4px;text-transform:uppercase}
+nav.links{display:none;gap:30px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+nav.links a:hover{color:var(--gold2)}
+.navcall{font-size:13px;font-weight:500;color:var(--gold2);letter-spacing:.06em;border:1px solid var(--line);padding:9px 14px;border-radius:2px}
+/* hero */
+.hero{position:relative;padding:54px 0 70px;background:radial-gradient(900px 500px at 85% 0%,rgba(201,164,92,.20),transparent 60%),radial-gradient(700px 500px at 0% 100%,rgba(201,164,92,.10),transparent 60%),var(--ink)}
+.hero .grid{display:grid;gap:42px}
+.hero h1{font-size:clamp(44px,11vw,88px);margin:18px 0 20px}
+.hero h1 em{color:var(--gold2);font-style:italic}
+.lede{color:#d9d0c0;font-size:18px;max-width:520px}
+.cta{display:flex;flex-direction:column;gap:12px;margin:30px 0 8px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:38px;border-top:1px solid var(--line)}
+.facts div{padding:18px 8px 0;text-align:left;font-size:12px;color:var(--mut);letter-spacing:.04em}
+.facts b{display:block;font:500 28px/1.1 'Cormorant Garamond',serif;color:var(--gold2);margin-bottom:4px}
+.art{position:relative;min-height:420px}
+.art .main{position:absolute;inset:0 18% 12% 0;border-radius:200px 200px 4px 4px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.art .sm{position:absolute;right:0;bottom:0;width:46%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:6px solid var(--ink);background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.art img{width:100%;height:100%;object-fit:cover}
+.art:after{content:"";position:absolute;left:-14px;top:30px;width:60%;height:78%;border:1px solid var(--line);border-radius:200px 200px 4px 4px;z-index:-1}
+/* sections */
+section{padding:76px 0}
+section h2{font-size:clamp(34px,7.5vw,56px);margin:14px 0 16px}
+section h2 em{color:var(--gold2)}
+.sub{color:var(--mut);max-width:560px}
+.alt{background:var(--ink2);border-block:1px solid rgba(201,164,92,.12)}
+/* services */
+.svc{display:grid;gap:20px;margin-top:40px}
+.svc a{position:relative;display:block;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--card);min-height:300px;isolation:isolate}
+.svc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s}
+.svc a:hover img{transform:scale(1.06)}
+.svc a:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(14,11,8,.95) 8%,rgba(14,11,8,.35) 60%,rgba(14,11,8,.1))}
+.svc .in{position:absolute;left:0;right:0;bottom:0;padding:26px}
+.svc h3{font-size:32px;color:var(--cream)}
+.svc p{color:#d4cab8;font-size:15px;margin:8px 0 12px}
+.svc .more{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+/* trades */
+.trades{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px}
+.trade{padding:22px 18px;border:1px solid var(--line);border-radius:3px;background:var(--card);transition:.3s}
+.trade:hover{border-color:var(--gold);transform:translateY(-3px)}
+.trade svg{width:34px;height:34px;stroke:var(--gold);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
+.trade h3{font:600 13px/1.3 Jost;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);margin-bottom:6px}
+.trade p{font-size:14px;color:var(--mut);line-height:1.5}
+/* gallery */
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:40px}
+.gal figure{position:relative;border-radius:3px;overflow:hidden;aspect-ratio:4/5;background:var(--card);border:1px solid var(--line)}
+.gal figure:first-child{grid-column:1/-1;aspect-ratio:16/10}
+.gal img{width:100%;height:100%;object-fit:cover}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;font-size:12px;letter-spacing:.06em;color:var(--cream);background:linear-gradient(transparent,rgba(10,8,6,.88))}
+/* process */
+.steps{display:grid;gap:0;margin-top:38px;counter-reset:s}
+.step{display:grid;grid-template-columns:56px 1fr;gap:6px;padding:22px 0;border-top:1px solid var(--line)}
+.step:before{counter-increment:s;content:"0" counter(s);font:500 34px/1 'Cormorant Garamond',serif;color:var(--gold)}
+.step h3{font-size:26px}.step p{color:var(--mut);font-size:15px;grid-column:2}
+/* quote */
+.quote{text-align:center}
+.quote blockquote{font:italic 500 clamp(24px,5.6vw,38px)/1.3 'Cormorant Garamond',serif;max-width:760px;margin:22px auto 20px;color:var(--cream)}
+.quote cite{font-style:normal;color:var(--gold2);letter-spacing:.2em;font-size:12px;text-transform:uppercase}
+.stars{color:var(--gold);letter-spacing:6px;font-size:18px}
+/* areas */
+.areas{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.areas span{padding:9px 16px;border:1px solid var(--line);border-radius:40px;font-size:14px;color:#d9d0c0}
+/* contact */
+.contact{display:grid;gap:36px}
+form{display:grid;gap:14px;background:var(--card);border:1px solid var(--line);padding:24px;border-radius:3px}
+label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);display:grid;gap:7px}
+input,select,textarea{font:inherit;font-size:16px;color:var(--cream);background:#15110d;border:1px solid rgba(201,164,92,.3);border-radius:2px;padding:14px;width:100%;text-transform:none;letter-spacing:0}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{display:inline-flex;grid-template:none;padding:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--cream)}
+.chips input{position:absolute;opacity:0;width:0;height:0}
+.chips span{padding:9px 14px;border:1px solid rgba(201,164,92,.3);border-radius:40px;cursor:pointer;transition:.2s}
+.chips input:checked+span{background:var(--gold);color:#1a140a;border-color:var(--gold)}
+.row2{display:grid;gap:14px}
+.det{display:grid;gap:18px;margin-top:26px}
+.det a{display:flex;gap:14px;align-items:center;font-size:18px}
+.det i{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-style:normal}
+footer{padding:44px 0 30px;border-top:1px solid var(--line);color:var(--mut);font-size:13px;text-align:center}
+footer .logo{display:inline-block;margin-bottom:14px}
+.fl{display:flex;justify-content:center;gap:22px;margin:14px 0;letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+.small{font-size:11px;margin-top:14px;opacity:.75}
+/* sticky bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(14,11,8,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.bar .btn{padding:14px 8px}
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .9s,transform .9s}
+.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+@media(min-width:760px){
+ body{padding-bottom:0}.bar{display:none}
+ nav.links{display:flex}
+ .hero{padding:90px 0 100px}.hero .grid{grid-template-columns:1.1fr .9fr;align-items:center}
+ .cta{flex-direction:row}.art{min-height:560px}
+ .svc{grid-template-columns:1fr 1fr}.svc a{min-height:380px}
+ .trades{grid-template-columns:repeat(4,1fr)}
+ .gal{grid-template-columns:repeat(3,1fr)}.gal figure:first-child{grid-column:span 2;grid-row:span 1;aspect-ratio:auto}
+ .steps{grid-template-columns:repeat(4,1fr);gap:24px}.step{display:block;border-top:1px solid var(--gold);padding-top:18px}.step:before{display:block;margin-bottom:10px}
+ .contact{grid-template-columns:.9fr 1.1fr;gap:60px}.row2{grid-template-columns:1fr 1fr}
+}
+</style></head>
+<body>
+<div class="demo"><b>Free mock-up</b> of a new front page, made by Standage Digital. Not live, private link.</div>
+<header><div class="wrap nav">
+ <a href="#top" class="logo">LUX<small>Building Solutions</small></a>
+ <nav class="links"><a href="#services">Services</a><a href="#trades">Trades</a><a href="#projects">Projects</a><a href="#areas">Areas</a><a href="#contact">Contact</a></nav>
+ <a class="navcall" href="tel:+447821185881">Call 07821 185881</a>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap grid">
+ <div class="rv">
+  <span class="eyebrow">Basingstoke · Hampshire · Berkshire</span>
+  <h1>Home renovations <em>done properly</em></h1>
+  <p class="lede">Kitchens, bathrooms, extensions and full renovations. From first idea to the final coat of paint, one team looks after the lot.</p>
+  <div class="cta"><a class="btn gold" href="#contact">Request a free quote</a><a class="btn ghost" href="tel:+447821185881">Call 07821 185881</a></div>
+  <div class="facts"><div><b>8</b>trades in one team</div><div><b>25</b>mile area covered</div><div><b>Free</b>quotes</div></div>
+ </div>
+ <div class="art rv">
+  <div class="main"><img alt="Dining room with panelled wall and grey flooring" src="https://static.wixstatic.com/media/b5e1b1_2f658caa5546459fb5baf3e610fd4dfc~mv2.png/v1/fill/w_900,h_1200,al_c,q_85/dining.jpg" onerror="this.remove()"></div>
+  <div class="sm"><img alt="Modern kitchen with island" src="https://static.wixstatic.com/media/b5e1b1_5d9e201c6ac642ab8108ffae43e55f04~mv2.jpg/v1/fill/w_500,h_500,al_c,q_85/kitchen.jpg" onerror="this.remove()"></div>
+ </div>
+</div></section>
+
+<section id="services" class="alt"><div class="wrap">
+ <div class="rv"><span class="eyebrow">What we do</span><h2>Spaces you'll <em>love living in</em></h2>
+ <p class="sub">Stylish, practical renovation work that adds value to your home and fits the way you live.</p></div>
+ <div class="svc">
+  <a href="#contact" class="rv"><img alt="" loading="lazy" src="https://static.wixstatic.com/media/b5e1b1_2f658caa5546459fb5baf3e610fd4dfc~mv2.png/v1/fill/w_900,h_700,al_c,q_85/a.jpg" onerror="this.remove()"><div class="in"><h3>Home renovations</h3><p>Transform your home. Stylish, functional renovations that bring your vision to life.</p><span class="more">Get a quote →</span></div></a>
+  <a href="#contact" class="rv"><img alt="" loading="lazy" src="https://static.wixstatic.com/media/b5e1b1_5d9e201c6ac642ab8108ffae43e55f04~mv2.jpg/v1/fill/w_900,h_700,al_c,q_85/b.jpg" onerror="this.remove()"><div class="in"><h3>Kitchen makeovers</h3><p>Modern designs and smart layouts for kitchens that look good and work hard.</p><span class="more">Get a quote →</span></div></a>
+  <a href="#contact" class="rv"><img alt="" loading="lazy" src="https://static.wixstatic.com/media/b5e1b1_1d903b6221b34a3eb4a197bfc567fbe6~mv2.jpg/v1/fill/w_900,h_700,al_c,q_85/c.jpg" onerror="this.remove()"><div class="in"><h3>Bathroom transformations</h3><p>Your own personal retreat. Comfortable, well-finished bathrooms designed around you.</p><span class="more">Get a quote →</span></div></a>
+  <a href="#contact" class="rv"><img alt="" loading="lazy" src="https://static.wixstatic.com/media/b5e1b1_e72fdeca6e6e40d5aa9e50c21c1055b7~mv2.jpg/v1/fill/w_900,h_700,al_c,q_85/d.jpg" onerror="this.remove()"><div class="in"><h3>Extensions &amp; additions</h3><p>Space to grow, built perfectly. Seamless extensions that expand your home with style.</p><span class="more">Get a quote →</span></div></a>
+ </div>
+</div></section>
+
+<section id="trades"><div class="wrap">
+ <div class="rv"><span class="eyebrow">Our skilled trades</span><h2>Every trade, <em>one team</em></h2>
+ <p class="sub">Our trade professionals sit at the heart of every LUX project. Reliable, approachable and highly experienced, working closely with you so your vision is delivered with precision.</p></div>
+ <div class="trades">
+  <div class="trade rv"><svg viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="18"/><path d="M3 13h26M3 19h26M10 7v6M20 7v6M15 13v6M25 13v6M10 19v6M20 19v6"/></svg><h3>Brickwork</h3><p>Strong, reliable structures built to last.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><path d="M4 24l16-16 4 4-16 16H4zM18 10l4 4M22 6l2-2 4 4-2 2"/></svg><h3>Carpentry</h3><p>Structural and bespoke woodwork, accurately finished.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><rect x="5" y="4" width="22" height="24"/><path d="M5 12h22M5 20h22"/></svg><h3>Dry lining</h3><p>Smooth, clean walls and ceilings ready to decorate.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><rect x="4" y="4" width="10" height="10"/><rect x="18" y="4" width="10" height="10"/><rect x="4" y="18" width="10" height="10"/><rect x="18" y="18" width="10" height="10"/></svg><h3>Tiling</h3><p>Wall and floor tiling with clean, lasting finishes.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><path d="M6 5h16v8H6zM22 9h4v8H14v4M14 21v7"/></svg><h3>Decorating</h3><p>Painting, wallpapering and final detailing.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><path d="M4 22h24M8 22V12h16v10M12 12V8h8v4"/></svg><h3>Plastering</h3><p>Skimming, rendering and repairs for a flawless base.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><path d="M16 4c4 6 7 9 7 14a7 7 0 01-14 0c0-5 3-8 7-14z"/></svg><h3>Plumbing &amp; heating</h3><p>Efficient, reliable systems throughout your property.</p></div>
+  <div class="trade rv"><svg viewBox="0 0 32 32"><path d="M18 3L7 18h8l-2 11 12-16h-8z"/></svg><h3>Electrical</h3><p>Qualified electricians: installs, upgrades and safety checks.</p></div>
+ </div>
+</div></section>
+
+<section id="projects" class="alt"><div class="wrap">
+ <div class="rv"><span class="eyebrow">Recent work</span><h2>Our <em>projects</em></h2>
+ <p class="sub">A look at recent kitchens, bathrooms and interiors.</p></div>
+ <div class="gal">
+  <figure class="rv"><img loading="lazy" alt="Modern kitchen and outdoor dining space with lights at night" src="https://static.wixstatic.com/media/b5e1b1_e72fdeca6e6e40d5aa9e50c21c1055b7~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_85/p1.jpg" onerror="this.parentNode.remove()"><figcaption>Kitchen and outdoor dining</figcaption></figure>
+  <figure class="rv"><img loading="lazy" alt="Modern kitchen with white cabinets, island and black range" src="https://static.wixstatic.com/media/b5e1b1_5d9e201c6ac642ab8108ffae43e55f04~mv2.jpg/v1/fill/w_700,h_875,al_c,q_85/p2.jpg" onerror="this.parentNode.remove()"><figcaption>Kitchen with island</figcaption></figure>
+  <figure class="rv"><img loading="lazy" alt="Modern bathroom with two sinks and large mirror" src="https://static.wixstatic.com/media/b5e1b1_1d903b6221b34a3eb4a197bfc567fbe6~mv2.jpg/v1/fill/w_700,h_875,al_c,q_85/p3.jpg" onerror="this.parentNode.remove()"><figcaption>Bathroom</figcaption></figure>
+  <figure class="rv"><img loading="lazy" alt="Dining room with white table and panelled wall" src="https://static.wixstatic.com/media/b5e1b1_2f658caa5546459fb5baf3e610fd4dfc~mv2.png/v1/fill/w_700,h_875,al_c,q_85/p4.jpg" onerror="this.parentNode.remove()"><figcaption>Dining room</figcaption></figure>
+  <figure class="rv"><img loading="lazy" alt="Modern kitchen with white island, chairs and flowers" src="https://static.wixstatic.com/media/b5e1b1_f63d881c98fe4f4f9bfb38c4dcbc8ee9~mv2.jpg/v1/fill/w_700,h_875,al_c,q_85/p5.jpg" onerror="this.parentNode.remove()"><figcaption>Kitchen</figcaption></figure>
+ </div>
+ <p class="sub" style="margin-top:22px">Full project write-ups would sit here: Old Meadows, Balmoral Way, Grafton House.</p>
+</div></section>
+
+<section><div class="wrap">
+ <div class="rv"><span class="eyebrow">How it works</span><h2>From concept to <em>completion</em></h2></div>
+ <div class="steps">
+  <div class="step rv"><h3>Get in touch</h3><p>Call or send a message about what you have in mind.</p></div>
+  <div class="step rv"><h3>Free quote</h3><p>We talk it through with you and price the job.</p></div>
+  <div class="step rv"><h3>The work</h3><p>Our own trades carry it out with care and attention to detail.</p></div>
+  <div class="step rv"><h3>Your new home</h3><p>A finished space you'll love living in.</p></div>
+ </div>
+</div></section>
+
+<section class="alt quote"><div class="wrap rv">
+ <div class="stars">★★★★★</div>
+ <blockquote>“Hall, stairs and landing plastered beautifully by these boys. Tidy, polite and efficient. I would definitely recommend. Thank you very much!”</blockquote>
+ <cite>Micaela Corby</cite>
+</div></section>
+
+<section id="areas"><div class="wrap">
+ <div class="rv"><span class="eyebrow">Where we work</span><h2>Local to <em>Basingstoke</em></h2>
+ <p class="sub">Transforming homes across Basingstoke and all nearby towns within 25 miles.</p></div>
+ <div class="areas rv"><span>Basingstoke</span><span>Winchester</span><span>Andover</span><span>Newbury</span><span>Farnham</span><span>Reading</span><span>Guildford</span><span>+ towns within 25 miles</span></div>
+</div></section>
+
+<section id="contact" class="alt"><div class="wrap contact">
+ <div class="rv"><span class="eyebrow">Free quote</span><h2>Let's create your <em>dream home</em></h2>
+  <p class="sub">Tell us what you're planning. We'll come back to you to talk it through.</p>
+  <div class="det"><a href="tel:+447821185881"><i>☎</i>07821 185881</a><a href="mailto:enquiries@luxbuildingsolutions.com"><i>✉</i>enquiries@luxbuildingsolutions.com</a></div>
+ </div>
+ <form id="f" class="rv">
+  <div class="row2"><label>First name<input name="fn" autocomplete="given-name" required></label><label>Last name<input name="ln" autocomplete="family-name"></label></div>
+  <div class="row2"><label>Phone<input name="ph" type="tel" autocomplete="tel"></label><label>Email<input name="em" type="email" autocomplete="email"></label></div>
+  <label>I'm interested in</label>
+  <div class="chips">
+   <label><input type="checkbox" name="s" value="Kitchen"><span>Kitchen</span></label><label><input type="checkbox" name="s" value="Bathroom"><span>Bathroom</span></label><label><input type="checkbox" name="s" value="Extension"><span>Extension</span></label><label><input type="checkbox" name="s" value="Full renovation"><span>Full renovation</span></label><label><input type="checkbox" name="s" value="Plastering"><span>Plastering</span></label><label><input type="checkbox" name="s" value="Decorating"><span>Decorating</span></label><label><input type="checkbox" name="s" value="Tiling"><span>Tiling</span></label><label><input type="checkbox" name="s" value="Other"><span>Something else</span></label>
+  </div>
+  <label>Tell us about it<textarea name="m" rows="4"></textarea></label>
+  <button class="btn gold" type="submit">Send my enquiry</button>
+  <p class="small" style="margin:0;color:var(--mut)">Mock-up only: this opens your email app with the details filled in.</p>
+ </form>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+ <div class="logo">LUX<small>Building Solutions Ltd</small></div>
+ <div class="fl"><a href="https://www.instagram.com/lux_building_solutions" rel="noopener">Instagram</a><a href="https://www.facebook.com/theLUXlads/" rel="noopener">Facebook</a></div>
+ <div>07821 185881 · enquiries@luxbuildingsolutions.com</div>
+ <p class="small">© 2026 Lux Building Solutions Ltd. Front page mock-up by Standage Digital, Basingstoke. Photos and wording are Lux's own, taken from their current website.</p>
+</div></footer>
+
+<div class="bar"><a class="btn gold" href="tel:+447821185881">Call now</a><a class="btn ghost" href="#contact">Free quote</a></div>
+
+<script>
+(function(){
+ var els=document.querySelectorAll('.rv');
+ if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('on')});}
+ else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.12});els.forEach(function(e){io.observe(e)});}
+ document.getElementById('f').addEventListener('submit',function(ev){
+  ev.preventDefault();var f=ev.target,v=function(n){return f.elements[n].value.trim()};
+  var s=[].map.call(f.querySelectorAll('input[name=s]:checked'),function(i){return i.value}).join(', ');
+  var body='Name: '+v('fn')+' '+v('ln')+'\nPhone: '+v('ph')+'\nEmail: '+v('em')+'\nInterested in: '+s+'\n\n'+v('m');
+  location.href='mailto:enquiries@luxbuildingsolutions.com?subject='+encodeURIComponent('Quote enquiry from your website')+'&body='+encodeURIComponent(body);
+ });
+})();
+</script>
+</body></html>
