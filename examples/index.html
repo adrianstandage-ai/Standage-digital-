@@ -42,7 +42,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,3.5rem);line-height:1.04;margin:10px 0 14px;letter-spacing:-.02em}
 h1 em{font-style:normal;color:var(--accent)}
 .lead{font-size:1.06rem;max-width:640px;color:#d3dde0}
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:24px;padding-bottom:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1.5px solid #ffffff40;background:transparent;color:var(--band-fg);padding:9px 16px;border-radius:999px;font:600 .92rem var(--body);cursor:pointer}
 .chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#12212B}
@@ -132,7 +132,7 @@ footer p{margin-top:10px}
 <header class="hero"><div class="wrap">
   <span class="eyebrow">Examples and styles</span>
   <h1>Every business gets <em>its own look.</em></h1>
-  <p class="lead">Browse the styles below. Each one is a full website for a made-up business, designed from scratch around who they are and who they're trying to reach. Tap any of them to open the real thing and scroll it on your phone.</p>
+  <p class="lead">Browse the styles below. Each one is a full website for a made-up business, designed from scratch around who they are and who they're trying to reach. Tap any of them to open the full demo site and scroll it on your phone.</p>
   <div class="chips" role="group" aria-label="Filter examples">
     <button class="chip" type="button" aria-pressed="true" data-f="all">All</button>
     <button class="chip" type="button" aria-pressed="false" data-f="trades">Builders and trades</button>
