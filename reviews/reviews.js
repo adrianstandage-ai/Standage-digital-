@@ -35,7 +35,7 @@ var pick=f.querySelector('.rvw-pick');
 var rating=0,stars=[];
 function paint(){stars.forEach(function(b,i){var on=i<rating;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on&&i===rating-1?'true':'false')})}
 for(var i=1;i<=5;i++)(function(n){var b=el('button','rvw-star','\u2605');b.type='button';b.setAttribute('aria-label',n+' star'+(n>1?'s':''));
- b.addEventListener('click',function(e){e.preventDefault();rating=n;paint()});pick.appendChild(b);stars.push(b)})(i);
+ b.addEventListener('click',function(e){e.preventDefault();rating=n;paint();var m=root.querySelector('.rvw-msg');if(m){m.textContent='';m.className='rvw-msg'}});pick.appendChild(b);stars.push(b)})(i);
 var msg=f.querySelector('.rvw-msg');
 f.onsubmit=function(e){e.preventDefault();var d=f.elements;msg.className='rvw-msg';
  if(d._honey.value)return;
