@@ -13,7 +13,7 @@ function wa(d,stars){var a=el('a','btn alt','Send by WhatsApp');a.target='_blank
 var wrap=el('div','rvw'),list=el('div','rvw-list');wrap.appendChild(list);
 var host=document.getElementById('reviews-shown');
 if(host)host.hidden=true;
-fetch(root.dataset.json||'reviews.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(a){
+fetch(root.dataset.list||root.dataset.json||'reviews.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(a){
  if(!a||!a.length)return;
  a.forEach(function(r){var c=el('div','rvw-card');var n=Math.max(1,Math.min(5,r.rating|0));
   c.appendChild(el('div','rvw-stars',new Array(n+1).join('★')));
@@ -46,9 +46,10 @@ f.onsubmit=function(e){e.preventDefault();var d=f.elements;msg.className='rvw-ms
  if(d.text.value.trim().length<4){bad('Please write a few words in your review.');return}
  if(!d.ok.checked){msg.className='rvw-msg err';msg.textContent='Please tick the box so we can show your review.';return}
  var btn=f.querySelector('button');btn.disabled=true;msg.textContent='Sending…';
+ var send=root.dataset.api?fetch(root.dataset.api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({stars:rt.value,name:d.name.value,role:d.role.value,text:d.text.value,ok:true,_honey:d._honey.value})}).then(function(x){if(!x.ok)throw 0;return {ok:true,j:{success:'true'}}}):(
  fetch('https://formsubmit.co/ajax/'+email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'New review to approve for '+biz,_captcha:'false',_template:'box',Stars:rt.value,Name:d.name.value,Role:d.role.value,Review:d.text.value,Permission:'Visitor ticked: happy to show this on the site',Status:'NOT LIVE. Nothing shows on the website until it is approved.',HowToApprove:approveText||'Reply YES to the person who looks after your website.'+(approveWa?' Tap the WhatsApp link below.':''),ApproveByWhatsApp:approveWa?('https://wa.me/'+approveWa+'?text='+encodeURIComponent('YES, please put this review on the website ('+biz+'):\n'+new Array(+rt.value+1).join('\u2605')+'\n'+d.name.value+(d.role.value?' ('+d.role.value+')':'')+'\n\u201C'+d.text.value+'\u201D')):''})})
- .then(function(x){return x.json().catch(function(){return {}}).then(function(j){return {ok:x.ok,j:j}})})
- .then(function(o){var m=String((o.j&&o.j.message)||'');var act=/activat/i.test(m);
+ .then(function(x){return x.json().catch(function(){return {}}).then(function(j){return {ok:x.ok,j:j}})}));
+ send.then(function(o){var m=String((o.j&&o.j.message)||'');var act=/activat/i.test(m);
   if(!(o.ok&&o.j&&String(o.j.success)!=='false')&&!act)throw 0;
   var t=el('div','rvw-thanks');t.appendChild(el('b',null,'Thank you!'));
   t.appendChild(el('span',null,act?'Thanks, we have your review. To be sure it reaches us, please also send it by WhatsApp.':'Your review has been sent. It will appear on the site once we have read it.'));
