@@ -66,6 +66,15 @@ async function viaFormSubmit(env, subject, fields) {
   if (!r.ok || String(j.success) === "false") throw new Error("formsubmit " + r.status + " " + String(j.message || ""));
 }
 
+async function viaResend(env, subject, text, html) {
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { "content-type": "application/json", authorization: "Bearer " + env.RESEND_API_KEY },
+    body: JSON.stringify({ from: (env.SITE_NAME || "Reviews") + " <onboarding@resend.dev>", to: [env.OWNER_EMAIL], subject, text, html })
+  });
+  if (!r.ok) throw new Error("resend " + r.status + " " + (await r.text().catch(() => "")).slice(0, 200));
+}
+
 async function submit(request, env, url) {
   const origin = request.headers.get("origin");
   if (origin && origin !== url.origin && origin !== env.ALLOW_ORIGIN) return json({ ok: false }, 403);
@@ -86,7 +95,8 @@ async function submit(request, env, url) {
   const textBody = `${intro}\n\n${stars(rating)}\n${name}${role ? " (" + role + ")" : ""}\n"${text}"\n\n${L.map(l => T[l].btn + ": " + link).join("\n")}\n\n${L.map(l => T[l].ignore).join("\n")}\n`;
   const htmlBody = `<div style="font:18px/1.5 system-ui,Arial,sans-serif;color:#0d3b52;max-width:520px">${L.map(l => `<p>${esc(T[l].intro)}</p>`).join("")}<p style="font-size:26px;color:#f2b01e;margin:6px 0">${stars(rating)}</p><p><b>${esc(name)}</b>${role ? " (" + esc(role) + ")" : ""}</p><blockquote style="margin:0;padding:14px;background:#eaf7f9;border-radius:12px">${esc(text).replace(/\n/g, "<br>")}</blockquote><p style="margin:22px 0"><a href="${link}" style="display:block;text-align:center;background:#1796a8;color:#fff;font-weight:bold;font-size:20px;padding:18px;border-radius:40px;text-decoration:none">${esc(T[L[0]].btn)}</a></p>${L.slice(1).map(l => `<p style="text-align:center"><a href="${link}">${esc(T[l].btn)}</a></p>`).join("")}<p style="color:#5b7f8c;font-size:15px">${L.map(l => esc(T[l].ignore)).join("<br>")}</p></div>`;
   try {
-    if (env.MAIL_MODE === "formsubmit") await viaFormSubmit(env, T[L[0]].subject(stars(rating), name), { Stars: stars(rating), Name: name + (role ? " (" + role + ")" : ""), Review: text, "TAP THIS LINK TO APPROVE": link, Note: "Not on your website until you approve it. Ignore this email to leave it off." });
+    if (env.MAIL_MODE === "resend") await viaResend(env, T[L[0]].subject(stars(rating), name), textBody, htmlBody);
+    else if (env.MAIL_MODE === "formsubmit") await viaFormSubmit(env, T[L[0]].subject(stars(rating), name), { Stars: stars(rating), Name: name + (role ? " (" + role + ")" : ""), Review: text, "TAP THIS LINK TO APPROVE": link, Note: "Not on your website until you approve it. Ignore this email to leave it off." });
     else await sendMail(env, env.OWNER_EMAIL, T[L[0]].subject(stars(rating), name), textBody, htmlBody);
   } catch (e) {
     await env.REVIEWS.delete("pend:" + id);
@@ -124,8 +134,8 @@ export default {
       const list = (await env.REVIEWS.get("approved", "json")) || [];
       return json(list.map(({ name, role, rating, text, date }) => ({ name, role, rating, text, date })), 200, { "cache-control": "public, max-age=30" });
     }
-    if (url.pathname === "/api/selftest" && env.MAIL_MODE === "formsubmit") {   // temporary diagnostic
-      try { await viaFormSubmit(env, "Reviews self-test", { Note: "Self-test from the reviews Worker. Ignore." }); return new Response("OK: FormSubmit accepted the test", { headers: { "content-type": "text/plain" } }); }
+    if (url.pathname === "/api/selftest" && (env.MAIL_MODE === "formsubmit" || env.MAIL_MODE === "resend")) {   // temporary diagnostic
+      try { if (env.MAIL_MODE === "resend") await viaResend(env, "Reviews self-test", "Self-test from the reviews Worker. Ignore.", "<p>Self-test from the reviews Worker. Ignore.</p>"); else await viaFormSubmit(env, "Reviews self-test", { Note: "Self-test from the reviews Worker. Ignore." }); return new Response("OK: the test email was accepted. Check your inbox.", { headers: { "content-type": "text/plain" } }); }
       catch (e) { return new Response("FAILED: " + (e && e.message || e), { status: 500, headers: { "content-type": "text/plain" } }); }
     }
     if (url.pathname === "/api/review" && request.method === "POST") return submit(request, env, url);
