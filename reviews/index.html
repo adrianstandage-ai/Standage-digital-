@@ -35,11 +35,10 @@ a{color:inherit}
 .rvw-form input[type=text],.rvw-form textarea{font:inherit;font-weight:400;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:12px 14px;width:100%;min-height:48px}
 .rvw-form textarea{min-height:130px;resize:vertical}
 .rvw-form input:focus,.rvw-form textarea:focus{outline:3px solid var(--accent);outline-offset:1px}
-.rvw-pick{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:2px}
-.rvw-pick input{position:absolute;opacity:0;pointer-events:none}
-.rvw-pick label{font-size:2.4rem;line-height:1;color:var(--muted);opacity:.45;cursor:pointer;padding:2px 4px;font-weight:400}
-.rvw-pick input:checked~label,.rvw-pick label:hover,.rvw-pick label:hover~label{color:var(--accent);opacity:1}
-.rvw-pick input:focus-visible+label{outline:3px solid var(--accent);border-radius:8px}
+.rvw-pick{display:flex;gap:4px}
+.rvw-star{appearance:none;-webkit-appearance:none;background:none;border:0;padding:6px 8px;margin:0;font:inherit;font-size:2.4rem;line-height:1;color:var(--muted);opacity:.45;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-width:48px;min-height:48px}
+.rvw-star.on{color:var(--accent);opacity:1}
+.rvw-star:focus-visible{outline:3px solid var(--accent);border-radius:8px}
 .rvw-ok{display:flex!important;align-items:flex-start;gap:10px;font-weight:400!important;font-size:.95rem}
 .rvw-ok input{width:24px;height:24px;flex:none;margin-top:2px;accent-color:var(--accent)}
 .rvw-hp{position:absolute;left:-9999px}
@@ -52,5 +51,5 @@ a{color:inherit}
 <p style="margin-top:10px" class="small">Worked with me? A few honest words really help. I read every review before it goes on the site.</p>
 <div id="reviews" data-email="hello@standagedigital.co.uk" data-name="Standage Digital" data-google="" data-whatsapp="447751435993"></div>
 </div>
-<script src="reviews.js?v=1"></script>
+<script src="reviews.js?v=3"></script>
 </body></html>

@@ -32,11 +32,14 @@ f.innerHTML='<h3>Leave a review</h3>'+
 '<button class="btn" type="submit">Send my review</button><div class="rvw-msg" role="status"></div>'+
 '<small>We read every review before it goes on the site.</small>';
 var pick=f.querySelector('.rvw-pick');
-for(var i=5;i>=1;i--){var r=document.createElement('input');r.type='radio';r.name='rating';r.value=i;r.id='rvw-s'+i;var l=el('label',null,'★');l.htmlFor=r.id;l.title=i+' star'+(i>1?'s':'');pick.appendChild(r);pick.appendChild(l)}
+var rating=0,stars=[];
+function paint(){stars.forEach(function(b,i){var on=i<rating;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on&&i===rating-1?'true':'false')})}
+for(var i=1;i<=5;i++)(function(n){var b=el('button','rvw-star','\u2605');b.type='button';b.setAttribute('aria-label',n+' star'+(n>1?'s':''));
+ b.addEventListener('click',function(e){e.preventDefault();rating=n;paint()});pick.appendChild(b);stars.push(b)})(i);
 var msg=f.querySelector('.rvw-msg');
 f.onsubmit=function(e){e.preventDefault();var d=f.elements;msg.className='rvw-msg';
  if(d._honey.value)return;
- var rt=f.querySelector('input[name=rating]:checked');
+ var rt=rating?{value:rating}:null;
  if(!rt||!d.name.value.trim()||d.text.value.trim().length<10){msg.className='rvw-msg err';msg.textContent='Please pick your stars, add your name and write a few words.';return}
  if(!d.ok.checked){msg.className='rvw-msg err';msg.textContent='Please tick the box so we can show your review.';return}
  var btn=f.querySelector('button');btn.disabled=true;msg.textContent='Sending…';
