@@ -40,7 +40,10 @@ var msg=f.querySelector('.rvw-msg');
 f.onsubmit=function(e){e.preventDefault();var d=f.elements;msg.className='rvw-msg';
  if(d._honey.value)return;
  var rt=rating?{value:rating}:null;
- if(!rt||!d.name.value.trim()||d.text.value.trim().length<10){msg.className='rvw-msg err';msg.textContent='Please pick your stars, add your name and write a few words.';return}
+ function bad(t){msg.className='rvw-msg err';msg.textContent=t}
+ if(!rt){bad('Please tap the stars to say how we did.');return}
+ if(!d.name.value.trim()){bad('Please add your name.');return}
+ if(d.text.value.trim().length<4){bad('Please write a few words in your review.');return}
  if(!d.ok.checked){msg.className='rvw-msg err';msg.textContent='Please tick the box so we can show your review.';return}
  var btn=f.querySelector('button');btn.disabled=true;msg.textContent='Sending…';
  fetch('https://formsubmit.co/ajax/'+email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'New review to approve for '+biz,_captcha:'false',_template:'box',Stars:rt.value,Name:d.name.value,Role:d.role.value,Review:d.text.value,Permission:'Visitor ticked: happy to show this on the site',Status:'NOT LIVE until you say yes'})})
