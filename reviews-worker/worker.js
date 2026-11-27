@@ -124,6 +124,10 @@ export default {
       const list = (await env.REVIEWS.get("approved", "json")) || [];
       return json(list.map(({ name, role, rating, text, date }) => ({ name, role, rating, text, date })), 200, { "cache-control": "public, max-age=30" });
     }
+    if (url.pathname === "/api/selftest" && env.MAIL_MODE === "formsubmit") {   // temporary diagnostic
+      try { await viaFormSubmit(env, "Reviews self-test", { Note: "Self-test from the reviews Worker. Ignore." }); return new Response("OK: FormSubmit accepted the test", { headers: { "content-type": "text/plain" } }); }
+      catch (e) { return new Response("FAILED: " + (e && e.message || e), { status: 500, headers: { "content-type": "text/plain" } }); }
+    }
     if (url.pathname === "/api/review" && request.method === "POST") return submit(request, env, url);
     if (url.pathname === "/api/decide" && (request.method === "GET" || request.method === "POST")) return decide(request, env, url);
     if (url.pathname.startsWith("/api/")) return json({ ok: false }, 404);
