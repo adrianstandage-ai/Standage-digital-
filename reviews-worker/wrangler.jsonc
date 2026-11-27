@@ -3,11 +3,12 @@
   "main": "worker.js",
   "compatibility_date": "2026-11-01",
   "kv_namespaces": [{ "binding": "REVIEWS" }],
-  "send_email": [{ "name": "MAIL" }],
   "vars": {
     "SITE_NAME": "Standage Digital",
     "FROM_EMAIL": "reviews@standagedigital.co.uk",
     "LANGS": "en",
+    "MAIL_MODE": "formsubmit",
+    "OWNER_EMAIL": "hello@standagedigital.co.uk",
     "ALLOW_ORIGIN": "https://standagedigital.co.uk",
     "HOME_URL": "https://standagedigital.co.uk/reviews/"
   }
