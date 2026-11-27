@@ -55,6 +55,17 @@ async function sendMail(env, to, subject, text, htmlBody) {
   await env.MAIL.send(new EmailMessage(from, to, raw));
 }
 
+async function viaFormSubmit(env, subject, fields) {
+  const o = env.ALLOW_ORIGIN || "https://example.com";
+  const r = await fetch(env.FORMSUBMIT_URL || "https://formsubmit.co/ajax/" + env.OWNER_EMAIL, {
+    method: "POST",
+    headers: { "content-type": "application/json", accept: "application/json", origin: o, referer: o + "/" },
+    body: JSON.stringify({ _subject: subject, _captcha: "false", _template: "box", ...fields })
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || String(j.success) === "false") throw new Error("formsubmit " + r.status + " " + String(j.message || ""));
+}
+
 async function submit(request, env, url) {
   const origin = request.headers.get("origin");
   if (origin && origin !== url.origin && origin !== env.ALLOW_ORIGIN) return json({ ok: false }, 403);
@@ -75,7 +86,8 @@ async function submit(request, env, url) {
   const textBody = `${intro}\n\n${stars(rating)}\n${name}${role ? " (" + role + ")" : ""}\n"${text}"\n\n${L.map(l => T[l].btn + ": " + link).join("\n")}\n\n${L.map(l => T[l].ignore).join("\n")}\n`;
   const htmlBody = `<div style="font:18px/1.5 system-ui,Arial,sans-serif;color:#0d3b52;max-width:520px">${L.map(l => `<p>${esc(T[l].intro)}</p>`).join("")}<p style="font-size:26px;color:#f2b01e;margin:6px 0">${stars(rating)}</p><p><b>${esc(name)}</b>${role ? " (" + esc(role) + ")" : ""}</p><blockquote style="margin:0;padding:14px;background:#eaf7f9;border-radius:12px">${esc(text).replace(/\n/g, "<br>")}</blockquote><p style="margin:22px 0"><a href="${link}" style="display:block;text-align:center;background:#1796a8;color:#fff;font-weight:bold;font-size:20px;padding:18px;border-radius:40px;text-decoration:none">${esc(T[L[0]].btn)}</a></p>${L.slice(1).map(l => `<p style="text-align:center"><a href="${link}">${esc(T[l].btn)}</a></p>`).join("")}<p style="color:#5b7f8c;font-size:15px">${L.map(l => esc(T[l].ignore)).join("<br>")}</p></div>`;
   try {
-    await sendMail(env, env.OWNER_EMAIL, T[L[0]].subject(stars(rating), name), textBody, htmlBody);
+    if (env.MAIL_MODE === "formsubmit") await viaFormSubmit(env, T[L[0]].subject(stars(rating), name), { Stars: stars(rating), Name: name + (role ? " (" + role + ")" : ""), Review: text, "TAP THIS LINK TO APPROVE": link, Note: "Not on your website until you approve it. Ignore this email to leave it off." });
+    else await sendMail(env, env.OWNER_EMAIL, T[L[0]].subject(stars(rating), name), textBody, htmlBody);
   } catch (e) {
     await env.REVIEWS.delete("pend:" + id);
     return json({ ok: false, error: "mail" }, 502);
