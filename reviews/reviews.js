@@ -5,7 +5,7 @@
          <link rel="stylesheet" href="reviews.css"><script src="reviews.js"></script>  */
 (function(){
 var root=document.getElementById('reviews');if(!root)return;
-var email=root.dataset.email,biz=root.dataset.name||'this website',google=root.dataset.google||'';
+var approveText=root.dataset.approveText||'',approveWa=root.dataset.approveWa||'',email=root.dataset.email,biz=root.dataset.name||'this website',google=root.dataset.google||'';
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 var wapp=root.dataset.whatsapp||'';
 function wa(d,stars){var a=el('a','btn alt','Send by WhatsApp');a.target='_blank';a.rel='noopener';if(!wapp){a.hidden=true;return a}
@@ -46,7 +46,7 @@ f.onsubmit=function(e){e.preventDefault();var d=f.elements;msg.className='rvw-ms
  if(d.text.value.trim().length<4){bad('Please write a few words in your review.');return}
  if(!d.ok.checked){msg.className='rvw-msg err';msg.textContent='Please tick the box so we can show your review.';return}
  var btn=f.querySelector('button');btn.disabled=true;msg.textContent='Sending…';
- fetch('https://formsubmit.co/ajax/'+email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'New review to approve for '+biz,_captcha:'false',_template:'box',Stars:rt.value,Name:d.name.value,Role:d.role.value,Review:d.text.value,Permission:'Visitor ticked: happy to show this on the site',Status:'NOT LIVE until you say yes'})})
+ fetch('https://formsubmit.co/ajax/'+email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'New review to approve for '+biz,_captcha:'false',_template:'box',Stars:rt.value,Name:d.name.value,Role:d.role.value,Review:d.text.value,Permission:'Visitor ticked: happy to show this on the site',Status:'NOT LIVE. Nothing shows on the website until it is approved.',HowToApprove:approveText||'Reply YES to the person who looks after your website.'+(approveWa?' Tap the WhatsApp link below.':''),ApproveByWhatsApp:approveWa?('https://wa.me/'+approveWa+'?text='+encodeURIComponent('YES, please put this review on the website ('+biz+'):\n'+new Array(+rt.value+1).join('\u2605')+'\n'+d.name.value+(d.role.value?' ('+d.role.value+')':'')+'\n\u201C'+d.text.value+'\u201D')):''})})
  .then(function(x){return x.json().catch(function(){return {}}).then(function(j){return {ok:x.ok,j:j}})})
  .then(function(o){var m=String((o.j&&o.j.message)||'');var act=/activat/i.test(m);
   if(!(o.ok&&o.j&&String(o.j.success)!=='false')&&!act)throw 0;
