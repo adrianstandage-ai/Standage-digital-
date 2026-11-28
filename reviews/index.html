@@ -45,11 +45,53 @@ a{color:inherit}
 .rvw-msg{font-weight:600}.rvw-msg.err{color:#e06a5a}
 .rvw-thanks{text-align:center;padding:18px 6px;display:grid;gap:10px;justify-items:center}.rvw-thanks b{font-size:1.4rem}
 .rvw-google{text-align:center;display:grid;gap:10px;justify-items:center}
+
+/* showcase */
+.hero{padding:6px 0 4px}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.sum{display:flex;align-items:center;gap:12px;margin-top:16px;font-weight:600;min-height:34px}
+.sum .st{color:var(--accent);letter-spacing:3px;font-size:1.5rem;line-height:1}
+.shown{display:grid;gap:16px;margin-top:22px}
+.q{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px 22px 22px;overflow:hidden;animation:qin .5s both}
+.q::before{content:"\201C";position:absolute;right:16px;top:-14px;font:800 7rem/1 var(--display);color:var(--accent);opacity:.22;pointer-events:none}
+.q .st{color:var(--accent);letter-spacing:3px;font-size:1.2rem;line-height:1}
+.q blockquote{margin:.8em 0 1em;font:700 clamp(1.2rem,5.2vw,1.55rem)/1.3 var(--display);letter-spacing:-.01em;text-wrap:pretty}
+.q cite{font-style:normal;display:block;font-weight:600}.q cite small{display:block;color:var(--muted);font-weight:400}
+.q:first-child{border-color:var(--accent)}
+@keyframes qin{from{opacity:0;transform:translateY(12px)}}
+@media (prefers-reduced-motion:reduce){.q{animation:none}}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:22px;padding:26px 22px;text-align:center;display:grid;gap:8px}
+.empty b{font:800 1.4rem var(--display)}
+.cta{margin-top:26px;display:grid;gap:10px;justify-items:start}
+#reviews .rvw-list{display:none}
+#reviews .rvw-form{display:none;margin-top:18px}
+#reviews.rvw-open .rvw-form{display:grid;animation:qin .35s both}
 </style></head><body>
 <div class="wrap"><div class="top"><a href="/" style="text-decoration:none">← Standage Digital</a></div>
-<h1>Reviews</h1>
-<p style="margin-top:10px" class="small">Worked with me? A few honest words really help. I read every review before it goes on the site.</p>
+<div class="hero"><span class="eyebrow">Reviews</span>
+<h1 style="margin-top:8px">What clients say</h1>
+<div class="sum" id="sum" aria-live="polite"></div></div>
+<div class="shown" id="shown"></div>
+<div class="cta"><button class="btn" id="leave" type="button" aria-expanded="false" aria-controls="reviews">Leave a review</button>
+<p class="small">Worked with me? A few honest words really help. I read every review before it goes on the site.</p></div>
 <div id="reviews" data-email="hello@standagedigital.co.uk" data-name="Standage Digital" data-google="" data-api="https://sd-reviews.adrianstandage.workers.dev/api/review" data-list="https://sd-reviews.adrianstandage.workers.dev/api/reviews" data-whatsapp="447751435993" data-approve-text="To put this on the website: paste this email into your Claude project chat and say YES."></div>
 </div>
 <script src="reviews.js?v=8"></script>
+<script>
+(function(){
+var root=document.getElementById('reviews'),shown=document.getElementById('shown'),sum=document.getElementById('sum'),btn=document.getElementById('leave');
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function stars(n){return new Array(Math.max(1,Math.min(5,n|0))+1).join('\u2605')}
+btn.addEventListener('click',function(){var o=root.classList.toggle('rvw-open');btn.setAttribute('aria-expanded',o);btn.textContent=o?'Close':'Leave a review';if(o){var f=root.querySelector('.rvw-form');if(f)setTimeout(function(){f.scrollIntoView({behavior:'smooth',block:'start'})},60)}});
+function empty(){var e=el('div','empty');e.appendChild(el('b',null,'No reviews yet'));e.appendChild(el('p','small','Every review is read by me before it appears here. Be the first.'));shown.appendChild(e)}
+fetch(root.dataset.list,{cache:'no-store'}).then(function(r){return r.json()}).then(function(a){
+ if(!a||!a.length){empty();return}
+ var t=0;a.forEach(function(r){t+=Math.max(1,Math.min(5,r.rating|0));
+  var c=el('article','q');c.appendChild(el('div','st',stars(r.rating)));c.appendChild(el('blockquote',null,r.text));
+  var ci=el('cite',null,r.name);if(r.role)ci.appendChild(el('small',null,r.role));c.appendChild(ci);shown.appendChild(c)});
+ var avg=(t/a.length).toFixed(1).replace(/\.0$/,'');
+ sum.appendChild(el('span','st',stars(Math.round(t/a.length))));sum.appendChild(el('span',null,avg+' out of 5 from '+a.length+(a.length==1?' review':' reviews')));
+}).catch(empty);
+})();
+</script>
 </body></html>
