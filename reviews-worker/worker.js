@@ -156,8 +156,8 @@ export default {
       const list = (await env.REVIEWS.get("approved", "json")) || [];
       return json(list.map(({ name, role, rating, text, date }) => ({ name, role, rating, text, date })), 200, { "cache-control": "public, max-age=30" });
     }
-    if (url.pathname === "/api/selftest" && (env.MAIL_MODE === "formsubmit" || env.MAIL_MODE === "resend")) {   // temporary diagnostic
-      try { if (env.MAIL_MODE === "resend") await viaResend(env, "Reviews self-test", "Self-test from the reviews Worker. Ignore.", "<p>Self-test from the reviews Worker. Ignore.</p>"); else await viaFormSubmit(env, "Reviews self-test", { Note: "Self-test from the reviews Worker. Ignore." }); return new Response("OK: the test email was accepted. Check your inbox.", { headers: { "content-type": "text/plain" } }); }
+    if (url.pathname === "/api/selftest") {   // temporary diagnostic
+      try { if (!env.MAIL_MODE) await sendMail(env, env.OWNER_EMAIL, "Reviews self-test", "Self-test from the reviews Worker. Ignore.", "<p>Self-test from the reviews Worker. Ignore.</p>"); else if (env.MAIL_MODE === "resend") await viaResend(env, "Reviews self-test", "Self-test from the reviews Worker. Ignore.", "<p>Self-test from the reviews Worker. Ignore.</p>"); else await viaFormSubmit(env, "Reviews self-test", { Note: "Self-test from the reviews Worker. Ignore." }); return new Response("OK: the test email was accepted. Check your inbox.", { headers: { "content-type": "text/plain" } }); }
       catch (e) { return new Response("FAILED: " + (e && e.message || e), { status: 500, headers: { "content-type": "text/plain" } }); }
     }
     if (url.pathname === "/api/review" && request.method === "POST") return submit(request, env, url);
