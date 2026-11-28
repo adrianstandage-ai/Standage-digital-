@@ -14,7 +14,8 @@ const T = {
     ignore: "If you do not want it on the site, just ignore this email.",
     q: "Show this review on the website?", yes: "Yes, publish it", no: "No, don't publish",
     done: "Done! It is on the website now.", declined: "OK, it will not be published.",
-    gone: "This link has already been used or has expired.", home: "Back to the website"
+    gone: "This link has already been used or has expired.", home: "Back to the website",
+    rm: "Changed your mind? Take it off the website", rmq: "Take this review off the website?", rmyes: "Yes, remove it", rmdone: "Done. It is off the website."
   },
   ro: {
     subject: (s, n) => `Recenzie nouă pentru site: ${s} ${n}`,
@@ -23,7 +24,8 @@ const T = {
     ignore: "Dacă nu vrei să apară pe site, ignoră acest email.",
     q: "Să apară această recenzie pe site?", yes: "Da, publică", no: "Nu o publica",
     done: "Gata! Recenzia apare acum pe site.", declined: "Bine, nu va fi publicată.",
-    gone: "Linkul a fost deja folosit sau a expirat.", home: "Înapoi la site"
+    gone: "Linkul a fost deja folosit sau a expirat.", home: "Înapoi la site",
+    rm: "Te-ai răzgândit? Scoate-o de pe site", rmq: "Să scoatem această recenzie de pe site?", rmyes: "Da, scoate-o", rmdone: "Gata. Recenzia nu mai apare pe site."
   }
 };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -89,11 +91,11 @@ async function submit(request, env, url) {
   await env.REVIEWS.put("rl:" + ip, "1", { expirationTtl: 60 });
   const id = hex(8), t = hex(16);
   await env.REVIEWS.put("pend:" + id, JSON.stringify({ name, role, text, rating, t, date: new Date().toISOString() }), { expirationTtl: 60 * 60 * 24 * 30 });
-  const link = `${url.origin}/api/decide?id=${id}&t=${t}`;
+  const link = `${url.origin}/api/decide?id=${id}&t=${t}`, rlink = `${url.origin}/api/remove?id=${id}&t=${t}`;
   const L = langs(env);
   const intro = L.map(l => T[l].intro).join("\n");
-  const textBody = `${intro}\n\n${stars(rating)}\n${name}${role ? " (" + role + ")" : ""}\n"${text}"\n\n${L.map(l => T[l].btn + ": " + link).join("\n")}\n\n${L.map(l => T[l].ignore).join("\n")}\n`;
-  const htmlBody = `<div style="font:18px/1.5 system-ui,Arial,sans-serif;color:#0d3b52;max-width:520px">${L.map(l => `<p>${esc(T[l].intro)}</p>`).join("")}<p style="font-size:26px;color:#f2b01e;margin:6px 0">${stars(rating)}</p><p><b>${esc(name)}</b>${role ? " (" + esc(role) + ")" : ""}</p><blockquote style="margin:0;padding:14px;background:#eaf7f9;border-radius:12px">${esc(text).replace(/\n/g, "<br>")}</blockquote><p style="margin:22px 0"><a href="${link}" style="display:block;text-align:center;background:#1796a8;color:#fff;font-weight:bold;font-size:20px;padding:18px;border-radius:40px;text-decoration:none">${esc(T[L[0]].btn)}</a></p>${L.slice(1).map(l => `<p style="text-align:center"><a href="${link}">${esc(T[l].btn)}</a></p>`).join("")}<p style="color:#5b7f8c;font-size:15px">${L.map(l => esc(T[l].ignore)).join("<br>")}</p></div>`;
+  const textBody = `${intro}\n\n${stars(rating)}\n${name}${role ? " (" + role + ")" : ""}\n"${text}"\n\n${L.map(l => T[l].btn + ": " + link).join("\n")}\n\n${L.map(l => T[l].ignore).join("\n")}\n\n${L.map(l => T[l].rm + ": " + rlink).join("\n")}\n`;
+  const htmlBody = `<div style="font:18px/1.5 system-ui,Arial,sans-serif;color:#0d3b52;max-width:520px">${L.map(l => `<p>${esc(T[l].intro)}</p>`).join("")}<p style="font-size:26px;color:#f2b01e;margin:6px 0">${stars(rating)}</p><p><b>${esc(name)}</b>${role ? " (" + esc(role) + ")" : ""}</p><blockquote style="margin:0;padding:14px;background:#eaf7f9;border-radius:12px">${esc(text).replace(/\n/g, "<br>")}</blockquote><p style="margin:22px 0"><a href="${link}" style="display:block;text-align:center;background:#1796a8;color:#fff;font-weight:bold;font-size:20px;padding:18px;border-radius:40px;text-decoration:none">${esc(T[L[0]].btn)}</a></p>${L.slice(1).map(l => `<p style="text-align:center"><a href="${link}">${esc(T[l].btn)}</a></p>`).join("")}<p style="color:#5b7f8c;font-size:15px">${L.map(l => esc(T[l].ignore)).join("<br>")}</p><p style="font-size:15px">${L.map(l => `<a href="${rlink}" style="color:#5b7f8c">${esc(T[l].rm)}</a>`).join("<br>")}</p></div>`;
   try {
     if (env.MAIL_MODE === "resend") await viaResend(env, T[L[0]].subject(stars(rating), name), textBody, htmlBody);
     else if (env.MAIL_MODE === "formsubmit") await viaFormSubmit(env, T[L[0]].subject(stars(rating), name), { Stars: stars(rating), Name: name + (role ? " (" + role + ")" : ""), Review: text, "TAP THIS LINK TO APPROVE": link, Note: "Not on your website until you approve it. Ignore this email to leave it off." });
@@ -110,19 +112,39 @@ async function decide(request, env, url) {
   const f = request.method === "POST" ? await request.formData() : url.searchParams;
   const id = String(f.get("id") || "").replace(/[^a-f0-9]/g, ""), t = String(f.get("t") || "");
   const rec = id && await env.REVIEWS.get("pend:" + id, "json");
+  if (!rec && id) {   // already approved: offer to take it down again
+    const ap = ((await env.REVIEWS.get("approved", "json")) || []).find(r => r.id === id);
+    if (ap && (!ap.t || same(ap.t, t))) return html(page(env, `<h1>${L.map(l => esc(T[l].done)).join("<br>")}</h1><p><a href="${url.origin}/api/remove?id=${id}&t=${esc(t)}">${L.map(l => esc(T[l].rm)).join(" / ")}</a></p><a class="b y" href="${esc(env.HOME_URL || "/")}">${esc(tt.home)}</a>`));
+  }
   if (!rec || !same(rec.t, t)) return html(page(env, `<h1>${L.map(l => esc(T[l].gone)).join("<br>")}</h1><a class="b n" href="${esc(env.HOME_URL || "/")}">${esc(tt.home)}</a>`), 404);
   if (request.method === "POST") {
     const act = f.get("a");
     if (act === "yes") {
       const list = (await env.REVIEWS.get("approved", "json")) || [];
-      list.unshift({ id, name: rec.name, role: rec.role, rating: rec.rating, text: rec.text, date: rec.date });
+      list.unshift({ id, t, name: rec.name, role: rec.role, rating: rec.rating, text: rec.text, date: rec.date });
       await env.REVIEWS.put("approved", JSON.stringify(list.slice(0, 200)));
     }
     await env.REVIEWS.delete("pend:" + id);
     const m = act === "yes" ? "done" : "declined";
-    return html(page(env, `<h1>${L.map(l => esc(T[l][m])).join("<br>")}</h1><a class="b y" href="${esc(env.HOME_URL || "/")}">${esc(tt.home)}</a>`));
+    const rmLink = act === "yes" ? `<p><a href="${url.origin}/api/remove?id=${id}&t=${esc(t)}">${L.map(l => esc(T[l].rm)).join(" / ")}</a></p>` : "";
+    return html(page(env, `<h1>${L.map(l => esc(T[l][m])).join("<br>")}</h1><a class="b y" href="${esc(env.HOME_URL || "/")}">${esc(tt.home)}</a>${rmLink}`));
   }
   return html(page(env, `<h1>${L.map(l => esc(T[l].q)).join("<br>")}</h1><div class="st">${stars(rec.rating)}</div><blockquote><b>${esc(rec.name)}</b>${rec.role ? " (" + esc(rec.role) + ")" : ""}<br>${esc(rec.text).replace(/\n/g, "<br>")}</blockquote><form method="post"><input type="hidden" name="id" value="${id}"><input type="hidden" name="t" value="${esc(t)}"><button class="y" name="a" value="yes">${L.map(l => esc(T[l].yes)).join(" / ")}</button><button class="n" name="a" value="no">${L.map(l => esc(T[l].no)).join(" / ")}</button></form>`));
+}
+
+async function remove(request, env, url) {
+  const L = langs(env), tt = T[L[0]];
+  const f = request.method === "POST" ? await request.formData() : url.searchParams;
+  const id = String(f.get("id") || "").replace(/[^a-f0-9]/g, ""), t = String(f.get("t") || "");
+  const list = (await env.REVIEWS.get("approved", "json")) || [];
+  const rec = id && list.find(r => r.id === id);
+  // older reviews have no stored token: the unguessable id from the owner's email is enough for those
+  if (!rec || (rec.t && !same(rec.t, t))) return html(page(env, `<h1>${L.map(l => esc(T[l].gone)).join("<br>")}</h1><a class="b n" href="${esc(env.HOME_URL || "/")}">${esc(tt.home)}</a>`), 404);
+  if (request.method === "POST") {
+    await env.REVIEWS.put("approved", JSON.stringify(list.filter(r => r.id !== id)));
+    return html(page(env, `<h1>${L.map(l => esc(T[l].rmdone)).join("<br>")}</h1><a class="b y" href="${esc(env.HOME_URL || "/")}">${esc(tt.home)}</a>`));
+  }
+  return html(page(env, `<h1>${L.map(l => esc(T[l].rmq)).join("<br>")}</h1><div class="st">${stars(rec.rating)}</div><blockquote><b>${esc(rec.name)}</b>${rec.role ? " (" + esc(rec.role) + ")" : ""}<br>${esc(rec.text).replace(/\n/g, "<br>")}</blockquote><form method="post"><input type="hidden" name="id" value="${id}"><input type="hidden" name="t" value="${esc(t)}"><button class="n" name="a" value="remove">${L.map(l => esc(T[l].rmyes)).join(" / ")}</button></form>`));
 }
 
 export default {
@@ -139,6 +161,7 @@ export default {
       catch (e) { return new Response("FAILED: " + (e && e.message || e), { status: 500, headers: { "content-type": "text/plain" } }); }
     }
     if (url.pathname === "/api/review" && request.method === "POST") return submit(request, env, url);
+    if (url.pathname === "/api/remove" && (request.method === "GET" || request.method === "POST")) return remove(request, env, url);
     if (url.pathname === "/api/decide" && (request.method === "GET" || request.method === "POST")) return decide(request, env, url);
     if (url.pathname.startsWith("/api/")) return json({ ok: false }, 404);
     return env.ASSETS ? env.ASSETS.fetch(request) : json({ ok: false }, 404);
